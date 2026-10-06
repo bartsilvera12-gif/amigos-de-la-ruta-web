@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Amigos de la Ruta</title>
 <link rel="icon" href="/assets/adr-emblema.jpeg" />
+<link rel="stylesheet" href="/anim.css" />
 <script src="/support.js"></script>
+<script src="/anim.js" defer></script>
 </head>
 <body>
 <x-dc>
@@ -51,13 +53,13 @@
       <div style="flex:1;min-width:0"></div>
       <div style="display:flex;align-items:center;gap:12px 22px;flexWrap:wrap;justify-content:flex-end">
         <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5">
-          <div onClick="{{ n.go }}" style="font-size:clamp(12px,1.1vw,14px);font-weight:700;letterSpacing:0.12em;textTransform:uppercase;color:{{ n.color }};cursor:pointer;paddingBottom:3px;borderBottom:2px solid {{ n.line }}" style-hover="color:#E2E3E3">{{ n.label }}</div>
+          <div onClick="{{ n.go }}" style="font-size:clamp(12px,1.1vw,14px);font-weight:700;letterSpacing:0.12em;textTransform:uppercase;color:{{ n.color }};cursor:pointer;paddingBottom:3px;borderBottom:2px solid {{ n.line }}" style-hover="color:#E2E3E3" data-underline>{{ n.label }}</div>
         </sc-for>
         <div style="display:flex;border:1px solid #757676;borderRadius:999px;overflow:hidden">
           <div onClick="{{ setEs }}" style="padding:7px 14px;font-size:12px;font-weight:700;letterSpacing:0.1em;cursor:pointer;background:{{ esBg }};color:{{ esFg }}">ES</div>
           <div onClick="{{ setPt }}" style="padding:7px 14px;font-size:12px;font-weight:700;letterSpacing:0.1em;cursor:pointer;background:{{ ptBg }};color:{{ ptFg }}">PT</div>
         </div>
-        <div onClick="{{ openCart }}" style="display:flex;align-items:center;gap:10px;padding:10px 20px;background:#D7C80B;color:#0B0A0A;borderRadius:999px;cursor:pointer;minHeight:44px" style-hover="background:#E2E3E3">
+        <div onClick="{{ openCart }}" style="display:flex;align-items:center;gap:10px;padding:10px 20px;background:#D7C80B;color:#0B0A0A;borderRadius:999px;cursor:pointer;minHeight:44px" style-hover="background:#E2E3E3" data-shine>
           <span style="font-size:13px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase">{{ t.cart }}</span>
           <span style="min-width:22px;height:22px;borderRadius:999px;background:#0B0A0A;color:#D7C80B;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 6px">{{ cartCount }}</span>
         </div>
@@ -70,23 +72,23 @@
   <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
     <div>
       <div style="position:relative;background:#0B0A0A;borderBottom:1px solid #201C1C;overflow:hidden">
-        <img src="https://images.pexels.com/photos/17095636/pexels-photo-17095636.png?auto=compress&cs=tinysrgb&w=1800" alt="Grupo de motociclistas en ruta" style="position:absolute;inset:0;width:100%;height:100%;objectFit:cover;filter:grayscale(0.25) contrast(1.05)" />
+        <img src="https://images.pexels.com/photos/17095636/pexels-photo-17095636.png?auto=compress&cs=tinysrgb&w=1800" alt="Grupo de motociclistas en ruta" style="position:absolute;inset:0;width:100%;height:100%;objectFit:cover;filter:grayscale(0.25) contrast(1.05)" / data-kenburns>
         <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,10,10,0.78) 0%,rgba(11,10,10,0.55) 42%,rgba(11,10,10,0.96) 100%)"></div>
         <div style="position:relative;maxWidth:1340px;margin:0 auto;padding:0 clamp(16px,3vw,24px);min-height:min(78vh,700px);display:flex;flex-direction:column;justify-content:center">
-          <div style="padding:64px 0 0">
-            <div style="display:flex;align-items:center;gap:14px;flexWrap:wrap;marginBottom:24px">
+          <div style="padding:64px 0 0" data-stagger>
+            <div style="display:flex;align-items:center;gap:14px;flexWrap:wrap;marginBottom:24px" data-reveal="down">
               <div style="display:inline-flex;align-items:center;gap:9px;padding:7px 13px;background:#D7C80B;borderRadius:999px">
                 <div style="width:6px;height:6px;borderRadius:50%;background:#0B0A0A;animation:adrPulse 1.8s ease-in-out infinite"></div>
                 <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letterSpacing:0.2em;textTransform:uppercase;color:#0B0A0A">{{ t.heroKicker }}</span>
               </div>
               <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letterSpacing:0.2em;textTransform:uppercase;color:#E2E3E3;textShadow:0 2px 12px rgba(0,0,0,0.9)">Agencia de viajes · Asunción, Paraguay</span>
             </div>
-            <h1 style="margin:0;font-size:clamp(38px,6.4vw,92px);lineHeight:0.88;font-weight:700;textTransform:uppercase;letterSpacing:-0.025em;color:#E2E3E3;text-wrap:balance;textShadow:0 18px 60px rgba(0,0,0,0.55)">{{ t.heroTitle }}</h1>
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:32px;align-items:end;marginTop:34px">
+            <h1 style="margin:0;font-size:clamp(38px,6.4vw,92px);lineHeight:0.88;font-weight:700;textTransform:uppercase;letterSpacing:-0.025em;color:#E2E3E3;text-wrap:balance;textShadow:0 18px 60px rgba(0,0,0,0.55)" data-reveal>{{ t.heroTitle }}</h1>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:32px;align-items:end;marginTop:34px" data-reveal>
               <p style="margin:0;max-width:480px;font-size:clamp(15px,1.2vw,17px);lineHeight:1.55;color:#C2C3C4;text-wrap:pretty;borderLeft:3px solid #D7C80B;paddingLeft:18px">{{ t.heroBody }}</p>
               <div style="display:flex;gap:12px;flexWrap:wrap">
-                <div onClick="{{ goViajes }}" style="padding:17px 30px;background:#D7C80B;color:#0B0A0A;font-size:15px;font-weight:700;letterSpacing:0.16em;textTransform:uppercase;borderRadius:999px;cursor:pointer" style-hover="background:#E2E3E3">{{ t.heroCta1 }}</div>
-                <a href="#inscripcion" style="padding:17px 30px;border:1px solid #757676;color:#E2E3E3;font-size:15px;font-weight:700;letterSpacing:0.16em;textTransform:uppercase;borderRadius:999px;background:rgba(11,10,10,0.5)" style-hover="borderColor:#D7C80B;color:#D7C80B">{{ t.heroCta2 }}</a>
+                <div onClick="{{ goViajes }}" style="padding:17px 30px;background:#D7C80B;color:#0B0A0A;font-size:15px;font-weight:700;letterSpacing:0.16em;textTransform:uppercase;borderRadius:999px;cursor:pointer" style-hover="background:#E2E3E3" data-shine>{{ t.heroCta1 }}</div>
+                <a href="#inscripcion" style="padding:17px 30px;border:1px solid #757676;color:#E2E3E3;font-size:15px;font-weight:700;letterSpacing:0.16em;textTransform:uppercase;borderRadius:999px;background:rgba(11,10,10,0.5)" style-hover="borderColor:#D7C80B;color:#D7C80B" data-shine>{{ t.heroCta2 }}</a>
               </div>
             </div>
             <div style="height:clamp(40px,6vw,76px)"></div>
@@ -95,7 +97,7 @@
       </div>
 
       <div id="eventos" style="maxWidth:1340px;margin:0 auto;padding:clamp(44px,7vw,84px) clamp(16px,3vw,24px)">
-        <div style="display:flex;align-items:flex-end;gap:32px;flexWrap:wrap;marginBottom:36px">
+        <div style="display:flex;align-items:flex-end;gap:32px;flexWrap:wrap;marginBottom:36px" data-reveal>
           <div>
             <div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letterSpacing:0.24em;textTransform:uppercase;color:#D7C80B">{{ t.navEvents }}</div>
             <h2 style="margin:12px 0 0;font-size:clamp(32px,4.4vw,50px);lineHeight:1;font-weight:700;textTransform:uppercase;color:#E2E3E3">{{ t.eventsTitle }}</h2>
@@ -106,7 +108,7 @@
           <div onClick="{{ goViajes }}" style="padding:14px 26px;border:1px solid #757676;color:#E2E3E3;font-size:13px;font-weight:700;letterSpacing:0.16em;textTransform:uppercase;borderRadius:999px;whiteSpace:nowrap;cursor:pointer" style-hover="background:#D7C80B;color:#0B0A0A;borderColor:#D7C80B">{{ t.ctaAll }}</div>
         </div>
 
-        <div style="position:relative;border:1px solid #201C1C;borderRadius:18px;overflow:hidden;background:#141212">
+        <div style="position:relative;border:1px solid #201C1C;borderRadius:18px;overflow:hidden;background:#141212" data-reveal="zoom">
           <div style="position:relative;min-height:clamp(300px,46vw,540px);background:#141212;display:flex;align-items:center;justify-content:center;overflow:hidden">
             <sc-if value="{{ active.img }}" hint-placeholder-val="{{ false }}">
               <div style="position:absolute;inset:0;background-image:url({{ active.img }});background-size:cover;background-position:center;animation:{{ active.zoomAnim }} 900ms cubic-bezier(.22,.8,.26,1) both"></div>
@@ -134,11 +136,11 @@
               </div>
               <div style="display:flex;align-items:center;gap:18px;flexWrap:wrap;animation:{{ active.anim }} 720ms cubic-bezier(.22,.8,.26,1) both">
                 <div style="font-size:14px;color:#A6A7A7">{{ active.spots }}</div>
-                <a href="#ruta66" style="padding:15px 26px;background:#D7C80B;color:#0B0A0A;font-size:13px;font-weight:700;letterSpacing:0.16em;textTransform:uppercase;borderRadius:999px" style-hover="background:#E2E3E3">{{ t.ctaDetail }}</a>
+                <a href="#ruta66" style="padding:15px 26px;background:#D7C80B;color:#0B0A0A;font-size:13px;font-weight:700;letterSpacing:0.16em;textTransform:uppercase;borderRadius:999px" style-hover="background:#E2E3E3" data-shine>{{ t.ctaDetail }}</a>
               </div>
             </div>
           </div>
-          <div style="display:flex;overflow-x:auto;borderTop:1px solid #201C1C;background:#0B0A0A">
+          <div style="display:flex;overflow-x:auto;borderTop:1px solid #201C1C;background:#0B0A0A" data-stagger>
             <sc-for list="{{ tabs }}" as="tb" hint-placeholder-count="5">
               <div onClick="{{ tb.go }}" style="position:relative;flex:1 1 0;min-width:132px;padding:16px 16px 18px;background:#0B0A0A;borderRight:1px solid #201C1C;cursor:pointer;overflow:hidden;min-height:84px" style-hover="background:#141212">
                 <div style="position:absolute;top:0;left:0;height:3px;background:#D7C80B;transition:width 110ms linear;width:{{ tb.fill }}"></div>
@@ -152,15 +154,15 @@
 
       <div id="ruta66" style="background:#141212;borderTop:1px solid #201C1C;borderBottom:1px solid #201C1C">
         <div style="maxWidth:1340px;margin:0 auto;padding:clamp(44px,7vw,84px) clamp(16px,3vw,24px)">
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:40px;align-items:end;paddingBottom:34px;borderBottom:1px solid #201C1C">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:40px;align-items:end;paddingBottom:34px;borderBottom:1px solid #201C1C" data-reveal>
             <div>
               <div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letterSpacing:0.24em;textTransform:uppercase;color:#D7C80B">{{ t.navTour }}</div>
               <h2 style="margin:12px 0 0;font-size:clamp(38px,5vw,58px);lineHeight:0.95;font-weight:700;textTransform:uppercase;color:#E2E3E3">Route 66</h2>
               <p style="margin:18px 0 0;max-width:540px;font-size:17px;lineHeight:1.55;color:#A6A7A7;text-wrap:pretty">{{ t.tourBody }}</p>
             </div>
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,140px),1fr));gap:24px">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,140px),1fr));gap:24px" data-stagger>
               <sc-for list="{{ tourSpecs }}" as="sp" hint-placeholder-count="3">
-                <div>
+                <div data-reveal>
                   <div style="font-size:11px;font-weight:700;letterSpacing:0.18em;textTransform:uppercase;color:#757676">{{ sp.label }}</div>
                   <div style="font-size:20px;font-weight:700;color:#E2E3E3;marginTop:6px;lineHeight:1.2">{{ sp.value }}</div>
                 </div>
@@ -169,22 +171,22 @@
           </div>
 
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:34px;marginTop:44px;align-items:start">
-            <div style="position:relative;height:100%;min-height:clamp(240px,34vw,360px);border:1px solid #201C1C;borderRadius:18px;overflow:hidden">
+            <div style="position:relative;height:100%;min-height:clamp(240px,34vw,360px);border:1px solid #201C1C;borderRadius:18px;overflow:hidden" data-reveal="left" data-card>
               <img src="https://images.pexels.com/photos/2177200/pexels-photo-2177200.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Route 66" style="position:absolute;inset:0;width:100%;height:100%;objectFit:cover;objectPosition:50% 55%" />
               <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,10,10,0.05),rgba(11,10,10,0.6))"></div>
               <div style="position:absolute;left:22px;right:22px;bottom:20px;font-family:'JetBrains Mono',monospace;font-size:11px;letterSpacing:0.16em;textTransform:uppercase;color:#C2C3C4">Chicago → Santa Monica · 3.940 km</div>
             </div>
 
-            <div style="border:1px solid #201C1C;borderRadius:18px;background:#0B0A0A;overflow:hidden">
+            <div style="border:1px solid #201C1C;borderRadius:18px;background:#0B0A0A;overflow:hidden" data-reveal="right">
               <div style="display:flex;borderBottom:1px solid #201C1C">
                 <sc-for list="{{ tourTabs }}" as="tt" hint-placeholder-count="3">
                   <div onClick="{{ tt.go }}" style="flex:1 1 0;padding:16px 14px;text-align:center;font-size:12px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase;cursor:pointer;borderRight:1px solid #201C1C;borderBottom:2px solid {{ tt.line }};background:{{ tt.bg }};color:{{ tt.fg }};min-height:52px">{{ tt.label }}</div>
                 </sc-for>
               </div>
               <sc-if value="{{ showItinerary }}" hint-placeholder-val="{{ true }}">
-                <div style="padding:8px 24px 22px">
+                <div style="padding:8px 24px 22px" data-stagger>
                   <sc-for list="{{ itinerary }}" as="it" hint-placeholder-count="6">
-                    <div style="display:grid;grid-template-columns:18px minmax(0,1fr);gap:16px;padding:16px 0;borderBottom:1px solid #1a1717">
+                    <div style="display:grid;grid-template-columns:18px minmax(0,1fr);gap:16px;padding:16px 0;borderBottom:1px solid #1a1717" data-reveal="left">
                       <div style="display:flex;flex-direction:column;align-items:center;gap:6px;paddingTop:5px">
                         <div style="width:9px;height:9px;borderRadius:50%;background:#D7C80B"></div>
                         <div style="flex:1;width:1px;background:#2c2929"></div>
@@ -199,18 +201,18 @@
                 </div>
               </sc-if>
               <sc-if value="{{ showIncludes }}" hint-placeholder-val="{{ false }}">
-                <div style="padding:14px 24px 24px">
+                <div style="padding:14px 24px 24px" data-stagger>
                   <sc-for list="{{ includes }}" as="i" hint-placeholder-count="6">
-                    <div style="display:flex;gap:12px;padding:12px 0;font-size:16px;color:#C2C3C4;borderBottom:1px solid #1a1717">
+                    <div style="display:flex;gap:12px;padding:12px 0;font-size:16px;color:#C2C3C4;borderBottom:1px solid #1a1717" data-reveal="left">
                       <span style="color:#D7C80B;font-weight:700">+</span><span>{{ i.text }}</span>
                     </div>
                   </sc-for>
                 </div>
               </sc-if>
               <sc-if value="{{ showExcludes }}" hint-placeholder-val="{{ false }}">
-                <div style="padding:14px 24px 24px">
+                <div style="padding:14px 24px 24px" data-stagger>
                   <sc-for list="{{ excludes }}" as="i" hint-placeholder-count="4">
-                    <div style="display:flex;gap:12px;padding:12px 0;font-size:16px;color:#757676;borderBottom:1px solid #1a1717">
+                    <div style="display:flex;gap:12px;padding:12px 0;font-size:16px;color:#757676;borderBottom:1px solid #1a1717" data-reveal="left">
                       <span style="font-weight:700">−</span><span>{{ i.text }}</span>
                     </div>
                   </sc-for>
@@ -219,27 +221,27 @@
             </div>
           </div>
 
-          <h3 style="margin:52px 0 18px;font-size:14px;font-weight:700;letterSpacing:0.2em;textTransform:uppercase;color:#D7C80B">{{ t.departuresTitle }}</h3>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:16px">
+          <h3 style="margin:52px 0 18px;font-size:14px;font-weight:700;letterSpacing:0.2em;textTransform:uppercase;color:#D7C80B">{{ t.departuresTitle }}</h3 data-reveal="left">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:16px" data-stagger>
             <sc-for list="{{ departures }}" as="d" hint-placeholder-count="3">
-              <div style="padding:20px;background:#0B0A0A;border:1px solid #201C1C;borderRadius:18px">
+              <div style="padding:20px;background:#0B0A0A;border:1px solid #201C1C;borderRadius:18px" data-reveal data-card>
                 <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flexWrap:wrap">
                   <div style="font-size:22px;font-weight:700;color:#E2E3E3">{{ d.date }}</div>
                   <div style="padding:4px 11px;borderRadius:999px;font-size:10px;font-weight:700;letterSpacing:0.12em;textTransform:uppercase;background:{{ d.stateBg }};color:{{ d.stateFg }}">{{ d.state }}</div>
                 </div>
                 <div style="font-size:13px;color:#757676;marginTop:8px">{{ d.lang }}</div>
                 <div style="height:4px;background:#201C1C;borderRadius:999px;marginTop:16px;overflow:hidden">
-                  <div style="height:100%;background:#D7C80B;width:{{ d.fill }}"></div>
+                  <div style="height:100%;background:#D7C80B;width:{{ d.fill }}" data-bar></div>
                 </div>
                 <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#A6A7A7;marginTop:8px">{{ d.spots }}</div>
               </div>
             </sc-for>
           </div>
 
-          <h3 style="margin:52px 0 18px;font-size:14px;font-weight:700;letterSpacing:0.2em;textTransform:uppercase;color:#D7C80B">{{ t.packagesTitle }}</h3>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px">
+          <h3 style="margin:52px 0 18px;font-size:14px;font-weight:700;letterSpacing:0.2em;textTransform:uppercase;color:#D7C80B">{{ t.packagesTitle }}</h3 data-reveal="left">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px" data-stagger>
             <sc-for list="{{ packages }}" as="p" hint-placeholder-count="3">
-              <div style="padding:24px;background:#0B0A0A;border:1px solid #201C1C;borderRadius:18px;display:flex;flex-direction:column;gap:10px" style-hover="borderColor:#757676">
+              <div style="padding:24px;background:#0B0A0A;border:1px solid #201C1C;borderRadius:18px;display:flex;flex-direction:column;gap:10px" style-hover="borderColor:#757676" data-reveal data-card>
                 <div style="font-size:19px;font-weight:700;textTransform:uppercase;color:#E2E3E3;lineHeight:1.1">{{ p.name }}</div>
                 <div style="font-size:15px;color:#A6A7A7;text-wrap:pretty">{{ p.detail }}</div>
                 <div style="font-size:30px;font-weight:700;color:#D7C80B;marginTop:4px">{{ p.price }}</div>
@@ -252,25 +254,25 @@
             </sc-for>
           </div>
 
-          <div style="marginTop:28px;padding:clamp(20px,3vw,26px) clamp(20px,3vw,30px);background:#D7C80B;borderRadius:18px;display:flex;align-items:center;gap:28px;flexWrap:wrap">
+          <div style="marginTop:28px;padding:clamp(20px,3vw,26px) clamp(20px,3vw,30px);background:#D7C80B;borderRadius:18px;display:flex;align-items:center;gap:28px;flexWrap:wrap" data-reveal="zoom">
             <div>
               <div style="font-size:12px;font-weight:700;letterSpacing:0.16em;textTransform:uppercase;color:#0B0A0A;opacity:0.72">{{ t.depositLabel }}</div>
               <div style="font-size:34px;font-weight:700;color:#0B0A0A;lineHeight:1.1;marginTop:4px">USD 1.500</div>
             </div>
             <div style="flex:1;min-width:220px;font-size:15px;color:#0B0A0A;opacity:0.84;text-wrap:pretty">{{ t.depositNote }}</div>
-            <a href="#inscripcion" style="padding:16px 28px;background:#0B0A0A;color:#D7C80B;font-size:13px;font-weight:700;letterSpacing:0.16em;textTransform:uppercase;borderRadius:999px" style-hover="background:#201C1C">{{ t.ctaJoin }}</a>
+            <a href="#inscripcion" style="padding:16px 28px;background:#0B0A0A;color:#D7C80B;font-size:13px;font-weight:700;letterSpacing:0.16em;textTransform:uppercase;borderRadius:999px" style-hover="background:#201C1C" data-shine>{{ t.ctaJoin }}</a>
           </div>
         </div>
       </div>
 
-      <div id="inscripcion" style="maxWidth:1340px;margin:0 auto;padding:clamp(44px,7vw,84px) clamp(16px,3vw,24px)">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letterSpacing:0.24em;textTransform:uppercase;color:#D7C80B">{{ t.navSignup }}</div>
-        <h2 style="margin:12px 0 0;font-size:clamp(32px,4.4vw,50px);lineHeight:1;font-weight:700;textTransform:uppercase;color:#E2E3E3">{{ t.signupTitle }}</h2>
-        <p style="margin:18px 0 0;max-width:720px;font-size:18px;lineHeight:1.55;color:#A6A7A7;text-wrap:pretty">{{ t.signupBody }}</p>
+      <div id="inscripcion" style="maxWidth:1340px;margin:0 auto;padding:clamp(44px,7vw,84px) clamp(16px,3vw,24px)" data-stagger>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letterSpacing:0.24em;textTransform:uppercase;color:#D7C80B">{{ t.navSignup }}</div data-reveal>
+        <h2 style="margin:12px 0 0;font-size:clamp(32px,4.4vw,50px);lineHeight:1;font-weight:700;textTransform:uppercase;color:#E2E3E3">{{ t.signupTitle }}</h2 data-reveal>
+        <p style="margin:18px 0 0;max-width:720px;font-size:18px;lineHeight:1.55;color:#A6A7A7;text-wrap:pretty" data-reveal>{{ t.signupBody }}</p>
 
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:2px;marginTop:40px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:2px;marginTop:40px" data-reveal data-stagger>
           <sc-for list="{{ steps }}" as="s" hint-placeholder-count="4">
-            <div style="padding:clamp(20px,3vw,26px) clamp(18px,2.6vw,22px);background:#141212;border:1px solid #201C1C">
+            <div style="padding:clamp(20px,3vw,26px) clamp(18px,2.6vw,22px);background:#141212;border:1px solid #201C1C" data-reveal data-card>
               <div style="display:flex;align-items:center;gap:12px">
                 <span style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;letterSpacing:0.12em;color:#D7C80B">{{ s.n }}</span>
                 <span style="width:28px;height:2px;background:#D7C80B"></span>
@@ -281,7 +283,7 @@
           </sc-for>
         </div>
 
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:24px;marginTop:44px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:24px;marginTop:44px" data-reveal data-stagger>
           <div style="padding:clamp(20px,3vw,30px);background:#141212;border:1px solid #201C1C;borderRadius:18px">
             <h3 style="margin:0 0 22px;font-size:15px;font-weight:700;letterSpacing:0.2em;textTransform:uppercase;color:#D7C80B">{{ t.formTitle }}</h3>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px">
@@ -353,7 +355,7 @@
 
       <div style="background:#141212;borderTop:1px solid #201C1C;borderBottom:1px solid #201C1C">
         <div style="maxWidth:1340px;margin:0 auto;padding:clamp(44px,7vw,84px) clamp(16px,3vw,24px)">
-          <div style="display:flex;align-items:flex-end;gap:32px;flexWrap:wrap;marginBottom:34px">
+          <div style="display:flex;align-items:flex-end;gap:32px;flexWrap:wrap;marginBottom:34px" data-reveal>
             <div>
               <div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letterSpacing:0.24em;textTransform:uppercase;color:#D7C80B">{{ t.navStore }}</div>
               <h2 style="margin:12px 0 0;font-size:clamp(32px,4.4vw,50px);lineHeight:1;font-weight:700;textTransform:uppercase;color:#E2E3E3">{{ t.storeTitle }}</h2>
@@ -361,16 +363,16 @@
             <div style="flex:1;min-width:240px">
               <p style="margin:0;font-size:17px;lineHeight:1.5;color:#A6A7A7;text-wrap:pretty">{{ t.storeBody }}</p>
             </div>
-            <div onClick="{{ goTienda }}" style="padding:14px 26px;border:1px solid #757676;color:#E2E3E3;font-size:13px;font-weight:700;letterSpacing:0.16em;textTransform:uppercase;borderRadius:999px;whiteSpace:nowrap;cursor:pointer" style-hover="background:#D7C80B;color:#0B0A0A;borderColor:#D7C80B">{{ t.ctaStoreAll }}</div>
+            <div onClick="{{ goTienda }}" style="padding:14px 26px;border:1px solid #757676;color:#E2E3E3;font-size:13px;font-weight:700;letterSpacing:0.16em;textTransform:uppercase;borderRadius:999px;whiteSpace:nowrap;cursor:pointer" style-hover="background:#D7C80B;color:#0B0A0A;borderColor:#D7C80B" data-shine>{{ t.ctaStoreAll }}</div>
           </div>
 
-          <div style="overflow:hidden">
+          <div style="overflow:hidden" data-reveal="zoom">
             <div style="display:flex;gap:20px;transition:{{ storeTrans }};transform:translateX({{ storeShift }})">
               <sc-for list="{{ carouselProducts }}" as="p" hint-placeholder-count="4">
-                <div onClick="{{ p.open }}" style="flex:0 0 clamp(230px,26vw,290px);background:#0B0A0A;border:1px solid #201C1C;borderRadius:18px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer" style-hover="borderColor:#757676">
+                <div onClick="{{ p.open }}" style="flex:0 0 clamp(230px,26vw,290px);background:#0B0A0A;border:1px solid #201C1C;borderRadius:18px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer" style-hover="borderColor:#757676" data-card>
                   <div style="height:230px;position:relative;overflow:hidden;background:#141212">
                     <sc-if value="{{ p.img }}" hint-placeholder-val="{{ false }}">
-                      <div style="position:absolute;inset:0;background-image:url({{ p.img }});background-size:cover;background-position:center"></div>
+                      <div style="position:absolute;inset:0;background-image:url({{ p.img }});background-size:cover;background-position:center" data-zoom></div>
                     </sc-if>
                   </div>
                   <div style="padding:20px;display:flex;flex-direction:column;gap:10px;flex:1">
@@ -410,7 +412,7 @@
         <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,10,10,0.72),rgba(11,10,10,0.96))"></div>
         <div style="position:relative;maxWidth:1340px;margin:0 auto;padding:clamp(36px,5vw,64px) clamp(16px,3vw,24px) clamp(32px,4.5vw,56px)">
           <div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letterSpacing:0.24em;textTransform:uppercase;color:#D7C80B">{{ t.navEvents }}</div>
-          <h1 style="margin:14px 0 0;font-size:clamp(36px,5.4vw,70px);lineHeight:0.9;font-weight:700;textTransform:uppercase;color:#E2E3E3">{{ t.tripsTitle }}</h1>
+          <h1 style="margin:14px 0 0;font-size:clamp(36px,5.4vw,70px);lineHeight:0.9;font-weight:700;textTransform:uppercase;color:#E2E3E3">{{ t.tripsTitle }}</h1 data-reveal>
           <p style="margin:18px 0 0;max-width:600px;font-size:17px;lineHeight:1.55;color:#C2C3C4;text-wrap:pretty;borderLeft:3px solid #D7C80B;paddingLeft:18px">{{ t.tripsBody }}</p>
         </div>
       </div>
@@ -422,12 +424,12 @@
           </sc-for>
         </div>
 
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:18px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:18px" data-stagger>
           <sc-for list="{{ tripCards }}" as="ev" hint-placeholder-count="6">
-            <div style="background:#141212;border:1px solid #201C1C;borderRadius:18px;overflow:hidden;display:flex;flex-direction:column" style-hover="borderColor:#757676">
+            <div style="background:#141212;border:1px solid #201C1C;borderRadius:18px;overflow:hidden;display:flex;flex-direction:column" style-hover="borderColor:#757676" data-reveal data-card>
               <div style="position:relative;height:210px;overflow:hidden">
                 <sc-if value="{{ ev.img }}" hint-placeholder-val="{{ false }}">
-                  <div style="position:absolute;inset:0;background-image:url({{ ev.img }});background-size:cover;background-position:center"></div>
+                  <div style="position:absolute;inset:0;background-image:url({{ ev.img }});background-size:cover;background-position:center" data-zoom></div>
                 </sc-if>
                 <div style="position:absolute;top:14px;left:14px;padding:6px 12px;background:#D7C80B;color:#0B0A0A;font-size:11px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase;borderRadius:999px">{{ ev.badge }}</div>
               </div>
@@ -474,11 +476,12 @@
   <sc-if value="{{ isTienda }}" hint-placeholder-val="{{ false }}">
     <div>
       <div style="position:relative;overflow:hidden;borderBottom:1px solid #201C1C">
-        <div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,#232020 0px,#232020 7px,#171515 7px,#171515 16px)"></div>
-        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,10,10,0.7),rgba(11,10,10,0.96))"></div>
+        <img src="https://images.pexels.com/photos/39321486/pexels-photo-39321486.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="" style="position:absolute;inset:0;width:100%;height:100%;objectFit:cover;objectPosition:50% 42%;filter:grayscale(0.3)" data-kenburns />
+        <div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(35,32,32,0.30) 0px,rgba(35,32,32,0.30) 7px,rgba(23,21,21,0.30) 7px,rgba(23,21,21,0.30) 16px)"></div>
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,10,10,0.58),rgba(11,10,10,0.94))"></div>
         <div style="position:relative;maxWidth:1340px;margin:0 auto;padding:clamp(34px,5vw,56px) clamp(16px,3vw,24px) clamp(28px,4vw,48px)">
           <div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letterSpacing:0.24em;textTransform:uppercase;color:#D7C80B">{{ t.navStore }}</div>
-          <h1 style="margin:14px 0 0;font-size:clamp(36px,5.4vw,70px);lineHeight:0.9;font-weight:700;textTransform:uppercase;color:#E2E3E3">{{ t.shopTitle }}</h1>
+          <h1 style="margin:14px 0 0;font-size:clamp(36px,5.4vw,70px);lineHeight:0.9;font-weight:700;textTransform:uppercase;color:#E2E3E3">{{ t.shopTitle }}</h1 data-reveal>
           <p style="margin:18px 0 0;max-width:580px;font-size:17px;lineHeight:1.55;color:#C2C3C4;text-wrap:pretty;borderLeft:3px solid #D7C80B;paddingLeft:18px">{{ t.shopBody }}</p>
         </div>
       </div>
@@ -535,12 +538,12 @@
             </sc-if>
           </div>
 
-          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,210px),1fr));gap:18px">
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,210px),1fr));gap:18px" data-stagger>
             <sc-for list="{{ shopProducts }}" as="p" hint-placeholder-count="6">
-              <div onClick="{{ p.open }}" style="background:#141212;border:1px solid #201C1C;borderRadius:18px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer" style-hover="borderColor:#757676">
+              <div onClick="{{ p.open }}" style="background:#141212;border:1px solid #201C1C;borderRadius:18px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer" style-hover="borderColor:#757676" data-reveal data-card>
                 <div style="height:235px;position:relative;overflow:hidden;background:#0B0A0A">
                   <sc-if value="{{ p.img }}" hint-placeholder-val="{{ false }}">
-                    <div style="position:absolute;inset:0;background-image:url({{ p.img }});background-size:cover;background-position:center"></div>
+                    <div style="position:absolute;inset:0;background-image:url({{ p.img }});background-size:cover;background-position:center" data-zoom></div>
                   </sc-if>
                   <sc-if value="{{ p.lowStock }}" hint-placeholder-val="{{ false }}">
                     <div style="position:absolute;top:12px;right:12px;padding:5px 11px;background:#D7C80B;color:#0B0A0A;borderRadius:999px;font-size:10px;font-weight:700;letterSpacing:0.12em;textTransform:uppercase">{{ p.stock }}</div>
@@ -579,7 +582,7 @@
         <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,10,10,0.72),rgba(11,10,10,0.96))"></div>
         <div style="position:relative;maxWidth:1340px;margin:0 auto;padding:clamp(34px,5vw,60px) clamp(16px,3vw,24px) clamp(30px,4.5vw,54px)">
           <div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letterSpacing:0.24em;textTransform:uppercase;color:#D7C80B">FAQ</div>
-          <h1 style="margin:14px 0 0;font-size:clamp(36px,5.4vw,70px);lineHeight:0.9;font-weight:700;textTransform:uppercase;color:#E2E3E3">{{ t.faqTitle }}</h1>
+          <h1 style="margin:14px 0 0;font-size:clamp(36px,5.4vw,70px);lineHeight:0.9;font-weight:700;textTransform:uppercase;color:#E2E3E3">{{ t.faqTitle }}</h1 data-reveal>
           <p style="margin:18px 0 0;max-width:600px;font-size:17px;lineHeight:1.55;color:#C2C3C4;text-wrap:pretty;borderLeft:3px solid #D7C80B;paddingLeft:18px">{{ t.faqBody }}</p>
         </div>
       </div>
@@ -591,9 +594,9 @@
               <div onClick="{{ c.go }}" style="padding:11px 20px;borderRadius:999px;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.fg }};font-size:13px;font-weight:700;letterSpacing:0.12em;textTransform:uppercase;cursor:pointer;min-height:44px;display:flex;align-items:center">{{ c.label }}</div>
             </sc-for>
           </div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px" data-stagger>
             <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="6">
-              <div style="padding:26px;background:#F2F2F2;border:1px solid #C2C3C4;borderRadius:20px">
+              <div style="padding:26px;background:#F2F2F2;border:1px solid #C2C3C4;borderRadius:20px" data-reveal data-card>
                 <div style="display:flex;align-items:center;gap:8px">
                   <span style="width:7px;height:7px;borderRadius:50%;background:#D7C80B;flex-shrink:0"></span>
                   <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letterSpacing:0.18em;textTransform:uppercase;color:#4a4848">{{ f.cat }}</span>
@@ -611,24 +614,24 @@
   </div>
 
   <div id="contacto" style="background:#141212;borderTop:1px solid #201C1C">
-    <div style="maxWidth:1340px;margin:0 auto;padding:clamp(40px,6vw,72px) clamp(16px,3vw,24px);display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:40px;align-items:start">
+    <div style="maxWidth:1340px;margin:0 auto;padding:clamp(40px,6vw,72px) clamp(16px,3vw,24px);display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:40px;align-items:start" data-stagger>
       <div>
-        <h2 style="margin:0;font-size:clamp(30px,3.6vw,40px);lineHeight:1;font-weight:700;textTransform:uppercase;color:#E2E3E3">{{ t.contactTitle }}</h2>
+        <h2 style="margin:0;font-size:clamp(30px,3.6vw,40px);lineHeight:1;font-weight:700;textTransform:uppercase;color:#E2E3E3">{{ t.contactTitle }}</h2 data-reveal>
         <p style="margin:16px 0 0;max-width:420px;font-size:17px;lineHeight:1.55;color:#A6A7A7;text-wrap:pretty">{{ t.contactBody }}</p>
       </div>
-      <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;flex-direction:column;gap:14px" data-reveal="right">
         <div style="font-size:12px;font-weight:700;letterSpacing:0.18em;textTransform:uppercase;color:#757676">{{ t.contactDirect }}</div>
-        <a href="#contacto" style="font-size:26px;font-weight:700;color:#E2E3E3">+595 981 000 000</a>
-        <a href="#contacto" style="font-size:19px;color:#C2C3C4">info@amigosderuta.com</a>
+        <a href="#contacto" style="font-size:26px;font-weight:700;color:#E2E3E3" data-underline>+595 981 000 000</a>
+        <a href="#contacto" style="font-size:19px;color:#C2C3C4" data-underline>info@amigosderuta.com</a>
         <div style="font-size:16px;color:#757676;marginTop:4px">Asunción · Paraguay</div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;flex-direction:column;gap:10px" data-reveal="right">
         <div style="font-size:12px;font-weight:700;letterSpacing:0.18em;textTransform:uppercase;color:#757676">{{ t.contactSocial }}</div>
         <div style="display:flex;flex-direction:column;gap:8px">
-          <a href="#contacto" style="font-size:17px;font-weight:700;letterSpacing:0.1em;textTransform:uppercase;color:#C2C3C4">Instagram</a>
-          <a href="#contacto" style="font-size:17px;font-weight:700;letterSpacing:0.1em;textTransform:uppercase;color:#C2C3C4">Facebook</a>
-          <a href="#contacto" style="font-size:17px;font-weight:700;letterSpacing:0.1em;textTransform:uppercase;color:#C2C3C4">YouTube</a>
-          <a href="#contacto" style="font-size:17px;font-weight:700;letterSpacing:0.1em;textTransform:uppercase;color:#C2C3C4">TikTok</a>
+          <a href="#contacto" style="font-size:17px;font-weight:700;letterSpacing:0.1em;textTransform:uppercase;color:#C2C3C4" data-underline>Instagram</a>
+          <a href="#contacto" style="font-size:17px;font-weight:700;letterSpacing:0.1em;textTransform:uppercase;color:#C2C3C4" data-underline>Facebook</a>
+          <a href="#contacto" style="font-size:17px;font-weight:700;letterSpacing:0.1em;textTransform:uppercase;color:#C2C3C4" data-underline>YouTube</a>
+          <a href="#contacto" style="font-size:17px;font-weight:700;letterSpacing:0.1em;textTransform:uppercase;color:#C2C3C4" data-underline>TikTok</a>
         </div>
       </div>
     </div>
@@ -738,7 +741,7 @@
     </div>
   </sc-if>
 
-  <a href="#contacto" style="position:fixed;right:22px;bottom:22px;zIndex:60;display:flex;align-items:center;gap:12px;padding:14px 22px;background:#D7C80B;color:#0B0A0A;borderRadius:999px;boxShadow:0 14px 34px rgba(0,0,0,0.6);minHeight:52px;transition:opacity 260ms ease,transform 260ms ease;opacity:{{ waOpacity }};transform:{{ waTransform }};pointerEvents:{{ waEvents }}" style-hover="background:#E2E3E3">
+  <a href="#contacto" style="position:fixed;right:22px;bottom:22px;zIndex:60;display:flex;align-items:center;gap:12px;padding:14px 22px;background:#D7C80B;color:#0B0A0A;borderRadius:999px;boxShadow:0 14px 34px rgba(0,0,0,0.6);minHeight:52px;transition:opacity 260ms ease,transform 260ms ease;opacity:{{ waOpacity }};transform:{{ waTransform }};pointerEvents:{{ waEvents }}" style-hover="background:#E2E3E3" data-shine>
     <div style="width:12px;height:12px;borderRadius:50%;background:#0B0A0A;animation:adrPulse 1.8s ease-in-out infinite"></div>
     <span style="font-size:14px;font-weight:700;letterSpacing:0.12em;textTransform:uppercase">WhatsApp</span>
   </a>

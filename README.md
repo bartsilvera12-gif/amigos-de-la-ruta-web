@@ -62,6 +62,24 @@ Los hovers globales enganchan por `[style*="cursor: pointer"]`, porque el export
 con estilos inline y no deja clases a las que agarrarse. React serializa el inline
 normalizado, así que el selector es estable.
 
+## Formulario de reserva
+
+Está en la sección "Reservá en cuatro pasos" y funciona de verdad: se elige viaje,
+salida y paquete, se cargan los datos del participante, y el resumen calcula paquete,
+pasajeros, total contratado, saldo pendiente y la barra de avance. La seña es fija
+(`DEPOSIT`, USD 1.500).
+
+**Falta poner el número real de WhatsApp.** El botón "Reservar mi lugar" valida los
+campos y abre `wa.me` con la reserva ya escrita, pero apunta a la constante `WHATSAPP`
+de `index.html`, que hoy tiene el número de relleno que ya traía el sitio
+(`595981000000`). Formato internacional, sólo dígitos, sin `+` ni espacios.
+
+Sobre los datos: el catálogo sólo modela **Route 66** en profundidad — es el único viaje
+con salidas y paquetes propios (`DEPARTURES`, `PACKAGES`). Para los demás, el formulario
+deriva una salida única y un "paquete base" de 1 persona a partir del propio evento, así
+el total siempre sale de un precio real del catálogo. Si se quieren paquetes por viaje,
+hay que extender esos datos.
+
 ## Si se reemplaza el export de DesignCode
 
 El export emite las rutas internas **relativas** (`./support.js`, `assets/...`) y sin

@@ -286,22 +286,62 @@
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:24px;marginTop:44px" data-reveal data-stagger>
           <div style="padding:clamp(20px,3vw,30px);background:#141212;border:1px solid #201C1C;borderRadius:18px">
             <h3 style="margin:0 0 22px;font-size:15px;font-weight:700;letterSpacing:0.2em;textTransform:uppercase;color:#D7C80B">{{ t.formTitle }}</h3>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;marginBottom:26px">
+              <div>
+                <div style="font-size:12px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase;color:#757676;marginBottom:7px">{{ t.fTrip }}</div>
+                <select onChange="{{ onTrip }}" style="padding:13px 14px;background:#0B0A0A;border:1px solid #201C1C;borderRadius:10px;font-size:16px;color:#E2E3E3;width:100%;outline:none;minHeight:48px;font-family:inherit;cursor:pointer">
+                  <sc-for list="{{ bTripOpts }}" as="o" hint-placeholder-count="4">
+                    <option value="{{ o.value }}" selected="{{ o.selected }}">{{ o.label }}</option>
+                  </sc-for>
+                </select>
+              </div>
+              <div>
+                <div style="font-size:12px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase;color:#757676;marginBottom:7px">{{ t.fDeparture }}</div>
+                <select onChange="{{ onDep }}" style="padding:13px 14px;background:#0B0A0A;border:1px solid #201C1C;borderRadius:10px;font-size:16px;color:#E2E3E3;width:100%;outline:none;minHeight:48px;font-family:inherit;cursor:pointer">
+                  <sc-for list="{{ bDepOpts }}" as="o" hint-placeholder-count="2">
+                    <option value="{{ o.value }}" selected="{{ o.selected }}">{{ o.label }}</option>
+                  </sc-for>
+                </select>
+              </div>
+              <div>
+                <div style="font-size:12px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase;color:#757676;marginBottom:7px">{{ t.fPackage }}</div>
+                <select onChange="{{ onPkg }}" style="padding:13px 14px;background:#0B0A0A;border:1px solid #201C1C;borderRadius:10px;font-size:16px;color:#E2E3E3;width:100%;outline:none;minHeight:48px;font-family:inherit;cursor:pointer">
+                  <sc-for list="{{ bPkgOpts }}" as="o" hint-placeholder-count="3">
+                    <option value="{{ o.value }}" selected="{{ o.selected }}">{{ o.label }}</option>
+                  </sc-for>
+                </select>
+              </div>
+            </div>
+
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px">
               <div>
                 <div style="font-size:12px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase;color:#757676;marginBottom:7px">{{ t.fName }}</div>
-                <div style="padding:13px 14px;background:#0B0A0A;border:1px solid #201C1C;borderRadius:10px;font-size:16px;color:#E2E3E3">Carlos Benítez</div>
+                <input type="text" value="{{ bName }}" onChange="{{ onName }}" placeholder="{{ t.phName }}" style="padding:13px 14px;background:#0B0A0A;border:1px solid {{ lineName }};borderRadius:10px;font-size:16px;color:#E2E3E3;width:100%;outline:none;minHeight:48px;font-family:inherit" />
+                <sc-if value="{{ errName }}" hint-placeholder-val="{{ false }}">
+                  <div style="font-size:13px;color:#C8512B;marginTop:6px">{{ errName }}</div>
+                </sc-if>
               </div>
               <div>
                 <div style="font-size:12px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase;color:#757676;marginBottom:7px">{{ t.fDoc }}</div>
-                <div style="padding:13px 14px;background:#0B0A0A;border:1px solid #201C1C;borderRadius:10px;font-size:16px;color:#E2E3E3">PY · 3.482.109</div>
+                <input type="text" value="{{ bDoc }}" onChange="{{ onDoc }}" placeholder="{{ t.phDoc }}" style="padding:13px 14px;background:#0B0A0A;border:1px solid {{ lineDoc }};borderRadius:10px;font-size:16px;color:#E2E3E3;width:100%;outline:none;minHeight:48px;font-family:inherit" />
+                <sc-if value="{{ errDoc }}" hint-placeholder-val="{{ false }}">
+                  <div style="font-size:13px;color:#C8512B;marginTop:6px">{{ errDoc }}</div>
+                </sc-if>
               </div>
               <div>
                 <div style="font-size:12px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase;color:#757676;marginBottom:7px">{{ t.fRole }}</div>
-                <div style="padding:13px 14px;background:#0B0A0A;border:1px solid #201C1C;borderRadius:10px;font-size:16px;color:#E2E3E3">{{ t.fRoleVal }}</div>
+                <select onChange="{{ onRole }}" style="padding:13px 14px;background:#0B0A0A;border:1px solid #201C1C;borderRadius:10px;font-size:16px;color:#E2E3E3;width:100%;outline:none;minHeight:48px;font-family:inherit;cursor:pointer">
+                  <sc-for list="{{ bRoleOpts }}" as="o" hint-placeholder-count="3">
+                    <option value="{{ o.value }}" selected="{{ o.selected }}">{{ o.label }}</option>
+                  </sc-for>
+                </select>
               </div>
               <div>
                 <div style="font-size:12px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase;color:#757676;marginBottom:7px">{{ t.fLicense }}</div>
-                <div style="padding:13px 14px;background:#0B0A0A;border:1px solid #201C1C;borderRadius:10px;font-size:16px;color:#E2E3E3">A2 · 11/2029</div>
+                <input type="text" value="{{ bLicense }}" onChange="{{ onLicense }}" placeholder="{{ t.phLicense }}" style="padding:13px 14px;background:#0B0A0A;border:1px solid {{ lineLicense }};borderRadius:10px;font-size:16px;color:#E2E3E3;width:100%;outline:none;minHeight:48px;font-family:inherit" />
+                <sc-if value="{{ errLicense }}" hint-placeholder-val="{{ false }}">
+                  <div style="font-size:13px;color:#C8512B;marginTop:6px">{{ errLicense }}</div>
+                </sc-if>
               </div>
             </div>
             <div style="marginTop:26px">
@@ -324,9 +364,12 @@
               </div>
             </div>
             <div style="display:flex;align-items:center;gap:16px;flexWrap:wrap;marginTop:30px;paddingTop:24px;borderTop:1px solid #201C1C">
-              <div style="padding:16px 30px;background:#D7C80B;color:#0B0A0A;font-size:15px;font-weight:700;letterSpacing:0.16em;textTransform:uppercase;borderRadius:999px;cursor:pointer" style-hover="background:#E2E3E3">{{ t.ctaPay }}</div>
+              <div onClick="{{ doBook }}" style="padding:16px 30px;background:#D7C80B;color:#0B0A0A;font-size:15px;font-weight:700;letterSpacing:0.16em;textTransform:uppercase;borderRadius:999px;cursor:pointer" style-hover="background:#E2E3E3" data-shine>{{ t.ctaPay }}</div>
               <div style="font-size:14px;color:#757676;max-width:280px;text-wrap:pretty">{{ t.payNote }}</div>
             </div>
+            <sc-if value="{{ bSent }}" hint-placeholder-val="{{ false }}">
+              <div style="marginTop:18px;padding:16px 18px;border:1px solid #D7C80B;background:rgba(215,200,11,0.08);borderRadius:12px;font-size:14px;lineHeight:1.5;color:#E2E3E3;text-wrap:pretty">{{ t.sentNote }}</div>
+            </sc-if>
           </div>
 
           <div style="padding:clamp(20px,3vw,30px);background:#141212;border:1px solid #201C1C;borderRadius:18px;display:flex;flex-direction:column;gap:16px">
@@ -339,12 +382,12 @@
             </sc-for>
             <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;marginTop:4px">
               <div style="font-size:13px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase;color:#757676">{{ t.balance }}</div>
-              <div style="font-size:32px;font-weight:700;color:#D7C80B">USD 6.400</div>
+              <div style="font-size:32px;font-weight:700;color:#D7C80B">{{ balanceVal }}</div>
             </div>
             <div style="height:6px;background:#201C1C;borderRadius:999px;overflow:hidden">
-              <div style="height:100%;width:19%;background:#D7C80B"></div>
+              <div style="height:100%;width:{{ paidPct }};background:#D7C80B;transition:width 420ms cubic-bezier(.22,.8,.26,1)"></div>
             </div>
-            <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#757676">{{ t.paidNote }}</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#757676">{{ paidNote }}</div>
             <div style="flex:1"></div>
             <div style="padding:16px;background:#0B0A0A;border:1px solid #201C1C;borderRadius:12px">
               <div style="font-size:13px;lineHeight:1.5;color:#A6A7A7;text-wrap:pretty">{{ t.kitNote }}</div>
@@ -776,10 +819,17 @@ const COPY = {
     signupTitle: "Reservá en cuatro pasos",
     signupBody: "La reserva se completa online. Señás tu lugar, cargás los datos de cada pasajero y seguís tu saldo desde el mismo enlace hasta el día de la salida.",
     formTitle: "Datos del participante",
-    fName: "Nombre y apellido", fDoc: "Documento / pasaporte", fRole: "Rol en la reserva", fRoleVal: "Titular · piloto",
+    fName: "Nombre y apellido", fDoc: "Documento / pasaporte", fRole: "Rol en la reserva",
+    roles: ["Titular · piloto", "Titular · acompañante", "Acompañante"],
+    fTrip: "Viaje", fDeparture: "Salida", fPackage: "Paquete", fPassengers: "Pasajeros", fTotal: "Total contratado",
+    phName: "Nombre y apellido", phDoc: "PY · 0.000.000", phLicense: "A2 · 11/2029",
+    errName: "Poné tu nombre y apellido.", errDoc: "Poné tu documento o pasaporte.", errLicense: "Poné tu licencia y su vencimiento.",
+    basePackage: "Paquete base", basePackageDetail: "1 persona · 1 moto",
+    waIntro: "Hola, quiero reservar mi lugar en un viaje de Amigos de Ruta.",
+    sentNote: "Te abrimos WhatsApp con la reserva ya escrita. Si el navegador lo bloqueó, escribinos vos y pasanos estos datos.",
     fLicense: "Licencia de conducir", fShirt: "Talle de remera del evento", fPay: "Medio de pago",
     ctaPay: "Reservar mi lugar", payNote: "Recibís el comprobante y el acceso a tu reserva por correo y WhatsApp.",
-    summaryTitle: "Resumen de la reserva", balance: "Saldo pendiente", paidNote: "Abonado USD 1.500 de USD 7.900",
+    summaryTitle: "Resumen de la reserva", balance: "Saldo pendiente", paidNote: "Abonado {a} de {b}",
     kitNote: "Tu reserva incluye el kit del viaje: mochila ADR, dos remeras y credencial. Los talles informados acá se usan para la producción.",
     storeTitle: "Tienda oficial",
     storeBody: "Merchandising oficial Amigos de Ruta. El stock que ves es el stock real: se actualiza con cada venta y con los kits reservados para cada salida.",
@@ -825,10 +875,17 @@ const COPY = {
     signupTitle: "Reserve em quatro passos",
     signupBody: "A reserva é feita online. Você garante sua vaga com um sinal, cadastra os dados de cada passageiro e acompanha seu saldo pelo mesmo link até o dia da saída.",
     formTitle: "Dados do participante",
-    fName: "Nome e sobrenome", fDoc: "Documento / passaporte", fRole: "Papel na reserva", fRoleVal: "Titular · piloto",
+    fName: "Nome e sobrenome", fDoc: "Documento / passaporte", fRole: "Papel na reserva",
+    roles: ["Titular · piloto", "Titular · acompanhante", "Acompanhante"],
+    fTrip: "Viagem", fDeparture: "Saída", fPackage: "Pacote", fPassengers: "Passageiros", fTotal: "Total contratado",
+    phName: "Nome e sobrenome", phDoc: "PY · 0.000.000", phLicense: "A2 · 11/2029",
+    errName: "Informe seu nome e sobrenome.", errDoc: "Informe seu documento ou passaporte.", errLicense: "Informe sua carteira e o vencimento.",
+    basePackage: "Pacote base", basePackageDetail: "1 pessoa · 1 moto",
+    waIntro: "Olá, quero reservar meu lugar em uma viagem da Amigos de Ruta.",
+    sentNote: "Abrimos o WhatsApp com a reserva já escrita. Se o navegador bloqueou, fale com a gente e passe estes dados.",
     fLicense: "Carteira de motorista", fShirt: "Tamanho da camiseta do evento", fPay: "Meio de pagamento",
     ctaPay: "Reservar meu lugar", payNote: "Você recebe o comprovante e o acesso à sua reserva por e-mail e WhatsApp.",
-    summaryTitle: "Resumo da reserva", balance: "Saldo pendente", paidNote: "Pago USD 1.500 de USD 7.900",
+    summaryTitle: "Resumo da reserva", balance: "Saldo pendente", paidNote: "Pago {a} de {b}",
     kitNote: "Sua reserva inclui o kit da viagem: mochila ADR, duas camisetas e credencial. Os tamanhos informados aqui são usados na produção.",
     storeTitle: "Loja oficial",
     storeBody: "Merchandising oficial Amigos de Ruta. O estoque exibido é o estoque real: atualiza a cada venda e com os kits reservados para cada saída.",
@@ -858,6 +915,21 @@ const COPY = {
     faqCats: ["Documentação", "Pagamentos", "Pacotes", "Na estrada"]
   }
 };
+
+/* --- Reserva -----------------------------------------------------------------
+   El botón "Reservar mi lugar" no tiene backend: valida, arma el pedido y lo abre
+   en WhatsApp con todo escrito.
+
+   OJO: `WHATSAPP` es el número de relleno que ya traía el sitio. Hay que cambiarlo
+   por el real de ADR — formato internacional, sólo dígitos, sin + ni espacios.
+
+   Los precios del catálogo son strings ("USD 7.900") porque así se muestran; para
+   calcular saldo y porcentaje hay que volverlos número y después formatearlos de
+   nuevo. `de-DE` es el locale que separa miles con punto, como el resto del sitio. */
+const WHATSAPP = "595981000000";
+const DEPOSIT = 1500;
+const money = (s) => Number(String(s).replace(/[^0-9]/g, ""));
+const usd = (n) => "USD " + n.toLocaleString("de-DE");
 
 const EVENTS = [
   { img: IMG.r66, year: 2027, open: true, badge: { es: "Múltiples salidas", pt: "Várias saídas" }, country: "Estados Unidos", name: "Route 66", dates: "07 · 08 / 2027", duration: { es: "16 días", pt: "16 dias" }, price: "USD 7.900", spots: { es: "3 fechas · 48 cupos en total", pt: "3 datas · 48 vagas no total" } },
@@ -893,9 +965,9 @@ const DEPARTURES = [
 ];
 
 const PACKAGES = [
-  { name: { es: "Individual", pt: "Individual" }, price: "USD 9.400", detail: { es: "1 persona · 1 moto · habitación single", pt: "1 pessoa · 1 moto · quarto single" }, spots: { es: "6 cupos", pt: "6 vagas" } },
-  { name: { es: "Dos motos", pt: "Duas motos" }, price: "USD 7.900", detail: { es: "2 personas · 2 motos · 1 habitación doble", pt: "2 pessoas · 2 motos · 1 quarto duplo" }, spots: { es: "8 cupos", pt: "8 vagas" } },
-  { name: { es: "Piloto + acompañante", pt: "Piloto + acompanhante" }, price: "USD 8.600", detail: { es: "2 personas · 1 moto · 1 habitación doble", pt: "2 pessoas · 1 moto · 1 quarto duplo" }, spots: { es: "4 cupos", pt: "4 vagas" } }
+  { people: 1, name: { es: "Individual", pt: "Individual" }, price: "USD 9.400", detail: { es: "1 persona · 1 moto · habitación single", pt: "1 pessoa · 1 moto · quarto single" }, spots: { es: "6 cupos", pt: "6 vagas" } },
+  { people: 2, name: { es: "Dos motos", pt: "Duas motos" }, price: "USD 7.900", detail: { es: "2 personas · 2 motos · 1 habitación doble", pt: "2 pessoas · 2 motos · 1 quarto duplo" }, spots: { es: "8 cupos", pt: "8 vagas" } },
+  { people: 2, name: { es: "Piloto + acompañante", pt: "Piloto + acompanhante" }, price: "USD 8.600", detail: { es: "2 personas · 1 moto · 1 habitación doble", pt: "2 pessoas · 1 moto · 1 quarto duplo" }, spots: { es: "4 cupos", pt: "4 vagas" } }
 ];
 
 const STEPS = [
@@ -903,14 +975,6 @@ const STEPS = [
   { n: "02", title: { es: "Elegí el paquete", pt: "Escolha o pacote" }, body: { es: "Personas, motos, habitación y adicionales como upgrades o single.", pt: "Pessoas, motos, quarto e adicionais como upgrades ou single." } },
   { n: "03", title: { es: "Cargá los pasajeros", pt: "Cadastre os passageiros" }, body: { es: "Datos, licencia, documentación y talles de cada integrante.", pt: "Dados, carteira, documentação e tamanhos de cada integrante." } },
   { n: "04", title: { es: "Reservá y pagá", pt: "Reserve e pague" }, body: { es: "Seña o pago total con tarjeta, transferencia o Pix.", pt: "Sinal ou pagamento total com cartão, transferência ou Pix." } }
-];
-
-const SUMMARY = [
-  { k: { es: "Viaje", pt: "Viagem" }, v: "Route 66" },
-  { k: { es: "Salida", pt: "Saída" }, v: "22/07/2027" },
-  { k: { es: "Paquete", pt: "Pacote" }, v: { es: "2 personas · 2 motos", pt: "2 pessoas · 2 motos" } },
-  { k: { es: "Pasajeros", pt: "Passageiros" }, v: "2" },
-  { k: { es: "Total contratado", pt: "Total contratado" }, v: "USD 7.900" }
 ];
 
 const SIZES = ["S", "M", "L", "XL", "XXL", "U"];
@@ -979,6 +1043,8 @@ class Component extends DCLogic {
     lang: null, view: "home", nav: 0,
     slide: 0, progress: 0, shop: 0, tourTab: 0,
     size: "L", pay: 0,
+    trip: 0, departure: 0, pkg: 1, bRole: 0,
+    bName: "", bDoc: "", bLicense: "", bTouched: false, bSent: false,
     tripFilter: "all", faqCat: -1,
     cat: -1, shopSize: null, maxPrice: 120, query: "", sort: 0, limit: PAGE,
     open: null, qty: 1, detailSize: null, cartOpen: false, cart: {}
@@ -1056,6 +1122,53 @@ class Component extends DCLogic {
     });
   }
 
+  /* --- Reserva ---------------------------------------------------------------
+     El catálogo sólo modela Route 66 en profundidad: es el único viaje con salidas
+     y paquetes propios. Para los demás derivamos una salida única y un paquete base
+     del propio evento, así el formulario siempre tiene datos reales que calcular en
+     vez de quedar vacío o inventar precios. */
+  bookingTrips() { return EVENTS.filter((e) => e.open); }
+
+  bookingDepartures(trip) {
+    if (trip.name === "Route 66") return DEPARTURES.filter((d) => d.open);
+    return [{ date: this.pick(trip.dates), spots: trip.spots }];
+  }
+
+  bookingPackages(trip) {
+    if (trip.name === "Route 66") return PACKAGES;
+    const t = COPY[this.lang];
+    return [{ people: 1, name: t.basePackage, price: trip.price, detail: t.basePackageDetail }];
+  }
+
+  /* Sin backend: valida y abre WhatsApp con el pedido escrito. Si hay algo mal,
+     marca el formulario como tocado — recién ahí se muestran los errores, para no
+     recibir a nadie con todo en rojo antes de escribir una letra. */
+  submitBooking(d) {
+    if (d.invalid) { this.setState({ bTouched: true }); return; }
+    const t = COPY[this.lang];
+    const texto = [
+      t.waIntro, "",
+      t.fTrip + ": " + d.trip,
+      t.fDeparture + ": " + d.departure,
+      t.fPackage + ": " + d.pkg,
+      t.fPassengers + ": " + d.people,
+      "",
+      t.fName + ": " + d.name,
+      t.fDoc + ": " + d.doc,
+      t.fRole + ": " + d.role,
+      t.fLicense + ": " + d.license,
+      t.fShirt + ": " + d.size,
+      t.fPay + ": " + d.pay,
+      "",
+      t.fTotal + ": " + d.total,
+      t.balance + ": " + d.balance
+    ].join("\n");
+    if (typeof window !== "undefined") {
+      window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(texto), "_blank", "noopener,noreferrer");
+    }
+    this.setState({ bSent: true, bTouched: true });
+  }
+
   shopList() {
     const q = this.state.query.trim().toLowerCase();
     const L = this.lang;
@@ -1128,6 +1241,32 @@ class Component extends DCLogic {
       border: this.state.pay === i ? accent : "#201C1C",
       fg: this.state.pay === i ? accent : "#E2E3E3"
     }));
+
+    // reserva: viaje → salida → paquete → total
+    // Los índices se acotan al leer porque el estado puede quedar apuntando a una
+    // opción que ya no existe (elegís "Piloto + acompañante" en Route 66 y después
+    // cambiás a un viaje que sólo tiene paquete base).
+    const bTrips = this.bookingTrips();
+    const tripIdx = Math.min(this.state.trip, bTrips.length - 1);
+    const bTrip = bTrips[tripIdx];
+    const bDeps = this.bookingDepartures(bTrip);
+    const depIdx = Math.min(this.state.departure, bDeps.length - 1);
+    const bDep = bDeps[depIdx];
+    const bPkgs = this.bookingPackages(bTrip);
+    const pkgIdx = Math.min(this.state.pkg, bPkgs.length - 1);
+    const bPkg = bPkgs[pkgIdx];
+
+    const bTotal = money(bPkg.price);
+    const bDeposit = Math.min(DEPOSIT, bTotal);
+    const bBalance = bTotal - bDeposit;
+    const bPaidPct = Math.round((bDeposit / bTotal) * 100);
+
+    const errName = this.state.bName.trim().length < 3 ? t.errName : null;
+    const errDoc = this.state.bDoc.trim().length < 5 ? t.errDoc : null;
+    const errLicense = this.state.bLicense.trim().length < 3 ? t.errLicense : null;
+    const bInvalid = !!(errName || errDoc || errLicense);
+    const vistos = this.state.bTouched;        // errores recién después del primer intento
+    const line = (err) => (vistos && err ? "#C8512B" : "#201C1C");
 
     // trips view
     const tf = this.state.tripFilter;
@@ -1227,7 +1366,42 @@ class Component extends DCLogic {
       })),
       packages: PACKAGES.map((k) => ({ name: p(k.name), price: k.price, detail: p(k.detail), spots: p(k.spots) })),
       steps: STEPS.map((s) => ({ n: s.n, title: p(s.title), body: p(s.body) })),
-      summary: SUMMARY.map((s) => ({ k: p(s.k), v: p(s.v) })),
+      summary: [
+        { k: t.fTrip, v: bTrip.name },
+        { k: t.fDeparture, v: p(bDep.date) },
+        { k: t.fPackage, v: p(bPkg.detail) },
+        { k: t.fPassengers, v: String(bPkg.people) },
+        { k: t.fTotal, v: usd(bTotal) }
+      ],
+      balanceVal: usd(bBalance),
+      paidPct: bPaidPct + "%",
+      paidNote: t.paidNote.replace("{a}", usd(bDeposit)).replace("{b}", usd(bTotal)),
+
+      bTripOpts: bTrips.map((e, i) => ({ label: e.name + " · " + e.price, value: String(i), selected: i === tripIdx })),
+      bDepOpts: bDeps.map((d, i) => ({ label: p(d.date) + (d.spots ? " · " + p(d.spots) : ""), value: String(i), selected: i === depIdx })),
+      bPkgOpts: bPkgs.map((k, i) => ({ label: p(k.name) + " · " + k.price, value: String(i), selected: i === pkgIdx })),
+      bRoleOpts: t.roles.map((r, i) => ({ label: r, value: String(i), selected: i === this.state.bRole })),
+      onTrip: (e) => this.setState({ trip: Number(e.target.value), departure: 0, pkg: 0 }),
+      onDep: (e) => this.setState({ departure: Number(e.target.value) }),
+      onPkg: (e) => this.setState({ pkg: Number(e.target.value) }),
+      onRole: (e) => this.setState({ bRole: Number(e.target.value) }),
+      onName: (e) => this.setState({ bName: e.target.value, bSent: false }),
+      onDoc: (e) => this.setState({ bDoc: e.target.value, bSent: false }),
+      onLicense: (e) => this.setState({ bLicense: e.target.value, bSent: false }),
+      bName: this.state.bName, bDoc: this.state.bDoc, bLicense: this.state.bLicense,
+      errName: vistos ? errName : null, errDoc: vistos ? errDoc : null, errLicense: vistos ? errLicense : null,
+      lineName: line(errName), lineDoc: line(errDoc), lineLicense: line(errLicense),
+      bSent: this.state.bSent && !bInvalid,
+      doBook: () => this.submitBooking({
+        invalid: bInvalid,
+        trip: bTrip.name, departure: p(bDep.date), pkg: p(bPkg.name) + " · " + p(bPkg.detail),
+        people: String(bPkg.people),
+        name: this.state.bName.trim(), doc: this.state.bDoc.trim(), license: this.state.bLicense.trim(),
+        role: t.roles[this.state.bRole], size: this.state.size,
+        pay: p(["Tarjeta", "Pix", { es: "Transferencia", pt: "Transferência" }][this.state.pay]),
+        total: usd(bTotal), balance: usd(bBalance)
+      }),
+
       shirtSizes, payments,
 
       carouselProducts: PRODUCTS.concat(PRODUCTS).map(mapProduct),

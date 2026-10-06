@@ -74,6 +74,22 @@ campos y abre `wa.me` con la reserva ya escrita, pero apunta a la constante `WHA
 de `index.html`, que hoy tiene el número de relleno que ya traía el sitio
 (`595981000000`). Formato internacional, sólo dígitos, sin `+` ni espacios.
 
+### Desplegables
+
+No hay ningún `<select>` nativo en el sitio. El nativo abre con el chrome del sistema
+operativo — fondo blanco, resalte azul — y eso no se puede tematizar desde CSS, así que
+desentonaba con todo lo demás. En su lugar hay un desplegable propio (`dropdown()` y
+`dropdownOpts()` en la lógica), usado por los cuatro selectores de la reserva y por el
+orden de la tienda.
+
+Detalles que conviene conservar si se tocan:
+
+- Disparador y opciones son `<button type="button">`, no `div`. Así se enfocan con Tab y
+  se activan con Enter o Espacio sin escribir nada de teclado a mano.
+- Cierra al tocar afuera gracias a una tapa `position:fixed` detrás del panel, no con un
+  listener global en `document`: no hay que acordarse de desengancharlo.
+- `openSel` guarda cuál está abierto, así que sólo puede haber uno a la vez.
+
 Sobre los datos: el catálogo sólo modela **Route 66** en profundidad — es el único viaje
 con salidas y paquetes propios (`DEPARTURES`, `PACKAGES`). Para los demás, el formulario
 deriva una salida única y un "paquete base" de 1 persona a partir del propio evento, así

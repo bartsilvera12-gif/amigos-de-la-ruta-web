@@ -287,29 +287,71 @@
           <div style="padding:clamp(20px,3vw,30px);background:#141212;border:1px solid #201C1C;borderRadius:18px">
             <h3 style="margin:0 0 22px;font-size:15px;font-weight:700;letterSpacing:0.2em;textTransform:uppercase;color:#D7C80B">{{ t.formTitle }}</h3>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;marginBottom:26px">
-              <div>
+              <div style="position:relative">
                 <div style="font-size:12px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase;color:#757676;marginBottom:7px">{{ t.fTrip }}</div>
-                <select onChange="{{ onTrip }}" style="padding:13px 14px;background:#0B0A0A;border:1px solid #201C1C;borderRadius:10px;font-size:16px;color:#E2E3E3;width:100%;outline:none;minHeight:48px;font-family:inherit;cursor:pointer">
-                  <sc-for list="{{ bTripOpts }}" as="o" hint-placeholder-count="4">
-                    <option value="{{ o.value }}" selected="{{ o.selected }}">{{ o.label }}</option>
-                  </sc-for>
-                </select>
+                <button type="button" onClick="{{ selTrip.toggle }}" style="padding:13px 14px;background:#0B0A0A;border:1px solid {{ selTrip.border }};borderRadius:10px;font-size:16px;color:#E2E3E3;width:100%;outline:none;minHeight:48px;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left" style-hover="borderColor:#757676">
+                  <span style="overflow:hidden;text-overflow:ellipsis;whiteSpace:nowrap">{{ selTrip.label }}</span>
+                  <span style="color:#D7C80B;font-size:11px;flex-shrink:0;transform:{{ selTrip.caret }};transition:transform 220ms cubic-bezier(.22,.8,.26,1)">▾</span>
+                </button>
+                <sc-if value="{{ selTrip.open }}" hint-placeholder-val="{{ false }}">
+                  <div>
+                    <div onClick="{{ closeSel }}" style="position:fixed;inset:0;zIndex:70"></div>
+                    <div style="position:absolute;top:calc(100% + 6px);left:0;right:0;zIndex:71;background:#0B0A0A;border:1px solid #2c2929;borderRadius:12px;padding:6px;maxHeight:264px;overflow-y:auto;boxShadow:0 24px 50px -18px rgba(0,0,0,0.9);animation:adrPopIn 170ms cubic-bezier(.22,.8,.26,1) both">
+                      <sc-for list="{{ bTripOpts }}" as="o" hint-placeholder-count="4">
+                        <button type="button" onClick="{{ o.pick }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:11px 12px;minHeight:44px;border:0;borderRadius:8px;background:{{ o.bg }};color:{{ o.fg }};font-size:15px;font-family:inherit;text-align:left;cursor:pointer" style-hover="background:#201C1C;color:#D7C80B">
+                          <span>{{ o.label }}</span>
+                          <sc-if value="{{ o.selected }}" hint-placeholder-val="{{ false }}">
+                            <span style="color:#D7C80B;font-weight:700;flex-shrink:0">✓</span>
+                          </sc-if>
+                        </button>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-if>
               </div>
-              <div>
+              <div style="position:relative">
                 <div style="font-size:12px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase;color:#757676;marginBottom:7px">{{ t.fDeparture }}</div>
-                <select onChange="{{ onDep }}" style="padding:13px 14px;background:#0B0A0A;border:1px solid #201C1C;borderRadius:10px;font-size:16px;color:#E2E3E3;width:100%;outline:none;minHeight:48px;font-family:inherit;cursor:pointer">
-                  <sc-for list="{{ bDepOpts }}" as="o" hint-placeholder-count="2">
-                    <option value="{{ o.value }}" selected="{{ o.selected }}">{{ o.label }}</option>
-                  </sc-for>
-                </select>
+                <button type="button" onClick="{{ selDep.toggle }}" style="padding:13px 14px;background:#0B0A0A;border:1px solid {{ selDep.border }};borderRadius:10px;font-size:16px;color:#E2E3E3;width:100%;outline:none;minHeight:48px;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left" style-hover="borderColor:#757676">
+                  <span style="overflow:hidden;text-overflow:ellipsis;whiteSpace:nowrap">{{ selDep.label }}</span>
+                  <span style="color:#D7C80B;font-size:11px;flex-shrink:0;transform:{{ selDep.caret }};transition:transform 220ms cubic-bezier(.22,.8,.26,1)">▾</span>
+                </button>
+                <sc-if value="{{ selDep.open }}" hint-placeholder-val="{{ false }}">
+                  <div>
+                    <div onClick="{{ closeSel }}" style="position:fixed;inset:0;zIndex:70"></div>
+                    <div style="position:absolute;top:calc(100% + 6px);left:0;right:0;zIndex:71;background:#0B0A0A;border:1px solid #2c2929;borderRadius:12px;padding:6px;maxHeight:264px;overflow-y:auto;boxShadow:0 24px 50px -18px rgba(0,0,0,0.9);animation:adrPopIn 170ms cubic-bezier(.22,.8,.26,1) both">
+                      <sc-for list="{{ bDepOpts }}" as="o" hint-placeholder-count="2">
+                        <button type="button" onClick="{{ o.pick }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:11px 12px;minHeight:44px;border:0;borderRadius:8px;background:{{ o.bg }};color:{{ o.fg }};font-size:15px;font-family:inherit;text-align:left;cursor:pointer" style-hover="background:#201C1C;color:#D7C80B">
+                          <span>{{ o.label }}</span>
+                          <sc-if value="{{ o.selected }}" hint-placeholder-val="{{ false }}">
+                            <span style="color:#D7C80B;font-weight:700;flex-shrink:0">✓</span>
+                          </sc-if>
+                        </button>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-if>
               </div>
-              <div>
+              <div style="position:relative">
                 <div style="font-size:12px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase;color:#757676;marginBottom:7px">{{ t.fPackage }}</div>
-                <select onChange="{{ onPkg }}" style="padding:13px 14px;background:#0B0A0A;border:1px solid #201C1C;borderRadius:10px;font-size:16px;color:#E2E3E3;width:100%;outline:none;minHeight:48px;font-family:inherit;cursor:pointer">
-                  <sc-for list="{{ bPkgOpts }}" as="o" hint-placeholder-count="3">
-                    <option value="{{ o.value }}" selected="{{ o.selected }}">{{ o.label }}</option>
-                  </sc-for>
-                </select>
+                <button type="button" onClick="{{ selPkg.toggle }}" style="padding:13px 14px;background:#0B0A0A;border:1px solid {{ selPkg.border }};borderRadius:10px;font-size:16px;color:#E2E3E3;width:100%;outline:none;minHeight:48px;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left" style-hover="borderColor:#757676">
+                  <span style="overflow:hidden;text-overflow:ellipsis;whiteSpace:nowrap">{{ selPkg.label }}</span>
+                  <span style="color:#D7C80B;font-size:11px;flex-shrink:0;transform:{{ selPkg.caret }};transition:transform 220ms cubic-bezier(.22,.8,.26,1)">▾</span>
+                </button>
+                <sc-if value="{{ selPkg.open }}" hint-placeholder-val="{{ false }}">
+                  <div>
+                    <div onClick="{{ closeSel }}" style="position:fixed;inset:0;zIndex:70"></div>
+                    <div style="position:absolute;top:calc(100% + 6px);left:0;right:0;zIndex:71;background:#0B0A0A;border:1px solid #2c2929;borderRadius:12px;padding:6px;maxHeight:264px;overflow-y:auto;boxShadow:0 24px 50px -18px rgba(0,0,0,0.9);animation:adrPopIn 170ms cubic-bezier(.22,.8,.26,1) both">
+                      <sc-for list="{{ bPkgOpts }}" as="o" hint-placeholder-count="3">
+                        <button type="button" onClick="{{ o.pick }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:11px 12px;minHeight:44px;border:0;borderRadius:8px;background:{{ o.bg }};color:{{ o.fg }};font-size:15px;font-family:inherit;text-align:left;cursor:pointer" style-hover="background:#201C1C;color:#D7C80B">
+                          <span>{{ o.label }}</span>
+                          <sc-if value="{{ o.selected }}" hint-placeholder-val="{{ false }}">
+                            <span style="color:#D7C80B;font-weight:700;flex-shrink:0">✓</span>
+                          </sc-if>
+                        </button>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-if>
               </div>
             </div>
 
@@ -328,13 +370,27 @@
                   <div style="font-size:13px;color:#C8512B;marginTop:6px">{{ errDoc }}</div>
                 </sc-if>
               </div>
-              <div>
+              <div style="position:relative">
                 <div style="font-size:12px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase;color:#757676;marginBottom:7px">{{ t.fRole }}</div>
-                <select onChange="{{ onRole }}" style="padding:13px 14px;background:#0B0A0A;border:1px solid #201C1C;borderRadius:10px;font-size:16px;color:#E2E3E3;width:100%;outline:none;minHeight:48px;font-family:inherit;cursor:pointer">
-                  <sc-for list="{{ bRoleOpts }}" as="o" hint-placeholder-count="3">
-                    <option value="{{ o.value }}" selected="{{ o.selected }}">{{ o.label }}</option>
-                  </sc-for>
-                </select>
+                <button type="button" onClick="{{ selRole.toggle }}" style="padding:13px 14px;background:#0B0A0A;border:1px solid {{ selRole.border }};borderRadius:10px;font-size:16px;color:#E2E3E3;width:100%;outline:none;minHeight:48px;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left" style-hover="borderColor:#757676">
+                  <span style="overflow:hidden;text-overflow:ellipsis;whiteSpace:nowrap">{{ selRole.label }}</span>
+                  <span style="color:#D7C80B;font-size:11px;flex-shrink:0;transform:{{ selRole.caret }};transition:transform 220ms cubic-bezier(.22,.8,.26,1)">▾</span>
+                </button>
+                <sc-if value="{{ selRole.open }}" hint-placeholder-val="{{ false }}">
+                  <div>
+                    <div onClick="{{ closeSel }}" style="position:fixed;inset:0;zIndex:70"></div>
+                    <div style="position:absolute;top:calc(100% + 6px);left:0;right:0;zIndex:71;background:#0B0A0A;border:1px solid #2c2929;borderRadius:12px;padding:6px;maxHeight:264px;overflow-y:auto;boxShadow:0 24px 50px -18px rgba(0,0,0,0.9);animation:adrPopIn 170ms cubic-bezier(.22,.8,.26,1) both">
+                      <sc-for list="{{ bRoleOpts }}" as="o" hint-placeholder-count="3">
+                        <button type="button" onClick="{{ o.pick }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:11px 12px;minHeight:44px;border:0;borderRadius:8px;background:{{ o.bg }};color:{{ o.fg }};font-size:15px;font-family:inherit;text-align:left;cursor:pointer" style-hover="background:#201C1C;color:#D7C80B">
+                          <span>{{ o.label }}</span>
+                          <sc-if value="{{ o.selected }}" hint-placeholder-val="{{ false }}">
+                            <span style="color:#D7C80B;font-weight:700;flex-shrink:0">✓</span>
+                          </sc-if>
+                        </button>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-if>
               </div>
               <div>
                 <div style="font-size:12px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase;color:#757676;marginBottom:7px">{{ t.fLicense }}</div>
@@ -567,11 +623,27 @@
         <div style="order:2;flex:999 1 420px;min-width:0">
           <div style="display:flex;align-items:center;gap:14px;flexWrap:wrap;marginBottom:22px">
             <input type="text" value="{{ query }}" onChange="{{ onSearch }}" placeholder="{{ t.search }}" style="flex:1;min-width:220px;padding:14px 18px;background:#141212;border:1px solid #201C1C;borderRadius:999px;color:#E2E3E3;font-size:15px;outline:none;minHeight:48px" />
-            <select onChange="{{ onSort }}" style="padding:14px 18px;background:#141212;border:1px solid #201C1C;borderRadius:999px;color:#E2E3E3;font-size:14px;outline:none;cursor:pointer;minHeight:48px">
-              <sc-for list="{{ sorts }}" as="so" hint-placeholder-count="4">
-                <option value="{{ so.value }}" selected="{{ so.selected }}">{{ so.label }}</option>
-              </sc-for>
-            </select>
+            <div style="position:relative;min-width:210px">
+              <button type="button" onClick="{{ selSort.toggle }}" style="padding:14px 18px;background:#141212;border:1px solid {{ selSort.border }};borderRadius:999px;color:#E2E3E3;font-size:14px;outline:none;cursor:pointer;minHeight:48px;width:100%;font-family:inherit;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left" style-hover="borderColor:#757676">
+                <span style="overflow:hidden;text-overflow:ellipsis;whiteSpace:nowrap">{{ selSort.label }}</span>
+                <span style="color:#D7C80B;font-size:11px;flex-shrink:0;transform:{{ selSort.caret }};transition:transform 220ms cubic-bezier(.22,.8,.26,1)">▾</span>
+              </button>
+              <sc-if value="{{ selSort.open }}" hint-placeholder-val="{{ false }}">
+                <div>
+                  <div onClick="{{ closeSel }}" style="position:fixed;inset:0;zIndex:70"></div>
+                  <div style="position:absolute;top:calc(100% + 6px);left:0;right:0;zIndex:71;background:#0B0A0A;border:1px solid #2c2929;borderRadius:12px;padding:6px;maxHeight:264px;overflow-y:auto;boxShadow:0 24px 50px -18px rgba(0,0,0,0.9);animation:adrPopIn 170ms cubic-bezier(.22,.8,.26,1) both">
+                    <sc-for list="{{ sorts }}" as="o" hint-placeholder-count="4">
+                      <button type="button" onClick="{{ o.pick }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:11px 12px;minHeight:44px;border:0;borderRadius:8px;background:{{ o.bg }};color:{{ o.fg }};font-size:15px;font-family:inherit;text-align:left;cursor:pointer" style-hover="background:#201C1C;color:#D7C80B">
+                        <span>{{ o.label }}</span>
+                        <sc-if value="{{ o.selected }}" hint-placeholder-val="{{ false }}">
+                          <span style="color:#D7C80B;font-weight:700;flex-shrink:0">✓</span>
+                        </sc-if>
+                      </button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
           </div>
 
           <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flexWrap:wrap;marginBottom:18px">
@@ -1043,7 +1115,7 @@ class Component extends DCLogic {
     lang: null, view: "home", nav: 0,
     slide: 0, progress: 0, shop: 0, tourTab: 0,
     size: "L", pay: 0,
-    trip: 0, departure: 0, pkg: 1, bRole: 0,
+    trip: 0, departure: 0, pkg: 1, bRole: 0, openSel: null,
     bName: "", bDoc: "", bLicense: "", bTouched: false, bSent: false,
     tripFilter: "all", faqCat: -1,
     cat: -1, shopSize: null, maxPrice: 120, query: "", sort: 0, limit: PAGE,
@@ -1167,6 +1239,33 @@ class Component extends DCLogic {
       window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(texto), "_blank", "noopener,noreferrer");
     }
     this.setState({ bSent: true, bTouched: true });
+  }
+
+  /* Los <select> nativos abren con el chrome del sistema operativo — fondo blanco,
+     resalte azul — y eso no se puede tematizar desde CSS. Los reemplazamos por un
+     desplegable propio; esto arma el estado visual del disparador. Sólo uno abierto
+     por vez: `openSel` guarda cuál. */
+  dropdown(id, opciones, elegido, accent) {
+    const abierto = this.state.openSel === id;
+    return {
+      open: abierto,
+      label: opciones[elegido] ? opciones[elegido].label : "",
+      caret: abierto ? "rotate(180deg)" : "none",
+      border: abierto ? accent : "#201C1C",
+      toggle: () => this.setState({ openSel: abierto ? null : id })
+    };
+  }
+
+  /* Pinta cada opción y le cuelga el setState. `extra` deja que cada lista agregue
+     lo suyo — elegir viaje, por ejemplo, también resetea salida y paquete. */
+  dropdownOpts(lista, elegido, campo, accent, extra) {
+    return lista.map((o, i) => ({
+      label: o.label,
+      selected: i === elegido,
+      bg: i === elegido ? "rgba(215,200,11,0.1)" : "transparent",
+      fg: i === elegido ? accent : "#C2C3C4",
+      pick: () => this.setState(Object.assign({ [campo]: i, openSel: null }, extra))
+    }));
   }
 
   shopList() {
@@ -1377,14 +1476,15 @@ class Component extends DCLogic {
       paidPct: bPaidPct + "%",
       paidNote: t.paidNote.replace("{a}", usd(bDeposit)).replace("{b}", usd(bTotal)),
 
-      bTripOpts: bTrips.map((e, i) => ({ label: e.name + " · " + e.price, value: String(i), selected: i === tripIdx })),
-      bDepOpts: bDeps.map((d, i) => ({ label: p(d.date) + (d.spots ? " · " + p(d.spots) : ""), value: String(i), selected: i === depIdx })),
-      bPkgOpts: bPkgs.map((k, i) => ({ label: p(k.name) + " · " + k.price, value: String(i), selected: i === pkgIdx })),
-      bRoleOpts: t.roles.map((r, i) => ({ label: r, value: String(i), selected: i === this.state.bRole })),
-      onTrip: (e) => this.setState({ trip: Number(e.target.value), departure: 0, pkg: 0 }),
-      onDep: (e) => this.setState({ departure: Number(e.target.value) }),
-      onPkg: (e) => this.setState({ pkg: Number(e.target.value) }),
-      onRole: (e) => this.setState({ bRole: Number(e.target.value) }),
+      bTripOpts: this.dropdownOpts(bTrips.map((e) => ({ label: e.name + " · " + e.price })), tripIdx, "trip", accent, { departure: 0, pkg: 0 }),
+      bDepOpts: this.dropdownOpts(bDeps.map((d) => ({ label: p(d.date) + (d.spots ? " · " + p(d.spots) : "") })), depIdx, "departure", accent),
+      bPkgOpts: this.dropdownOpts(bPkgs.map((k) => ({ label: p(k.name) + " · " + k.price })), pkgIdx, "pkg", accent),
+      bRoleOpts: this.dropdownOpts(t.roles.map((r) => ({ label: r })), this.state.bRole, "bRole", accent),
+      selTrip: this.dropdown("trip", bTrips.map((e) => ({ label: e.name + " · " + e.price })), tripIdx, accent),
+      selDep: this.dropdown("dep", bDeps.map((d) => ({ label: p(d.date) + (d.spots ? " · " + p(d.spots) : "") })), depIdx, accent),
+      selPkg: this.dropdown("pkg", bPkgs.map((k) => ({ label: p(k.name) + " · " + k.price })), pkgIdx, accent),
+      selRole: this.dropdown("role", t.roles.map((r) => ({ label: r })), this.state.bRole, accent),
+      closeSel: () => this.setState({ openSel: null }),
       onName: (e) => this.setState({ bName: e.target.value, bSent: false }),
       onDoc: (e) => this.setState({ bDoc: e.target.value, bSent: false }),
       onLicense: (e) => this.setState({ bLicense: e.target.value, bSent: false }),
@@ -1419,9 +1519,9 @@ class Component extends DCLogic {
 
       shopCats, shopSizes, shopProducts: shown.map(mapProduct),
       query: this.state.query, maxPrice: this.state.maxPrice,
-      sorts: t.sorts.map((label, i) => ({ label, value: String(i), selected: this.state.sort === i })),
+      sorts: this.dropdownOpts(t.sorts.map((label) => ({ label })), this.state.sort, "sort", accent, { limit: PAGE }),
+      selSort: this.dropdown("sort", t.sorts.map((label) => ({ label })), this.state.sort, accent),
       onSearch: (e) => this.setState({ query: e.target.value, limit: PAGE }),
-      onSort: (e) => this.setState({ sort: Number(e.target.value) }),
       onPrice: (e) => this.setState({ maxPrice: Number(e.target.value), limit: PAGE }),
       clearFilters: () => this.setState({ cat: -1, shopSize: null, maxPrice: 120, query: "", limit: PAGE }),
       hasFilters: this.state.cat !== -1 || !!this.state.shopSize || this.state.maxPrice < 120 || !!this.state.query,

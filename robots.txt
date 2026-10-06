@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# El material de referencia no se publica (ver .vercelignore), pero por si acaso:
+Disallow: /fuentes/
+
+Sitemap: https://amigos-de-la-ruta-web.vercel.app/sitemap.xml

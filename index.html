@@ -3,11 +3,28 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Amigos de la Ruta</title>
+<title>Amigos de Ruta — Viajes en moto por el mundo</title>
+<meta name="description" content="Viajes en moto por el mundo. Route 66, Daytona Bike Week, Alaska Gold Rush y Sturgis Rally con guía bilingüe, vehículo de apoyo e itinerario armado. Agencia de viajes en Asunción, Paraguay." />
+<link rel="canonical" href="https://amigos-de-la-ruta-web.vercel.app/" />
+<meta name="robots" content="index,follow" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Amigos de Ruta" />
+<meta property="og:title" content="Amigos de Ruta — Viajes en moto por el mundo" />
+<meta property="og:description" content="Viajes en moto por el mundo. Route 66, Daytona Bike Week, Alaska Gold Rush y Sturgis Rally con guía bilingüe, vehículo de apoyo e itinerario armado. Agencia de viajes en Asunción, Paraguay." />
+<meta property="og:url" content="https://amigos-de-la-ruta-web.vercel.app/" />
+<meta property="og:image" content="https://amigos-de-la-ruta-web.vercel.app/assets/adr-emblema.jpeg" />
+<meta property="og:locale" content="es_PY" />
+<meta property="og:locale:alternate" content="pt_BR" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Amigos de Ruta — Viajes en moto por el mundo" />
+<meta name="twitter:description" content="Viajes en moto por el mundo. Route 66, Daytona Bike Week, Alaska Gold Rush y Sturgis Rally con guía bilingüe, vehículo de apoyo e itinerario armado. Agencia de viajes en Asunción, Paraguay." />
+<meta name="twitter:image" content="https://amigos-de-la-ruta-web.vercel.app/assets/adr-emblema.jpeg" />
+<meta name="theme-color" content="#0B0A0A" />
 <link rel="icon" href="/assets/adr-emblema.jpeg" />
 <link rel="stylesheet" href="/anim.css" />
 <script src="/support.js"></script>
 <script src="/anim.js" defer></script>
+<script src="/analytics.js" defer></script>
 </head>
 <body>
 <x-dc>
@@ -736,17 +753,19 @@
       </div>
       <div style="display:flex;flex-direction:column;gap:14px" data-reveal="right">
         <div style="font-size:12px;font-weight:700;letterSpacing:0.18em;textTransform:uppercase;color:#757676">{{ t.contactDirect }}</div>
-        <a href="#contacto" style="font-size:26px;font-weight:700;color:#E2E3E3" data-underline>+595 981 000 000</a>
+        <a href="{{ telefonoHref }}" target="_blank" rel="noopener" style="font-size:26px;font-weight:700;color:#E2E3E3" data-underline>{{ telefono }}</a>
         <a href="#contacto" style="font-size:19px;color:#C2C3C4" data-underline>info@amigosderuta.com</a>
         <div style="font-size:16px;color:#757676;marginTop:4px">Asunción · Paraguay</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px" data-reveal="right">
         <div style="font-size:12px;font-weight:700;letterSpacing:0.18em;textTransform:uppercase;color:#757676">{{ t.contactSocial }}</div>
         <div style="display:flex;flex-direction:column;gap:8px">
-          <a href="#contacto" style="font-size:17px;font-weight:700;letterSpacing:0.1em;textTransform:uppercase;color:#C2C3C4" data-underline>Instagram</a>
-          <a href="#contacto" style="font-size:17px;font-weight:700;letterSpacing:0.1em;textTransform:uppercase;color:#C2C3C4" data-underline>Facebook</a>
-          <a href="#contacto" style="font-size:17px;font-weight:700;letterSpacing:0.1em;textTransform:uppercase;color:#C2C3C4" data-underline>YouTube</a>
-          <a href="#contacto" style="font-size:17px;font-weight:700;letterSpacing:0.1em;textTransform:uppercase;color:#C2C3C4" data-underline>TikTok</a>
+          <sc-for list="{{ redes }}" as="r" hint-placeholder-count="4">
+            <a href="{{ r.url }}" target="_blank" rel="noopener" style="font-size:17px;font-weight:700;letterSpacing:0.1em;textTransform:uppercase;color:#C2C3C4" data-underline>{{ r.label }}</a>
+          </sc-for>
+          <sc-if value="{{ sinRedes }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:15px;color:#757676;text-wrap:pretty">{{ t.redesPendientes }}</div>
+          </sc-if>
         </div>
       </div>
     </div>
@@ -856,7 +875,7 @@
     </div>
   </sc-if>
 
-  <a href="#contacto" style="position:fixed;right:22px;bottom:22px;zIndex:60;display:flex;align-items:center;gap:12px;padding:14px 22px;background:#D7C80B;color:#0B0A0A;borderRadius:999px;boxShadow:0 14px 34px rgba(0,0,0,0.6);minHeight:52px;transition:opacity 260ms ease,transform 260ms ease;opacity:{{ waOpacity }};transform:{{ waTransform }};pointerEvents:{{ waEvents }}" style-hover="background:#E2E3E3" data-shine>
+  <a href="{{ waHref }}" target="_blank" rel="noopener" style="position:fixed;right:22px;bottom:22px;zIndex:60;display:flex;align-items:center;gap:12px;padding:14px 22px;background:#D7C80B;color:#0B0A0A;borderRadius:999px;boxShadow:0 14px 34px rgba(0,0,0,0.6);minHeight:52px;transition:opacity 260ms ease,transform 260ms ease;opacity:{{ waOpacity }};transform:{{ waTransform }};pointerEvents:{{ waEvents }}" style-hover="background:#E2E3E3" data-shine>
     <div style="width:12px;height:12px;borderRadius:50%;background:#0B0A0A;animation:adrPulse 1.8s ease-in-out infinite"></div>
     <span style="font-size:14px;font-weight:700;letterSpacing:0.12em;textTransform:uppercase">WhatsApp</span>
   </a>
@@ -898,6 +917,11 @@ const COPY = {
     errName: "Poné tu nombre y apellido.", errDoc: "Poné tu documento o pasaporte.", errLicense: "Poné tu licencia y su vencimiento.",
     basePackage: "Paquete base", basePackageDetail: "1 persona · 1 moto",
     waIntro: "Hola, quiero reservar mi lugar en un viaje de Amigos de Ruta.",
+    waGeneral: "Hola, quiero hacer una consulta sobre Amigos de Ruta.",
+    waViaje: "Hola, quiero consultar por el viaje {x}.",
+    waViajes: "Hola, quiero consultar por los viajes de Amigos de Ruta.",
+    waTienda: "Hola, quiero consultar por la tienda de Amigos de Ruta.",
+    waProducto: "Hola, quiero consultar por el producto {x}.",
     sentNote: "Te abrimos WhatsApp con la reserva ya escrita. Si el navegador lo bloqueó, escribinos vos y pasanos estos datos.",
     fLicense: "Licencia de conducir", fShirt: "Talle de remera del evento", fPay: "Medio de pago",
     ctaPay: "Reservar mi lugar", payNote: "Recibís el comprobante y el acceso a tu reserva por correo y WhatsApp.",
@@ -908,7 +932,7 @@ const COPY = {
     ctaStoreAll: "Ver tienda completa", ctaView: "Ver detalle",
     contactTitle: "Armamos tu viaje a medida",
     contactBody: "Diseñamos itinerarios privados para grupos, clubes y empresas. Contanos destino, fechas y cantidad de motos y te preparamos una cotización sin cargo.",
-    contactDirect: "Contacto directo", contactSocial: "Redes", footerNote: "Precios de referencia · Sujetos a confirmación", privacy: "Políticas de privacidad", byNeura: "Desarrollado por",
+    contactDirect: "Contacto directo", contactSocial: "Redes", redesPendientes: "Próximamente.", footerNote: "Precios de referencia · Sujetos a confirmación", privacy: "Políticas de privacidad", byNeura: "Desarrollado por",
     tripsTitle: "Todos los viajes",
     tripsBody: "Calendario completo de salidas 2027 y 2028. Cada viaje tiene sus propias fechas, cupos y paquetes; los precios son por persona en base al paquete más económico.",
     customTitle: "¿No encontrás tu destino?",
@@ -954,6 +978,11 @@ const COPY = {
     errName: "Informe seu nome e sobrenome.", errDoc: "Informe seu documento ou passaporte.", errLicense: "Informe sua carteira e o vencimento.",
     basePackage: "Pacote base", basePackageDetail: "1 pessoa · 1 moto",
     waIntro: "Olá, quero reservar meu lugar em uma viagem da Amigos de Ruta.",
+    waGeneral: "Olá, quero fazer uma consulta sobre a Amigos de Ruta.",
+    waViaje: "Olá, quero consultar sobre a viagem {x}.",
+    waViajes: "Olá, quero consultar sobre as viagens da Amigos de Ruta.",
+    waTienda: "Olá, quero consultar sobre a loja da Amigos de Ruta.",
+    waProducto: "Olá, quero consultar sobre o produto {x}.",
     sentNote: "Abrimos o WhatsApp com a reserva já escrita. Se o navegador bloqueou, fale com a gente e passe estes dados.",
     fLicense: "Carteira de motorista", fShirt: "Tamanho da camiseta do evento", fPay: "Meio de pagamento",
     ctaPay: "Reservar meu lugar", payNote: "Você recebe o comprovante e o acesso à sua reserva por e-mail e WhatsApp.",
@@ -964,7 +993,7 @@ const COPY = {
     ctaStoreAll: "Ver loja completa", ctaView: "Ver detalhe",
     contactTitle: "Montamos sua viagem sob medida",
     contactBody: "Criamos roteiros privados para grupos, clubes e empresas. Informe destino, datas e quantidade de motos e preparamos um orçamento sem custo.",
-    contactDirect: "Contato direto", contactSocial: "Redes", footerNote: "Preços de referência · Sujeitos a confirmação", privacy: "Políticas de privacidade", byNeura: "Desenvolvido por",
+    contactDirect: "Contato direto", contactSocial: "Redes", redesPendientes: "Em breve.", footerNote: "Preços de referência · Sujeitos a confirmação", privacy: "Políticas de privacidade", byNeura: "Desenvolvido por",
     tripsTitle: "Todas as viagens",
     tripsBody: "Calendário completo de saídas 2027 e 2028. Cada viagem tem suas datas, vagas e pacotes; os preços são por pessoa com base no pacote mais econômico.",
     customTitle: "Não encontrou seu destino?",
@@ -999,6 +1028,18 @@ const COPY = {
    calcular saldo y porcentaje hay que volverlos número y después formatearlos de
    nuevo. `de-DE` es el locale que separa miles con punto, como el resto del sitio. */
 const WHATSAPP = "595981000000";
+const TELEFONO_VISIBLE = "+595 981 000 000";
+
+/* Redes sociales. Dejar en "" las que no se usen: el enlace se oculta en vez de
+   quedar muerto apuntando a "#". El pliego las pide administrables; hasta que
+   exista el CMS del ERP, este objeto es el lugar donde se administran. */
+const REDES = [
+  { label: "Instagram", url: "" },
+  { label: "Facebook", url: "" },
+  { label: "YouTube", url: "" },
+  { label: "TikTok", url: "" }
+];
+
 const DEPOSIT = 1500;
 const money = (s) => Number(String(s).replace(/[^0-9]/g, ""));
 const usd = (n) => "USD " + n.toLocaleString("de-DE");
@@ -1236,6 +1277,7 @@ class Component extends DCLogic {
       t.balance + ": " + d.balance
     ].join("\n");
     if (typeof window !== "undefined") {
+      if (window.adrTrack) window.adrTrack("reserva", { viaje: d.trip, paquete: d.pkg, total: d.total });
       window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(texto), "_blank", "noopener,noreferrer");
     }
     this.setState({ bSent: true, bTouched: true });
@@ -1266,6 +1308,38 @@ class Component extends DCLogic {
       fg: i === elegido ? accent : "#C2C3C4",
       pick: () => this.setState(Object.assign({ [campo]: i, openSel: null }, extra))
     }));
+  }
+
+  /* El pliego pide que el mensaje de WhatsApp diga desde dónde consulta la persona:
+     "si el usuario consulta desde Route 66, el mensaje debe indicar Route 66; si
+     consulta un producto, debe indicar el producto". El contexto se deduce de lo que
+     está mirando en ese momento — el detalle de producto manda sobre la vista, porque
+     es lo más específico que tiene abierto. */
+  /* "Inicio de inscripción" se mide en la primera interacción real con el formulario,
+     no al ver la sección: ver no es empezar. La bandera vive fuera del estado porque no
+     afecta lo que se dibuja y no tiene que provocar un re-render. */
+  marcarInicioInscripcion() {
+    if (this._inscripcionIniciada) return;
+    this._inscripcionIniciada = true;
+    if (typeof window !== "undefined" && window.adrTrack) window.adrTrack("inicio_inscripcion");
+  }
+
+  waContexto() {
+    const t = COPY[this.lang];
+    const prod = this.state.open && PRODUCTS.find((x) => x.sku === this.state.open);
+    if (prod) return t.waProducto.replace("{x}", this.pick(prod.name) + " (" + prod.sku + ")");
+    const v = this.state.view;
+    if (v === "tienda") return t.waTienda;
+    if (v === "viajes") return t.waViajes;
+    if (v === "faq") return t.waGeneral;
+    // En el inicio el carrusel marca el viaje que se está mirando: ese es el caso
+    // "consulta desde Route 66" del pliego.
+    const ev = EVENTS[this.state.slide % EVENTS.length];
+    return ev ? t.waViaje.replace("{x}", ev.name) : t.waGeneral;
+  }
+
+  waLink() {
+    return "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(this.waContexto());
   }
 
   shopList() {
@@ -1485,9 +1559,14 @@ class Component extends DCLogic {
       selPkg: this.dropdown("pkg", bPkgs.map((k) => ({ label: p(k.name) + " · " + k.price })), pkgIdx, accent),
       selRole: this.dropdown("role", t.roles.map((r) => ({ label: r })), this.state.bRole, accent),
       closeSel: () => this.setState({ openSel: null }),
-      onName: (e) => this.setState({ bName: e.target.value, bSent: false }),
-      onDoc: (e) => this.setState({ bDoc: e.target.value, bSent: false }),
-      onLicense: (e) => this.setState({ bLicense: e.target.value, bSent: false }),
+      waHref: this.waLink(),
+      telefono: TELEFONO_VISIBLE,
+      telefonoHref: "https://wa.me/" + WHATSAPP,
+      redes: REDES.filter((r) => r.url).map((r) => ({ label: r.label, url: r.url })),
+      sinRedes: REDES.every((r) => !r.url),
+      onName: (e) => { this.marcarInicioInscripcion(); this.setState({ bName: e.target.value, bSent: false }); },
+      onDoc: (e) => { this.marcarInicioInscripcion(); this.setState({ bDoc: e.target.value, bSent: false }); },
+      onLicense: (e) => { this.marcarInicioInscripcion(); this.setState({ bLicense: e.target.value, bSent: false }); },
       bName: this.state.bName, bDoc: this.state.bDoc, bLicense: this.state.bLicense,
       errName: vistos ? errName : null, errDoc: vistos ? errDoc : null, errLicense: vistos ? errLicense : null,
       lineName: line(errName), lineDoc: line(errDoc), lineLicense: line(errLicense),

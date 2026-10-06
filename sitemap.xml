@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- El sitio es una SPA de una sola URL: las vistas (viajes, tienda, FAQ) no tienen
+     URL propia todavía. Cuando los eventos y productos salgan del ERP con su propia
+     ruta, cada uno suma su <url> acá. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://amigos-de-la-ruta-web.vercel.app/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>

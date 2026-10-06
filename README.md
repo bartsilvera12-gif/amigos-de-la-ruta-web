@@ -62,6 +62,39 @@ Los hovers globales enganchan por `[style*="cursor: pointer"]`, porque el export
 con estilos inline y no deja clases a las que agarrarse. React serializa el inline
 normalizado, así que el selector es estable.
 
+## Qué hay que completar antes de salir a producción
+
+Todo junto, arriba del `<script>` de la lógica en `index.html`, salvo los ids de medición:
+
+| Dónde | Qué falta |
+| --- | --- |
+| `WHATSAPP` | Número real de ADR. Hoy `595981000000`, el de relleno. Lo usan el botón flotante, el teléfono de contacto y el envío de la reserva. |
+| `TELEFONO_VISIBLE` | El mismo número, como se muestra en pantalla. |
+| `REDES` | URLs de Instagram, Facebook, YouTube y TikTok. Las vacías no se muestran (en vez de quedar como enlaces muertos). |
+| `analytics.js` → `IDS` | GA4, GTM y Meta Pixel. Vacíos = no se carga ningún script de terceros ni se setea una sola cookie. |
+
+## Medición
+
+`analytics.js` deja el cableado listo y apagado. El sitio llama a `window.adrTrack(evento, datos)`,
+que es un no-op silencioso mientras no haya ids. Los eventos son los que pide el pliego:
+
+- `visita` — sale sola del page view de cada plataforma.
+- `inicio_inscripcion` — primera interacción real con el formulario de reserva (una sola vez por sesión; ver la sección no cuenta).
+- `reserva` — "Reservar mi lugar" con los datos válidos, con viaje, paquete y total.
+- `compra` — **todavía no se dispara**: el checkout del carrito necesita el ERP.
+
+## WhatsApp contextual
+
+El mensaje precargado dice desde dónde consulta la persona, como pide el pliego:
+
+| Dónde está | Mensaje |
+| --- | --- |
+| Inicio | el viaje que muestra el carrusel en ese momento ("...por el viaje Route 66") |
+| Viajes / Tienda / FAQ | la sección |
+| Detalle de producto | el producto y su SKU |
+
+El detalle de producto manda sobre la vista, porque es lo más específico que la persona tiene abierto.
+
 ## Formulario de reserva
 
 Está en la sección "Reservá en cuatro pasos" y funciona de verdad: se elige viaje,

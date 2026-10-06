@@ -53,7 +53,13 @@ Dos cosas a no romper:
 
 - **Nada queda invisible si falla el JS.** El estado inicial oculto de `data-reveal` sólo
   aplica bajo `html.adr-js`, clase que pone `anim.js`. Sin JS, con `prefers-reduced-motion`,
-  o si el script explota, el contenido se ve igual. Además hay un watchdog a los 6 s.
+  o si el script explota, el contenido se ve igual.
+- **El watchdog mira si el mecanismo está vivo, no el reloj.** A los 6 s (y a los 15 s)
+  revela todo *sólo si no hubo ni un reveal*, señal de que el observer no arranca. Un
+  elemento al que todavía no scrollearon tiene que seguir escondido por horas si hace
+  falta: revelar por tiempo mataba las animaciones en cualquier visita larga. También
+  se revela de entrada si `window.innerHeight` es 0 (pestaña oculta), porque ahí
+  IntersectionObserver no dispara nunca.
 - **No pongas animaciones con `transform` sobre elementos cuyo `transform` sea un binding
   del export** (el botón flotante de WhatsApp, el track del carrusel): el estilo inline gana
   y se pelean. En esos casos va `data-shine`, que no usa transform sobre el elemento.
@@ -61,6 +67,52 @@ Dos cosas a no romper:
 Los hovers globales enganchan por `[style*="cursor: pointer"]`, porque el export define todo
 con estilos inline y no deja clases a las que agarrarse. React serializa el inline
 normalizado, así que el selector es estable.
+
+## Estructura del sitio
+
+| URL | Vista |
+| --- | --- |
+| `#/` | Inicio — hero, próximos viajes, detalle del viaje destacado, reserva y teaser de tienda |
+| `#/nosotros` | Quiénes somos |
+| `#/viajes` | Listado de viajes con filtros |
+| `#/viajes/<slug>` | Detalle de un viaje: itinerario, incluye/no incluye, salidas, paquetes y reserva |
+| `#/galeria` | Galería |
+| `#/tienda` | Tienda |
+| `#/tienda/<sku>` | Ficha de producto |
+| `#/faq` | Preguntas frecuentes |
+
+Las rutas van en el hash porque el sitio es un único `index.html` servido estático.
+Son enlazables y el botón Atrás funciona. Toda la traducción entre URL y estado está en
+`urlDeEstado()` / `rutaDesdeUrl()`: cuando el catálogo salga del ERP y cada evento tenga
+su propia página, se cambia ahí y nada más.
+
+## Cada viaje es dueño de su contenido
+
+El pliego lo pide explícito: *"No programar campos exclusivos para Route 66, Daytona,
+Alaska o Sturgis"*. Antes el itinerario, las inclusiones, las salidas y los paquetes eran
+constantes globales con el contenido de Route 66, así que "Ver detalle" de cualquier viaje
+mostraba Route 66. Ahora cada entrada de `EVENTS` trae lo suyo:
+
+```js
+{ slug, name, img, foto, resumen, specs,
+  itinerario: [...], incluye: {es,pt}, noIncluye: {es,pt},
+  salidas: [...], paquetes: [...] }
+```
+
+**Sólo Route 66 tiene el contenido cargado.** Los demás viajes llevan itinerario e
+inclusiones vacíos a propósito — la vista oculta lo que está vacío y muestra un aviso de
+"se publica próximamente" en vez de pestañas en blanco. No se inventó contenido de viajes
+que la empresa vende de verdad: eso lo carga ADR (o, más adelante, el ERP).
+
+La sección de detalle es **un solo markup** que sirve al inicio (viaje destacado) y a
+`#/viajes/<slug>`. No hay dos copias que mantener sincronizadas.
+
+## Imágenes que dependen de datos
+
+Van siempre como `background-image:url({{ ... }})` sobre un `div`, nunca como
+`<img src="{{ ... }}">`. El parser del navegador ve el `src` antes de que el runtime lo
+resuelva y pide la plantilla literal como si fuera una ruta: un 404 por carga. El export
+original ya hacía esto por la misma razón.
 
 ## Qué hay que completar antes de salir a producción
 

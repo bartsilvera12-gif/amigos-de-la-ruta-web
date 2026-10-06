@@ -59,6 +59,9 @@
                                               : [...nodo.querySelectorAll(SELECTOR)];
     for (const el of candidatos) {
       if (el.classList.contains("adr-in")) continue;
+      // Si el navegador no sabe el alto de la ventana (pestaña oculta, algunos
+      // embebidos), IntersectionObserver no dispara NUNCA. Ahí no escondemos.
+      if (!window.innerHeight) { el.classList.add("adr-done"); continue; }
       // Lo que ya está en pantalla al montar (el hero, el header de cada vista)
       // se revela en el acto: esperar al observer le mete un parpadeo.
       const r = el.getBoundingClientRect();
@@ -82,10 +85,22 @@
   else document.addEventListener("DOMContentLoaded", arrancar, { once: true });
 
   /* --- Watchdog -------------------------------------------------------------
-     Último recurso. Si unpkg tarda, el runtime explota o el observer se pierde
-     algún nodo, a los 6 s marcamos todo como revelado. Es preferible perder la
-     animación a que quede contenido en opacity 0 para siempre. */
-  setTimeout(() => {
+     Último recurso, para que nunca quede contenido en opacity 0 para siempre si
+     unpkg tarda, el runtime explota o el observer no arranca.
+
+     Clave: NO revela todo por tiempo. Un elemento al que todavía no scrollearon
+     tiene que seguir escondido, por horas si hace falta — ese es el efecto. Lo
+     que se mira es si el mecanismo está VIVO: si ya hubo al menos un reveal, el
+     observer funciona y no hay nada que arreglar. Si no hubo ninguno y sí hay
+     elementos para revelar, está roto y se revela todo.
+
+     (La primera versión marcaba todo a los 6 s, lo que mataba las animaciones de
+     scroll en cualquier visita que durara más que eso.) */
+  const revisar = () => {
+    if (document.querySelector(SELECTOR + ":not(.adr-in):not(.adr-done)") === null) return;
+    if (document.querySelector("[data-reveal].adr-in, [data-bar].adr-in")) return;
     for (const el of document.querySelectorAll(SELECTOR)) el.classList.add("adr-done");
-  }, 6000);
+  };
+  setTimeout(revisar, 6000);
+  setTimeout(revisar, 15000);
 })();

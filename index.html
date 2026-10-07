@@ -478,6 +478,17 @@
               </div>
             </div>
             <div style="marginTop:26px">
+              <div style="font-size:12px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase;color:#757676;marginBottom:10px">{{ t.fCurrency }}</div>
+              <div style="display:flex;gap:8px;flexWrap:wrap">
+                <sc-for list="{{ monedas }}" as="mo" hint-placeholder-count="3">
+                  <div onClick="{{ mo.pick }}" style="min-width:86px;min-height:46px;padding:8px 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid {{ mo.border }};background:{{ mo.bg }};color:{{ mo.fg }};borderRadius:10px;cursor:pointer">
+                    <span style="font-size:15px;font-weight:700;lineHeight:1">{{ mo.label }}</span>
+                    <span style="font-size:11px;letterSpacing:0.08em;opacity:0.75;marginTop:3px">{{ mo.nota }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="marginTop:26px">
               <div style="font-size:12px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase;color:#757676;marginBottom:10px">{{ t.fPay }}</div>
               <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px">
                 <sc-for list="{{ payments }}" as="pm" hint-placeholder-count="3">
@@ -513,6 +524,12 @@
               <div style="height:100%;width:{{ paidPct }};background:#D7C80B;transition:width 420ms cubic-bezier(.22,.8,.26,1)"></div>
             </div>
             <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#757676">{{ paidNote }}</div>
+            <sc-if value="{{ conversion }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:12px 14px;border:1px solid #201C1C;borderRadius:12px;background:#0B0A0A">
+                <div style="font-size:13px;lineHeight:1.5;color:#C2C3C4;text-wrap:pretty">{{ cotizacionNota }}</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#757676;marginTop:6px">{{ equivalenteNota }}</div>
+              </div>
+            </sc-if>
             <div style="flex:1"></div>
             <div style="padding:16px;background:#0B0A0A;border:1px solid #201C1C;borderRadius:12px">
               <div style="font-size:13px;lineHeight:1.5;color:#A6A7A7;text-wrap:pretty">{{ t.kitNote }}</div>
@@ -1041,6 +1058,10 @@ const COPY = {
     fName: "Nombre y apellido", fDoc: "Documento / pasaporte", fRole: "Rol en la reserva",
     roles: ["Titular · piloto", "Titular · acompañante", "Acompañante"],
     fTrip: "Viaje", fDeparture: "Salida", fPackage: "Paquete", fPassengers: "Pasajeros", fTotal: "Total contratado",
+    fCurrency: "Moneda de cobro", fPayCurrency: "Moneda de cobro", fEquivalent: "Equivalente",
+    monedaNombres: { USD: "Dólares", BRL: "Reales", PYG: "Guaraníes" },
+    cotizacionNota: "Cotización de referencia: 1 USD = {tasa} · {fecha}. Se confirma al momento del pago.",
+    equivalenteNota: "Equivale a {usd}, moneda base del viaje.",
     phName: "Nombre y apellido", phDoc: "PY · 0.000.000", phLicense: "A2 · 11/2029",
     errName: "Poné tu nombre y apellido.", errDoc: "Poné tu documento o pasaporte.", errLicense: "Poné tu licencia y su vencimiento.",
     waIntro: "Hola, quiero reservar mi lugar en un viaje de Amigos de Ruta.",
@@ -1117,6 +1138,10 @@ const COPY = {
     fName: "Nome e sobrenome", fDoc: "Documento / passaporte", fRole: "Papel na reserva",
     roles: ["Titular · piloto", "Titular · acompanhante", "Acompanhante"],
     fTrip: "Viagem", fDeparture: "Saída", fPackage: "Pacote", fPassengers: "Passageiros", fTotal: "Total contratado",
+    fCurrency: "Moeda de cobrança", fPayCurrency: "Moeda de cobrança", fEquivalent: "Equivalente",
+    monedaNombres: { USD: "Dólares", BRL: "Reais", PYG: "Guaranis" },
+    cotizacionNota: "Cotação de referência: 1 USD = {tasa} · {fecha}. Confirmada no momento do pagamento.",
+    equivalenteNota: "Equivale a {usd}, moeda base da viagem.",
     phName: "Nome e sobrenome", phDoc: "PY · 0.000.000", phLicense: "A2 · 11/2029",
     errName: "Informe seu nome e sobrenome.", errDoc: "Informe seu documento ou passaporte.", errLicense: "Informe sua carteira e o vencimento.",
     waIntro: "Olá, quero reservar meu lugar em uma viagem da Amigos de Ruta.",
@@ -1183,6 +1208,29 @@ const REDES = [
   { label: "YouTube", url: "" },
   { label: "TikTok", url: "" }
 ];
+
+const MONEDA_BASE = "USD";
+const COTIZACIONES = {
+  fecha: "07/10/2026",
+  // Los precios del catálogo son dólares enteros ("USD 7.900"): sin decimales,
+  // para que el resumen se lea igual que el resto del sitio.
+  USD: { tasa: 1, simbolo: "USD", decimales: 0, locale: "de-DE" },
+  BRL: { tasa: 5.06, simbolo: "R$", decimales: 2, locale: "pt-BR" },
+  PYG: { tasa: 6048, simbolo: "Gs", decimales: 0, locale: "de-DE" }
+};
+const MONEDAS = ["USD", "BRL", "PYG"];
+
+/* Convierte desde la moneda base y formatea. El guaraní no lleva decimales, el
+   real usa coma: por eso cada moneda trae su locale y sus decimales en vez de
+   un formateo único. */
+const enMoneda = (montoUsd, codigo) => {
+  const c = COTIZACIONES[codigo] || COTIZACIONES[MONEDA_BASE];
+  const v = montoUsd * c.tasa;
+  return c.simbolo + " " + v.toLocaleString(c.locale, {
+    minimumFractionDigits: c.decimales,
+    maximumFractionDigits: c.decimales
+  });
+};
 
 const DEPOSIT = 1500;
 const money = (s) => Number(String(s).replace(/[^0-9]/g, ""));
@@ -1327,7 +1375,7 @@ class Component extends DCLogic {
     lang: null, view: "home", nav: 0, evento: null,
     slide: 0, progress: 0, shop: 0, tourTab: 0,
     size: "L", pay: 0,
-    trip: 0, departure: 0, pkg: 1, bRole: 0, openSel: null,
+    trip: 0, departure: 0, pkg: 1, bRole: 0, openSel: null, moneda: "USD",
     bName: "", bDoc: "", bLicense: "", bTouched: false, bSent: false,
     tripFilter: "all", faqCat: -1,
     cat: -1, shopSize: null, maxPrice: 120, query: "", sort: 0, limit: PAGE,
@@ -1445,9 +1493,10 @@ class Component extends DCLogic {
       t.fShirt + ": " + d.size,
       t.fPay + ": " + d.pay,
       "",
+      t.fPayCurrency + ": " + d.moneda,
       t.fTotal + ": " + d.total,
       t.balance + ": " + d.balance
-    ].join("\n");
+    ].concat(d.equivalente ? [t.fEquivalent + ": " + d.equivalente] : []).join("\n");
     if (typeof window !== "undefined") {
       if (window.adrTrack) window.adrTrack("reserva", { viaje: d.trip, paquete: d.pkg, total: d.total });
       window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(texto), "_blank", "noopener,noreferrer");
@@ -1692,12 +1741,22 @@ class Component extends DCLogic {
     const payments = [
       { label: { es: "Tarjeta", pt: "Cartão" }, note: { es: "USD · pasarela", pt: "USD · gateway" } },
       { label: "Pix", note: { es: "BRL · Brasil", pt: "BRL · Brasil" } },
-      { label: { es: "Transferencia", pt: "Transferência" }, note: { es: "USD · PYG", pt: "USD · PYG" } }
+      { label: { es: "Transferencia", pt: "Transferência" }, note: { es: "USD · BRL · Gs", pt: "USD · BRL · Gs" } }
     ].map((o, i) => ({
       label: p(o.label), note: p(o.note), pick: () => this.setState({ pay: i }),
       bg: this.state.pay === i ? "rgba(215,200,11,0.1)" : "#0B0A0A",
       border: this.state.pay === i ? accent : "#201C1C",
       fg: this.state.pay === i ? accent : "#E2E3E3"
+    }));
+
+    const monedaSel = this.state.moneda;
+    const monedas = MONEDAS.map((m) => ({
+      label: m === "PYG" ? "Gs" : m,
+      nota: t.monedaNombres[m],
+      pick: () => this.setState({ moneda: m }),
+      bg: monedaSel === m ? accent : "#0B0A0A",
+      fg: monedaSel === m ? "#0B0A0A" : "#C2C3C4",
+      border: monedaSel === m ? accent : "#201C1C"
     }));
 
     // detalle del viaje (sección de tour, reutilizada por el inicio y por la vista "viaje")
@@ -1863,11 +1922,19 @@ class Component extends DCLogic {
         { k: t.fDeparture, v: p(bDep.date) },
         { k: t.fPackage, v: p(bPkg.detail) },
         { k: t.fPassengers, v: String(bPkg.people) },
-        { k: t.fTotal, v: usd(bTotal) }
+        { k: t.fTotal, v: enMoneda(bTotal, monedaSel) }
       ],
-      balanceVal: usd(bBalance),
+      monedas, monedaSel,
+      // Sólo se muestra la equivalencia cuando hay conversión de por medio: en
+      // dólares el dato sobra y la cotización confunde.
+      conversion: monedaSel !== MONEDA_BASE,
+      cotizacionNota: t.cotizacionNota
+        .replace("{tasa}", enMoneda(1, monedaSel))
+        .replace("{fecha}", COTIZACIONES.fecha),
+      equivalenteNota: t.equivalenteNota.replace("{usd}", usd(bTotal)),
+      balanceVal: enMoneda(bBalance, monedaSel),
       paidPct: bPaidPct + "%",
-      paidNote: t.paidNote.replace("{a}", usd(bDeposit)).replace("{b}", usd(bTotal)),
+      paidNote: t.paidNote.replace("{a}", enMoneda(bDeposit, monedaSel)).replace("{b}", enMoneda(bTotal, monedaSel)),
 
       bTripOpts: this.dropdownOpts(bTrips.map((e) => ({ label: e.name + " · " + e.price })), tripIdx, "trip", accent, { departure: 0, pkg: 0 }),
       bDepOpts: this.dropdownOpts(bDeps.map((d) => ({ label: p(d.date) + (d.spots ? " · " + p(d.spots) : "") })), depIdx, "departure", accent),
@@ -1898,7 +1965,10 @@ class Component extends DCLogic {
         name: this.state.bName.trim(), doc: this.state.bDoc.trim(), license: this.state.bLicense.trim(),
         role: t.roles[this.state.bRole], size: this.state.size,
         pay: p(["Tarjeta", "Pix", { es: "Transferencia", pt: "Transferência" }][this.state.pay]),
-        total: usd(bTotal), balance: usd(bBalance)
+        moneda: monedaSel,
+        total: enMoneda(bTotal, monedaSel), balance: enMoneda(bBalance, monedaSel),
+        equivalente: monedaSel === MONEDA_BASE ? null
+          : usd(bTotal) + " (1 " + MONEDA_BASE + " = " + enMoneda(1, monedaSel) + ", " + COTIZACIONES.fecha + ")"
       }),
 
       shirtSizes, payments,

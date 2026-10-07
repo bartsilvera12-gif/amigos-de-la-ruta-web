@@ -147,6 +147,42 @@ El mensaje precargado dice desde dónde consulta la persona, como pide el pliego
 
 El detalle de producto manda sobre la vista, porque es lo más específico que la persona tiene abierto.
 
+## Monedas de cobro
+
+El pliego pide soporte inicial para **USD, BRL y PYG**. Los precios del catálogo están en
+dólares: esa es la moneda base (`MONEDA_BASE`). Lo que se elige en el formulario es en qué
+moneda se **cobra**, y el resumen convierte total, saldo y seña.
+
+Las cotizaciones viven en `COTIZACIONES`, en `index.html`:
+
+```js
+const COTIZACIONES = {
+  fecha: "07/10/2026",
+  USD: { tasa: 1,    simbolo: "USD", decimales: 0, locale: "de-DE" },
+  BRL: { tasa: 5.06, simbolo: "R$",  decimales: 2, locale: "pt-BR" },
+  PYG: { tasa: 6048, simbolo: "Gs",  decimales: 0, locale: "de-DE" }
+};
+```
+
+**Hay que mantenerlas al día.** Son de referencia, no una cotización en firme. Por eso el
+objeto lleva `fecha` y el sitio la muestra en pantalla junto a la tasa usada: una
+cotización vieja se nota, en vez de pasar por buena. Cuando el ERP esté conectado, salen
+de ahí.
+
+Cada moneda trae su `locale` y sus `decimales` porque no se escriben igual: el guaraní no
+lleva decimales, el real usa coma. El dólar va sin decimales para que el resumen se lea
+igual que los precios del catálogo (`USD 7.900`).
+
+El pedido que sale por WhatsApp cumple lo que pide el pliego — *"guardar siempre moneda e
+importe original del pago, tipo de cambio aplicado y equivalente"*:
+
+```
+Moneda de cobro: PYG
+Total contratado: Gs 47.779.200
+Saldo pendiente: Gs 38.707.200
+Equivalente: USD 7.900 (1 USD = Gs 6.048, 07/10/2026)
+```
+
 ## Formulario de reserva
 
 Está en la sección "Reservá en cuatro pasos" y funciona de verdad: se elige viaje,

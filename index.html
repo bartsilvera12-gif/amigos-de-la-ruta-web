@@ -700,9 +700,23 @@
             <div>
               <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;marginBottom:12px">
                 <div style="font-size:12px;font-weight:700;letterSpacing:0.2em;textTransform:uppercase;color:#D7C80B">{{ t.fPrice }}</div>
-                <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#C2C3C4">≤ USD {{ maxPrice }}</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#C2C3C4">≤ {{ maxPriceLabel }}</div>
               </div>
               <input type="range" min="10" max="120" step="2" value="{{ maxPrice }}" onChange="{{ onPrice }}" style="width:100%;accentColor:#D7C80B;cursor:pointer" />
+            </div>
+            <div>
+              <div style="font-size:12px;font-weight:700;letterSpacing:0.2em;textTransform:uppercase;color:#D7C80B;marginBottom:12px">{{ t.fCurrency }}</div>
+              <div style="display:flex;gap:8px;flexWrap:wrap">
+                <sc-for list="{{ monedas }}" as="mo" hint-placeholder-count="3">
+                  <div onClick="{{ mo.pick }}" style="flex:1 1 0;min-width:72px;min-height:46px;padding:8px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid {{ mo.border }};background:{{ mo.bg }};color:{{ mo.fg }};borderRadius:10px;cursor:pointer">
+                    <span style="font-size:15px;font-weight:700;lineHeight:1">{{ mo.label }}</span>
+                    <span style="font-size:10px;letterSpacing:0.06em;opacity:0.75;marginTop:3px">{{ mo.nota }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <sc-if value="{{ conversion }}" hint-placeholder-val="{{ false }}">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:11px;lineHeight:1.5;color:#757676;marginTop:10px;text-wrap:pretty">{{ cotizacionNota }}</div>
+              </sc-if>
             </div>
             <div style="padding:18px;background:#141212;border:1px solid #201C1C;borderRadius:16px">
               <div style="font-size:13px;lineHeight:1.5;color:#A6A7A7;text-wrap:pretty">{{ t.stockNote }}</div>
@@ -1640,15 +1654,16 @@ class Component extends DCLogic {
   /* Pedido de la tienda por WhatsApp. Interino: el checkout real (pasarela, Pix,
      descuento de stock, factura) depende del ERP. Hasta entonces, mejor un pedido
      que llega que un botón que no hace nada. */
-  pedirCarrito(lineas, total) {
+  pedirCarrito(lineas, importe) {
     if (!lineas.length) return;
     const t = COPY[this.lang];
     const texto = [t.waPedido, ""]
       .concat(lineas.map((l) => "· " + l.name + " · " + l.line + " ×" + l.qty + " — " + l.subtotal))
-      .concat(["", t.cartTotal + ": " + total])
+      .concat(["", t.fPayCurrency + ": " + importe.moneda, t.cartTotal + ": " + importe.total])
+      .concat(importe.equivalente ? [t.fEquivalent + ": " + importe.equivalente] : [])
       .join("\n");
     if (typeof window !== "undefined") {
-      if (window.adrTrack) window.adrTrack("compra", { items: lineas.length, total: total });
+      if (window.adrTrack) window.adrTrack("compra", { items: lineas.length, total: importe.total, moneda: importe.moneda });
       window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(texto), "_blank", "noopener,noreferrer");
     }
   }
@@ -1822,7 +1837,7 @@ class Component extends DCLogic {
     const shown = all.slice(0, this.state.limit);
     const mapProduct = (pr) => ({
       sku: pr.sku, img: pr.img, cat: t.shopCats[pr.c], name: pr.name[L], variants: pr.variants[L],
-      price: "USD " + pr.price, stock: stockTxt(pr.low), lowStock: pr.low,
+      price: enMoneda(pr.price, monedaSel), stock: stockTxt(pr.low), lowStock: pr.low,
       open: () => this.setState({ open: pr.sku, qty: 1, detailSize: pr.sizes[0] })
     });
 
@@ -1830,7 +1845,7 @@ class Component extends DCLogic {
     const d = this.state.open ? PRODUCTS.find((x) => x.sku === this.state.open) : null;
     const detail = d ? {
       sku: d.sku, img: d.img, cat: t.shopCats[d.c], name: d.name[L], desc: d.desc[L],
-      price: "USD " + d.price, hasSizes: d.sizes.length > 1,
+      price: enMoneda(d.price, monedaSel), hasSizes: d.sizes.length > 1,
       specs: d.specs[L].map((v, i) => ({ k: t.specK[i], v }))
     } : null;
     const detailSizes = d ? d.sizes.map((z) => ({
@@ -1846,8 +1861,8 @@ class Component extends DCLogic {
       const size = k.split("|")[1];
       return {
         name: pr.name[L], img: pr.img, qty,
-        line: "USD " + pr.price + (size && size !== "U" ? " · " + size : ""),
-        subtotal: "USD " + pr.price * qty,
+        line: enMoneda(pr.price, monedaSel) + (size && size !== "U" ? " · " + size : ""),
+        subtotal: enMoneda(pr.price * qty, monedaSel),
         inc: () => this.bump(k, 1), dec: () => this.bump(k, -1)
       };
     });
@@ -1946,7 +1961,12 @@ class Component extends DCLogic {
       selRole: this.dropdown("role", t.roles.map((r) => ({ label: r })), this.state.bRole, accent),
       closeSel: () => this.setState({ openSel: null }),
       waHref: this.waLink(),
-      doCheckout: () => this.pedirCarrito(cart, "USD " + total),
+      doCheckout: () => this.pedirCarrito(cart, {
+        moneda: monedaSel,
+        total: enMoneda(total, monedaSel),
+        equivalente: monedaSel === MONEDA_BASE ? null
+          : usd(total) + " (1 " + MONEDA_BASE + " = " + enMoneda(1, monedaSel) + ", " + COTIZACIONES.fecha + ")"
+      }),
       telefono: TELEFONO_VISIBLE,
       telefonoHref: "https://wa.me/" + WHATSAPP,
       redes: REDES.filter((r) => r.url).map((r) => ({ label: r.label, url: r.url })),
@@ -1988,6 +2008,7 @@ class Component extends DCLogic {
 
       shopCats, shopSizes, shopProducts: shown.map(mapProduct),
       query: this.state.query, maxPrice: this.state.maxPrice,
+      maxPriceLabel: enMoneda(this.state.maxPrice, monedaSel),
       sorts: this.dropdownOpts(t.sorts.map((label) => ({ label })), this.state.sort, "sort", accent, { limit: PAGE }),
       selSort: this.dropdown("sort", t.sorts.map((label) => ({ label })), this.state.sort, accent),
       onSearch: (e) => this.setState({ query: e.target.value, limit: PAGE }),
@@ -2005,7 +2026,7 @@ class Component extends DCLogic {
       decQty: () => this.setState({ qty: Math.max(1, this.state.qty - 1) }),
       addDetail: () => d && this.add(d.sku, this.state.detailSize, this.state.qty),
 
-      cart, cartOpen: this.state.cartOpen, cartCount: count, cartEmpty: count === 0, cartTotal: "USD " + total,
+      cart, cartOpen: this.state.cartOpen, cartCount: count, cartEmpty: count === 0, cartTotal: enMoneda(total, monedaSel),
       openCart: () => this.setState({ cartOpen: true }), closeCart: () => this.setState({ cartOpen: false }),
 
       faqCats, faqs,

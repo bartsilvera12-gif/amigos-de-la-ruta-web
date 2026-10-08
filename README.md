@@ -173,6 +173,15 @@ Cada moneda trae su `locale` y sus `decimales` porque no se escriben igual: el g
 lleva decimales, el real usa coma. El dólar va sin decimales para que el resumen se lea
 igual que los precios del catálogo (`USD 7.900`).
 
+Alcanza a **todo el sitio**: el resumen de la reserva, los precios de la tienda, la ficha
+de producto, el carrito y los dos pedidos de WhatsApp. Hay un selector en el formulario de
+reserva y otro en los filtros de la tienda, y los dos escriben el mismo estado — el sitio
+nunca muestra dos monedas distintas a la vez.
+
+**El filtro de precios sigue comparando en dólares**, aunque muestre la etiqueta
+convertida. Filtrar sobre el valor convertido metería el redondeo de la cotización en el
+criterio de búsqueda: un producto entraría o saldría del listado según el cambio del día.
+
 El pedido que sale por WhatsApp cumple lo que pide el pliego — *"guardar siempre moneda e
 importe original del pago, tipo de cambio aplicado y equivalente"*:
 

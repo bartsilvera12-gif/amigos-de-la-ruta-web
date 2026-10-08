@@ -679,6 +679,20 @@
         <div style="order:1;flex:1 1 230px;max-width:320px;min-width:0">
           <div style="position:sticky;top:104px;display:flex;flex-direction:column;gap:22px">
             <div>
+              <div style="font-size:12px;font-weight:700;letterSpacing:0.2em;textTransform:uppercase;color:#D7C80B;marginBottom:12px">{{ t.fCurrency }}</div>
+              <div style="display:flex;gap:8px;flexWrap:wrap">
+                <sc-for list="{{ monedas }}" as="mo" hint-placeholder-count="3">
+                  <div onClick="{{ mo.pick }}" style="flex:1 1 0;min-width:0;min-height:46px;padding:8px 6px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid {{ mo.border }};background:{{ mo.bg }};color:{{ mo.fg }};borderRadius:10px;cursor:pointer">
+                    <span style="font-size:15px;font-weight:700;lineHeight:1">{{ mo.label }}</span>
+                    <span style="font-size:10px;letterSpacing:0.06em;opacity:0.75;marginTop:3px">{{ mo.nota }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <sc-if value="{{ conversion }}" hint-placeholder-val="{{ false }}">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:11px;lineHeight:1.5;color:#757676;marginTop:10px;text-wrap:pretty">{{ cotizacionNota }}</div>
+              </sc-if>
+            </div>
+            <div>
               <div style="font-size:12px;font-weight:700;letterSpacing:0.2em;textTransform:uppercase;color:#D7C80B;marginBottom:12px">{{ t.fCategory }}</div>
               <div style="display:flex;flex-direction:column;gap:2px">
                 <sc-for list="{{ shopCats }}" as="c" hint-placeholder-count="5">
@@ -703,20 +717,6 @@
                 <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#C2C3C4">≤ {{ maxPriceLabel }}</div>
               </div>
               <input type="range" min="10" max="120" step="2" value="{{ maxPrice }}" onChange="{{ onPrice }}" style="width:100%;accentColor:#D7C80B;cursor:pointer" />
-            </div>
-            <div>
-              <div style="font-size:12px;font-weight:700;letterSpacing:0.2em;textTransform:uppercase;color:#D7C80B;marginBottom:12px">{{ t.fCurrency }}</div>
-              <div style="display:flex;gap:8px;flexWrap:wrap">
-                <sc-for list="{{ monedas }}" as="mo" hint-placeholder-count="3">
-                  <div onClick="{{ mo.pick }}" style="flex:1 1 0;min-width:72px;min-height:46px;padding:8px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid {{ mo.border }};background:{{ mo.bg }};color:{{ mo.fg }};borderRadius:10px;cursor:pointer">
-                    <span style="font-size:15px;font-weight:700;lineHeight:1">{{ mo.label }}</span>
-                    <span style="font-size:10px;letterSpacing:0.06em;opacity:0.75;marginTop:3px">{{ mo.nota }}</span>
-                  </div>
-                </sc-for>
-              </div>
-              <sc-if value="{{ conversion }}" hint-placeholder-val="{{ false }}">
-                <div style="font-family:'JetBrains Mono',monospace;font-size:11px;lineHeight:1.5;color:#757676;marginTop:10px;text-wrap:pretty">{{ cotizacionNota }}</div>
-              </sc-if>
             </div>
             <div style="padding:18px;background:#141212;border:1px solid #201C1C;borderRadius:16px">
               <div style="font-size:13px;lineHeight:1.5;color:#A6A7A7;text-wrap:pretty">{{ t.stockNote }}</div>

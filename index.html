@@ -927,8 +927,8 @@
             <p style="margin:0;font-size:16px;lineHeight:1.65;color:#A6A7A7;text-wrap:pretty">{{ t.aboutP3 }}</p>
             <a href="{{ waHref }}" target="_blank" rel="noopener" style="align-self:flex-start;marginTop:6px;padding:15px 28px;background:#D7C80B;color:#0B0A0A;font-size:13px;font-weight:700;letterSpacing:0.16em;textTransform:uppercase;borderRadius:999px" style-hover="background:#E2E3E3" data-shine>{{ t.aboutJoin }}</a>
           </div>
-          <div style="position:relative;min-height:clamp(260px,32vw,380px);border:1px solid #201C1C;borderRadius:18px;overflow:hidden" data-reveal="right" data-card>
-            <div style="position:absolute;inset:0;background-size:cover;background-position:center;background-image:url({{ nosotrosRetrato }})" data-zoom></div>
+          <div style="position:relative;min-height:clamp(380px,42vw,560px);border:1px solid #201C1C;borderRadius:18px;overflow:hidden" data-reveal="right" data-card>
+            <div style="position:absolute;inset:0;background-size:cover;background-position:center 12%;background-image:url({{ nosotrosRetrato }})" data-zoom></div>
             <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,10,10,0.05),rgba(11,10,10,0.6))"></div>
           </div>
         </div>
@@ -966,8 +966,8 @@
       <div style="maxWidth:1340px;margin:0 auto;padding:clamp(20px,3vw,28px) clamp(16px,3vw,24px) clamp(46px,7vw,80px)">
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px" data-stagger>
           <sc-for list="{{ nosotrosFotos }}" as="nf" hint-placeholder-count="4">
-            <div style="position:relative;height:230px;borderRadius:18px;overflow:hidden;border:1px solid #201C1C" data-reveal="zoom" data-card>
-              <div style="position:absolute;inset:0;background-size:cover;background-position:center;background-image:url({{ nf.img }})" data-zoom></div>
+            <div style="position:relative;height:300px;borderRadius:18px;overflow:hidden;border:1px solid #201C1C" data-reveal="zoom" data-card>
+              <div style="position:absolute;inset:0;background-size:cover;background-position:{{ nf.pos }};background-image:url({{ nf.img }})" data-zoom></div>
               <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,10,10,0.05),rgba(11,10,10,0.82))"></div>
               <div style="position:absolute;left:16px;right:16px;bottom:14px;font-family:'JetBrains Mono',monospace;font-size:10px;letterSpacing:0.16em;textTransform:uppercase;color:#C2C3C4">{{ nf.etiqueta }}</div>
             </div>
@@ -1568,10 +1568,10 @@ const ENCUENTROS = [
 ];
 
 const NOSOTROS_FOTOS = [
-  { img: IMG.adrGrupo, etiqueta: { es: "4º Encuentro Internacional · Gramado 2025", pt: "4º Encontro Internacional · Gramado 2025", en: "4th International Rally · Gramado 2025" } },
-  { img: IMG.adrRafaJackieGramado, etiqueta: { es: "Rafa y Jackie · Gramado", pt: "Rafa e Jackie · Gramado", en: "Rafa and Jackie · Gramado" } },
-  { img: IMG.adrRafaJackieRuta, etiqueta: { es: "En ruta", pt: "Na estrada", en: "On the road" } },
-  { img: IMG.adrRafaJackieEncuentro, etiqueta: { es: "Noche de encuentro", pt: "Noite de encontro", en: "Rally night" } }
+  { img: IMG.adrGrupo, pos: "center 60%", etiqueta: { es: "4º Encuentro Internacional · Gramado 2025", pt: "4º Encontro Internacional · Gramado 2025", en: "4th International Rally · Gramado 2025" } },
+  { img: IMG.adrRafaJackieGramado, pos: "center 42%", etiqueta: { es: "Rafa y Jackie · Gramado", pt: "Rafa e Jackie · Gramado", en: "Rafa and Jackie · Gramado" } },
+  { img: IMG.adrRafaJackieRuta, pos: "center 12%", etiqueta: { es: "En ruta", pt: "Na estrada", en: "On the road" } },
+  { img: IMG.adrRafaJackieEncuentro, pos: "center 28%", etiqueta: { es: "Noche de encuentro", pt: "Noite de encontro", en: "Rally night" } }
 ];
 
 const MOTOS = [
@@ -2244,7 +2244,7 @@ class Component extends DCLogic {
         fotos: det.hotel.fotos.slice(1).map((f) => ({ img: f.img, etiqueta: p(f.etiqueta) }))
       } : null,
       aboutFacts: t.aboutFacts,
-      nosotrosFotos: NOSOTROS_FOTOS.map((f) => ({ img: f.img, etiqueta: p(f.etiqueta) })),
+      nosotrosFotos: NOSOTROS_FOTOS.map((f) => ({ img: f.img, pos: f.pos || "center", etiqueta: p(f.etiqueta) })),
       nosotrosPortada: IMG.adrGrupo,
       nosotrosRetrato: IMG.adrRafaJackieRuta,
       encuentros: ENCUENTROS.map((e) => ({

@@ -178,6 +178,11 @@ Las fotos son propias (`assets/`), no stock. Dos cosas a saber de ellas:
 - La imagen del póster del 4º encuentro (`encuentro-gramado-2025.webp`) está en el repo
   pero no se usa en la página: lleva el título quemado encima y chocaba con el texto del
   hero. Se usa la versión limpia de la misma foto.
+- **Cada foto declara su punto de interés** (`pos`), no se confía en `center`. Las fotos
+  van en contenedores anchos con `background-size: cover`, así que una vertical recortada
+  al centro pierde las cabezas — fue justo lo que pasó con la de Rafa y Jackie en ruta.
+  Al cambiar una foto, ajustar su `pos`: el porcentaje es qué parte del alto queda
+  centrada en el recorte (12% ≈ parte superior, 60% ≈ parte inferior).
 
 La estructura sigue a maxingpy.com/nosotros: kicker, título en pregunta, prosa corta y una
 fila de tarjetas de datos.

@@ -76,6 +76,7 @@ normalizado, así que el selector es estable.
 | `#/nosotros` | Quiénes somos |
 | `#/viajes` | Listado de viajes con filtros |
 | `#/viajes/<slug>` | Detalle de un viaje: itinerario, incluye/no incluye, salidas, paquetes y reserva |
+| `#/motos` | Las motos: estilos de la flota |
 | `#/galeria` | Galería |
 | `#/tienda` | Tienda |
 | `#/tienda/<sku>` | Ficha de producto |
@@ -146,6 +147,39 @@ El mensaje precargado dice desde dónde consulta la persona, como pide el pliego
 | Detalle de producto | el producto y su SKU |
 
 El detalle de producto manda sobre la vista, porque es lo más específico que la persona tiene abierto.
+
+## Idiomas
+
+Tres: **español, portugués e inglés**. `IDIOMAS` arriba del script maneja el selector;
+agregar un cuarto es sumarlo a esa lista y a `COPY`.
+
+Todo texto traducible es un objeto `{ es, pt, en }` — tanto las ~136 claves de `COPY`
+como los textos de los datos (eventos, itinerario, paquetes, productos, FAQ, motos,
+hotel). `pick()` cae a español si falta una clave, así que un idioma incompleto degrada
+en vez de romper; hoy los tres están completos.
+
+Al tocar textos, **cuidado con las listas paralelas**: el medio de pago estaba definido
+dos veces (una para dibujar, otra para armar el mensaje de WhatsApp) y la segunda quedó
+sin traducir, así que el pedido en inglés decía "Tarjeta". Ahora sale todo de
+`MEDIOS_PAGO`.
+
+## Las motos
+
+`MOTOS`, arriba del script. Cada tarjeta lleva el **estilo** como título y los modelos
+listados aparte, a propósito: la foto ilustra el estilo, no afirma que esa unidad
+concreta sea la de ADR. Las fotos actuales son de stock, verificadas una por una antes
+de etiquetarlas (Harley Electra Glide, Honda Gold Wing, Harley Softail, BMW R 1250 GS
+Adventure). **Reemplazarlas por las de la flota propia.**
+
+## El hotel del viaje
+
+Es un campo `hotel` por evento — hoy sólo Route 66 lo tiene; un viaje sin hotel cargado
+no muestra la sección. Lleva categoría, descripción, servicios y fotos.
+
+**Falta el nombre del hotel y sus fotos reales.** `hotel.nombre` está vacío a propósito:
+no se inventa el hotel de un viaje que se vende de verdad. Mientras esté vacío, la ficha
+muestra la categoría y avisa que el hotel se confirma con el itinerario, y las imágenes
+son de referencia.
 
 ## Monedas de cobro
 

@@ -20,6 +20,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://amigos-de-la-ruta-web.vercel.app/#/motos</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://amigos-de-la-ruta-web.vercel.app/#/galeria</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

@@ -73,8 +73,9 @@
           <div onClick="{{ n.go }}" style="font-size:clamp(12px,1.1vw,14px);font-weight:700;letterSpacing:0.12em;textTransform:uppercase;color:{{ n.color }};cursor:pointer;paddingBottom:3px;borderBottom:2px solid {{ n.line }}" style-hover="color:#E2E3E3" data-underline>{{ n.label }}</div>
         </sc-for>
         <div style="display:flex;border:1px solid #757676;borderRadius:999px;overflow:hidden">
-          <div onClick="{{ setEs }}" style="padding:7px 14px;font-size:12px;font-weight:700;letterSpacing:0.1em;cursor:pointer;background:{{ esBg }};color:{{ esFg }}">ES</div>
-          <div onClick="{{ setPt }}" style="padding:7px 14px;font-size:12px;font-weight:700;letterSpacing:0.1em;cursor:pointer;background:{{ ptBg }};color:{{ ptFg }}">PT</div>
+          <sc-for list="{{ idiomas }}" as="id" hint-placeholder-count="3">
+            <div onClick="{{ id.pick }}" style="padding:7px 13px;font-size:12px;font-weight:700;letterSpacing:0.1em;cursor:pointer;background:{{ id.bg }};color:{{ id.fg }}">{{ id.label }}</div>
+          </sc-for>
         </div>
         <div onClick="{{ openCart }}" style="display:flex;align-items:center;gap:10px;padding:10px 20px;background:#D7C80B;color:#0B0A0A;borderRadius:999px;cursor:pointer;minHeight:44px" style-hover="background:#E2E3E3" data-shine>
           <span style="font-size:13px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase">{{ t.cart }}</span>
@@ -281,6 +282,45 @@
               </sc-if>
             </div>
           </div>
+
+          <sc-if value="{{ tieneHotel }}" hint-placeholder-val="{{ true }}">
+            <div style="marginTop:48px;border:1px solid #201C1C;borderRadius:18px;overflow:hidden;background:#0B0A0A" data-reveal>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))">
+                <div style="position:relative;min-height:clamp(220px,28vw,320px);overflow:hidden">
+                  <div style="position:absolute;inset:0;background-size:cover;background-position:center;background-image:url({{ hotel.foto }})" data-zoom></div>
+                  <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,10,10,0.1),rgba(11,10,10,0.55))"></div>
+                </div>
+                <div style="padding:clamp(24px,3.4vw,34px);display:flex;flex-direction:column;gap:14px">
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letterSpacing:0.24em;textTransform:uppercase;color:#D7C80B">{{ t.hotelTitle }}</div>
+                  <sc-if value="{{ hotel.tieneNombre }}" hint-placeholder-val="{{ false }}">
+                    <div style="font-size:clamp(24px,3vw,34px);font-weight:700;textTransform:uppercase;color:#E2E3E3;lineHeight:1.05">{{ hotel.nombre }}</div>
+                  </sc-if>
+                  <div style="font-size:17px;font-weight:700;color:#E2E3E3;lineHeight:1.3">{{ hotel.categoria }}</div>
+                  <div style="font-size:15px;lineHeight:1.55;color:#A6A7A7;text-wrap:pretty">{{ hotel.descripcion }}</div>
+                  <div>
+                    <div style="font-size:11px;font-weight:700;letterSpacing:0.18em;textTransform:uppercase;color:#757676;marginBottom:8px">{{ t.hotelServices }}</div>
+                    <div style="display:flex;flex-direction:column;gap:6px">
+                      <sc-for list="{{ hotel.servicios }}" as="hs" hint-placeholder-count="5">
+                        <div style="display:flex;gap:10px;font-size:15px;color:#C2C3C4">
+                          <span style="color:#D7C80B;font-weight:700">+</span><span>{{ hs.text }}</span>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:1px;background:#201C1C;borderTop:1px solid #201C1C">
+                <sc-for list="{{ hotel.fotos }}" as="hf" hint-placeholder-count="3">
+                  <div style="position:relative;height:150px;overflow:hidden;background:#0B0A0A">
+                    <div style="position:absolute;inset:0;background-size:cover;background-position:center;background-image:url({{ hf.img }})" data-zoom></div>
+                    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,10,10,0.05),rgba(11,10,10,0.8))"></div>
+                    <div style="position:absolute;left:14px;bottom:12px;font-family:'JetBrains Mono',monospace;font-size:10px;letterSpacing:0.18em;textTransform:uppercase;color:#C2C3C4">{{ hf.etiqueta }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="padding:14px 20px;borderTop:1px solid #201C1C;font-size:13px;lineHeight:1.5;color:#757676;text-wrap:pretty">{{ t.hotelPending }}</div>
+            </div>
+          </sc-if>
 
           <sc-if value="{{ tieneSalidas }}" hint-placeholder-val="{{ true }}">
           <h3 style="margin:52px 0 18px;font-size:14px;font-weight:700;letterSpacing:0.2em;textTransform:uppercase;color:#D7C80B" data-reveal="left">{{ t.departuresTitle }}</h3>
@@ -832,6 +872,41 @@
 
   </div>
 
+  <sc-if value="{{ isMotos }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <div style="position:relative;overflow:hidden;borderBottom:1px solid #201C1C">
+        <div style="position:absolute;inset:0;width:100%;height:100%;background-size:cover;background-position:center;filter:grayscale(0.35);background-image:url({{ det.foto }})" data-kenburns></div>
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,10,10,0.68),rgba(11,10,10,0.96))"></div>
+        <div style="position:relative;maxWidth:1340px;margin:0 auto;padding:clamp(34px,5vw,60px) clamp(16px,3vw,24px) clamp(30px,4.5vw,54px)" data-stagger>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letterSpacing:0.24em;textTransform:uppercase;color:#D7C80B" data-reveal="down">{{ t.navBikes }}</div>
+          <h1 style="margin:14px 0 0;font-size:clamp(36px,5.4vw,70px);lineHeight:0.9;font-weight:700;textTransform:uppercase;color:#E2E3E3" data-reveal>{{ t.bikesTitle }}</h1>
+          <p style="margin:18px 0 0;max-width:620px;font-size:17px;lineHeight:1.55;color:#C2C3C4;text-wrap:pretty;borderLeft:3px solid #D7C80B;paddingLeft:18px" data-reveal>{{ t.bikesBody }}</p>
+        </div>
+      </div>
+
+      <div style="maxWidth:1340px;margin:0 auto;padding:clamp(34px,5vw,56px) clamp(16px,3vw,24px) clamp(46px,7vw,80px)">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:18px" data-stagger>
+          <sc-for list="{{ motos }}" as="mt" hint-placeholder-count="4">
+            <div style="background:#141212;border:1px solid #201C1C;borderRadius:18px;overflow:hidden;display:flex;flex-direction:column" style-hover="borderColor:#757676" data-reveal data-card>
+              <div style="position:relative;height:230px;overflow:hidden">
+                <div style="position:absolute;inset:0;background-size:cover;background-position:center;background-image:url({{ mt.img }})" data-zoom></div>
+              </div>
+              <div style="padding:24px;display:flex;flex-direction:column;gap:12px;flex:1">
+                <div style="font-size:24px;font-weight:700;textTransform:uppercase;color:#E2E3E3;lineHeight:1.05">{{ mt.estilo }}</div>
+                <div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letterSpacing:0.18em;textTransform:uppercase;color:#757676">{{ t.bikesModels }}</div>
+                  <div style="font-size:15px;font-weight:700;color:#D7C80B;marginTop:5px;lineHeight:1.35">{{ mt.modelos }}</div>
+                </div>
+                <div style="font-size:15px;lineHeight:1.55;color:#A6A7A7;text-wrap:pretty">{{ mt.detalle }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="marginTop:28px;padding:18px 20px;border:1px dashed #2c2929;borderRadius:14px;font-size:14px;lineHeight:1.55;color:#757676;text-wrap:pretty" data-reveal>{{ t.bikesPending }}</div>
+      </div>
+    </div>
+  </sc-if>
+
   <sc-if value="{{ isNosotros }}" hint-placeholder-val="{{ false }}">
     <div>
       <div style="position:relative;overflow:hidden;borderBottom:1px solid #201C1C">
@@ -1027,13 +1102,25 @@
 </div>
 
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;lang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;es&quot;,&quot;pt&quot;],&quot;default&quot;:&quot;es&quot;,&quot;tsType&quot;:&quot;\&quot;es\&quot; | \&quot;pt\&quot;&quot;,&quot;section&quot;:&quot;Contenido&quot;},&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#D7C80B&quot;,&quot;options&quot;:[&quot;#D7C80B&quot;,&quot;#9F9410&quot;,&quot;#C2C3C4&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Marca&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;lang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;es&quot;,&quot;pt&quot;,&quot;en&quot;],&quot;default&quot;:&quot;es&quot;,&quot;tsType&quot;:&quot;\&quot;es\&quot; | \&quot;pt\&quot; | \&quot;en\&quot;&quot;,&quot;section&quot;:&quot;Contenido&quot;},&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#D7C80B&quot;,&quot;options&quot;:[&quot;#D7C80B&quot;,&quot;#9F9410&quot;,&quot;#C2C3C4&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Marca&quot;}}">
 const px = (id, ext, w) => `https://images.pexels.com/photos/${id}/pexels-photo-${id}.${ext || "jpeg"}?auto=compress&cs=tinysrgb&w=${w || 1000}`;
 const IMG = {
   r66: px(16330298), daytona: px(9789338), alaska: px(2177200), sturgis: px(9789339), coast: px(2887802), pata: px(35352883),
   tee: px(8532616, "jpeg", 900), tee2: px(18186105, "jpeg", 900), tee3: px(12039633, "jpeg", 900),
   cap: px(21820217, "jpeg", 900), cap2: px(31162881, "jpeg", 900), bag: px(3731256, "jpeg", 900), bag2: px(13697756, "jpeg", 900),
   r66foto: px(2177200, "jpeg", 1400),
+  // Motos: cada foto fue verificada a ojo antes de etiquetarla. El encabezado de
+  // cada tarjeta es el ESTILO, no el modelo exacto de la foto; los modelos van
+  // listados aparte. Así no se afirma que una unidad concreta es la de la foto.
+  motoTouring: px(29052598, "jpeg", 1200),   // Harley-Davidson Electra Glide
+  motoGT:      px(28754107, "jpeg", 1200),   // Honda Gold Wing
+  motoCruiser: px(13599891, "jpeg", 1200),   // Harley-Davidson Softail
+  motoTrail:   px(31087512, "jpeg", 1200),   // BMW R 1250 GS Adventure
+  // Hotel: imágenes de referencia hasta que ADR cargue las del hotel real.
+  hotelResort: px(37729825, "jpeg", 1400),
+  hotelHab:    px(34496701, "jpeg", 1200),
+  hotelPileta: px(2259226, "jpeg", 1200),
+  hotelLobby:  px(33803734, "jpeg", 1200),
   emblem: "assets/adr-emblema.jpeg"
 };
 
@@ -1041,7 +1128,15 @@ const COPY = {
   es: {
     navHome: "Inicio", navEvents: "Viajes", navTour: "Tour", navSignup: "Reservar", navStore: "Tienda",
     backToTrips: "Volver a viajes",
-    navAbout: "Nosotros", navGallery: "Galería",
+    navAbout: "Nosotros", navGallery: "Galería", navBikes: "Motos",
+    bikesTitle: "Las motos",
+    bikesBody: "Elegís el estilo al reservar y nosotros resolvemos la unidad, el seguro y el kilometraje libre. Todas salen revisadas y con soporte mecánico en ruta.",
+    bikesModels: "Modelos",
+    bikesPending: "Fotos de referencia por estilo. Las de la flota propia de ADR se cargan desde el ERP.",
+    hotelTitle: "El alojamiento",
+    hotelName: "Hotel",
+    hotelServices: "Servicios",
+    hotelPending: "El hotel de cada etapa se confirma junto con el itinerario. Las imágenes son de referencia.",
     aboutTitle: "Quiénes somos",
     aboutLead: "Somos una empresa de turismo especializada en viajes en motocicleta. Diseñamos el itinerario, reservamos motos y hoteles, y acompañamos al grupo en ruta con guía bilingüe y vehículo de apoyo.",
     aboutPillars: [
@@ -1083,6 +1178,7 @@ const COPY = {
     waViaje: "Hola, quiero consultar por el viaje {x}.",
     waViajes: "Hola, quiero consultar por los viajes de Amigos de Ruta.",
     waTienda: "Hola, quiero consultar por la tienda de Amigos de Ruta.",
+    waMotos: "Hola, quiero consultar por las motos de Amigos de Ruta.",
     waPedido: "Hola, quiero hacer este pedido en la tienda de Amigos de Ruta:",
     cartTotal: "Total",
     waProducto: "Hola, quiero consultar por el producto {x}.",
@@ -1121,7 +1217,15 @@ const COPY = {
   pt: {
     navHome: "Início", navEvents: "Viagens", navTour: "Tour", navSignup: "Reservar", navStore: "Loja",
     backToTrips: "Voltar às viagens",
-    navAbout: "Sobre nós", navGallery: "Galeria",
+    navAbout: "Sobre nós", navGallery: "Galeria", navBikes: "Motos",
+    bikesTitle: "As motos",
+    bikesBody: "Você escolhe o estilo ao reservar e nós resolvemos a unidade, o seguro e a quilometragem livre. Todas saem revisadas e com apoio mecânico na estrada.",
+    bikesModels: "Modelos",
+    bikesPending: "Fotos de referência por estilo. As da frota própria da ADR são carregadas pelo ERP.",
+    hotelTitle: "A hospedagem",
+    hotelName: "Hotel",
+    hotelServices: "Serviços",
+    hotelPending: "O hotel de cada etapa é confirmado junto com o itinerário. As imagens são de referência.",
     aboutTitle: "Quem somos",
     aboutLead: "Somos uma empresa de turismo especializada em viagens de motocicleta. Desenhamos o itinerário, reservamos motos e hotéis, e acompanhamos o grupo na estrada com guia bilíngue e veículo de apoio.",
     aboutPillars: [
@@ -1163,6 +1267,7 @@ const COPY = {
     waViaje: "Olá, quero consultar sobre a viagem {x}.",
     waViajes: "Olá, quero consultar sobre as viagens da Amigos de Ruta.",
     waTienda: "Olá, quero consultar sobre a loja da Amigos de Ruta.",
+    waMotos: "Olá, quero consultar sobre as motos da Amigos de Ruta.",
     waPedido: "Olá, quero fazer este pedido na loja da Amigos de Ruta:",
     cartTotal: "Total",
     waProducto: "Olá, quero consultar sobre o produto {x}.",
@@ -1197,6 +1302,95 @@ const COPY = {
     faqTitle: "Perguntas frequentes",
     faqBody: "Tudo o que você precisa saber antes de reservar: documentação, pagamentos, pacotes e o que acontece no dia da saída.",
     faqCats: ["Documentação", "Pagamentos", "Pacotes", "Na estrada"]
+  },
+  en: {
+    navHome: "Home", navEvents: "Trips", navTour: "Tour", navSignup: "Book", navStore: "Shop",
+    backToTrips: "Back to trips",
+    navAbout: "About", navGallery: "Gallery", navBikes: "Bikes",
+    bikesTitle: "The bikes",
+    bikesBody: "You pick the style when you book and we sort out the unit, the insurance and the unlimited mileage. Every bike leaves serviced, with mechanical support on the road.",
+    bikesModels: "Models",
+    bikesPending: "Reference photos by style. ADR's own fleet photos are loaded from the ERP.",
+    hotelTitle: "Where you stay",
+    hotelName: "Hotel",
+    hotelServices: "Amenities",
+    hotelPending: "The hotel for each stage is confirmed along with the itinerary. Images are for reference.",
+    aboutTitle: "Who we are",
+    aboutLead: "We are a travel company specialising in motorcycle trips. We design the itinerary, book the bikes and hotels, and ride with the group with a bilingual guide and a support vehicle.",
+    aboutPillars: [
+      { t: "A planned route", d: "Every trip has its route, its stages and its nights set in advance. We do not improvise along the way." },
+      { t: "Bilingual guide", d: "Support in Spanish and Portuguese for the whole route, for groups from both countries." },
+      { t: "Support vehicle", d: "Mechanical support on the road and luggage transfer, so the bike travels light." },
+      { t: "Bike and hotel sorted", d: "Motorcycle with insurance and unlimited mileage, and hotels booked night by night." }
+    ],
+    aboutPending: "This section was built from what the site already says about itself. The company history, the team and the track record are for Amigos de Ruta to write.",
+    galleryTitle: "Gallery",
+    galleryBody: "Images from the trips and rallies. Managed from the ERP alongside each event.",
+    galleryPending: "Sample gallery: the final photos are loaded per event from the ERP.",
+    contenidoPendiente: "The detailed itinerary for this trip is coming soon. Message us on WhatsApp and we will send it over.",
+    heroKicker: "Motorcycle tour operator · 2027 departures",
+    heroTitle: "Motorcycle trips around the world",
+    heroBody: "We are a travel company specialising in motorcycle trips. We design the itinerary, book the bikes and hotels, and ride with the group with a bilingual guide and a support vehicle.",
+    heroCta1: "See trips", heroCta2: "How to book",
+    eventsTitle: "Upcoming trips",
+    eventsBody: "Each trip has one or more departure dates, with its own seats and packages. Prices are per person based on the cheapest package and include the bike, accommodation and roadside assistance.",
+    labelDates: "Dates", labelDuration: "Duration", labelFrom: "From", ctaDetail: "See details", ctaAll: "See all trips",
+    unitDays: "days", unitNights: "nights",
+    departuresTitle: "Departure dates", itineraryTitle: "Itinerary", includes: "What is included", excludes: "Not included",
+    packagesTitle: "Available packages", ctaSelect: "Choose",
+    depositLabel: "Deposit to book", depositNote: "The balance can be paid in instalments up to 45 days before departure.", ctaJoin: "Book",
+    signupTitle: "Book in four steps",
+    signupBody: "Booking is completed online. You pay a deposit, enter each passenger's details and follow your balance from the same link until the day you leave.",
+    formTitle: "Rider details",
+    fName: "Full name", fDoc: "ID / passport", fRole: "Role in the booking",
+    roles: ["Lead rider", "Lead · passenger", "Passenger"],
+    fTrip: "Trip", fDeparture: "Departure", fPackage: "Package", fPassengers: "Travellers", fTotal: "Total price",
+    fCurrency: "Payment currency", fPayCurrency: "Payment currency", fEquivalent: "Equivalent",
+    monedaNombres: { USD: "Dollars", BRL: "Reais", PYG: "Guaraníes" },
+    cotizacionNota: "Reference rate: 1 USD = {tasa} · {fecha}. Confirmed at the time of payment.",
+    equivalenteNota: "Equals {usd}, the trip's base currency.",
+    phName: "Full name", phDoc: "PY · 0.000.000", phLicense: "A2 · 11/2029",
+    errName: "Enter your full name.", errDoc: "Enter your ID or passport number.", errLicense: "Enter your licence and its expiry date.",
+    waIntro: "Hi, I would like to book a place on an Amigos de Ruta trip.",
+    waGeneral: "Hi, I have a question about Amigos de Ruta.",
+    waViaje: "Hi, I would like to ask about the {x} trip.",
+    waViajes: "Hi, I would like to ask about the Amigos de Ruta trips.",
+    waTienda: "Hi, I would like to ask about the Amigos de Ruta shop.",
+    waMotos: "Hi, I would like to ask about the Amigos de Ruta bikes.",
+    waPedido: "Hi, I would like to place this order in the Amigos de Ruta shop:",
+    cartTotal: "Total",
+    waProducto: "Hi, I would like to ask about the product {x}.",
+    sentNote: "We opened WhatsApp with your booking already written out. If your browser blocked it, message us and send these details.",
+    fLicense: "Driving licence", fShirt: "Event t-shirt size", fPay: "Payment method",
+    ctaPay: "Book my place", payNote: "You get the receipt and access to your booking by email and WhatsApp.",
+    summaryTitle: "Booking summary", balance: "Outstanding balance", paidNote: "Paid {a} of {b}",
+    kitNote: "Your booking includes the trip kit: an ADR backpack, two t-shirts and a credential. The sizes you enter here are used for production.",
+    storeTitle: "Official shop",
+    storeBody: "Official Amigos de Ruta merchandising. The stock you see is the real stock: it updates with every sale and with the kits reserved for each departure.",
+    ctaStoreAll: "See the full shop", ctaView: "See details",
+    contactTitle: "We build your trip to measure",
+    contactBody: "We design private itineraries for groups, clubs and companies. Tell us the destination, the dates and how many bikes, and we will put together a free quote.",
+    contactDirect: "Direct contact", contactSocial: "Social", redesPendientes: "Coming soon.", footerNote: "Reference prices · Subject to confirmation", privacy: "Privacy policy", byNeura: "Built by",
+    tripsTitle: "All trips",
+    tripsBody: "The full 2027 and 2028 departure calendar. Each trip has its own dates, seats and packages; prices are per person based on the cheapest package.",
+    customTitle: "Cannot find your destination?",
+    customBody: "We design private itineraries for groups, clubs and companies, with the same logistics as our regular departures.",
+    ctaContact: "Request a quote",
+    tripFilters: ["All", "2027", "2028", "Seats open"],
+    shopTitle: "Official ADR shop",
+    shopBody: "Merchandising from the International Rally. The stock is the same as the ERP's: it goes down with every sale and with the kits reserved for each departure.",
+    search: "Search product or SKU", clear: "Clear filters", fCategory: "Category", fSize: "Size", fPrice: "Maximum price",
+    stockNote: "The stock shown is real time. Kits included in a booking are already reserved and do not show as available.",
+    ctaCart: "Add to cart", pickSize: "Choose your size", noResults: "We found no products with those filters.", more: "Show more products",
+    cart: "Cart", cartTitle: "Your cart", total: "Total", checkout: "Checkout",
+    cartEmpty: "You have not added anything yet. Pick something from the catalogue and it will show up here.",
+    shipNote: "We ship to Paraguay, Brazil and Argentina. You can also collect your order at the trip check-in.",
+    shopCats: ["T-shirts", "Caps", "Backpacks and bags", "Accessories"],
+    sorts: ["Best sellers", "Price: low to high", "Price: high to low", "New in"],
+    inStock: "In stock", low: "Last units", specK: ["Material", "Production", "Delivery"], all: "All",
+    faqTitle: "Frequently asked questions",
+    faqBody: "Everything you need to know before booking: paperwork, payments, packages and what happens on departure day.",
+    faqCats: ["Paperwork", "Payments", "Packages", "On the road"]
   }
 };
 
@@ -1223,6 +1417,15 @@ const REDES = [
   { label: "TikTok", url: "" }
 ];
 
+const IDIOMAS = ["es", "pt", "en"];
+
+/* Medios de pago. Fuente única: la usan el selector del formulario y el texto
+   del pedido de WhatsApp. Antes estaban duplicados y se desincronizaron. */
+const MEDIOS_PAGO = [
+  { label: { es: "Tarjeta", pt: "Cartão", en: "Card" }, note: { es: "USD · pasarela", pt: "USD · gateway", en: "USD · card gateway" } },
+  { label: { es: "Pix", pt: "Pix", en: "Pix" }, note: { es: "BRL · Brasil", pt: "BRL · Brasil", en: "BRL · Brazil" } },
+  { label: { es: "Transferencia", pt: "Transferência", en: "Bank transfer" }, note: { es: "USD · BRL · Gs", pt: "USD · BRL · Gs", en: "USD · BRL · Gs" } }
+];
 const MONEDA_BASE = "USD";
 const COTIZACIONES = {
   fecha: "07/10/2026",
@@ -1251,134 +1454,188 @@ const money = (s) => Number(String(s).replace(/[^0-9]/g, ""));
 const usd = (n) => "USD " + n.toLocaleString("de-DE");
 
 const R66_ITINERARIO = [
-  { day: { es: "Día 01", pt: "Dia 01" }, place: "Chicago, Illinois", note: { es: "Recepción, entrega de motos y briefing de seguridad.", pt: "Recepção, entrega das motos e briefing de segurança." } },
-  { day: { es: "Día 03", pt: "Dia 03" }, place: "St. Louis, Missouri", note: { es: "Cruce del Mississippi y primeros tramos originales de la 66.", pt: "Travessia do Mississippi e primeiros trechos originais da 66." } },
-  { day: { es: "Día 06", pt: "Dia 06" }, place: "Amarillo, Texas", note: { es: "Llanura, moteles históricos y noche libre.", pt: "Planície, motéis históricos e noite livre." } },
-  { day: { es: "Día 09", pt: "Dia 09" }, place: "Santa Fe, Nuevo México", note: { es: "Día de descanso y mantenimiento de motos.", pt: "Dia de descanso e manutenção das motos." } },
-  { day: { es: "Día 12", pt: "Dia 12" }, place: "Gran Cañón, Arizona", note: { es: "Desvío panorámico con parada fotográfica.", pt: "Desvio panorâmico com parada fotográfica." } },
-  { day: { es: "Día 16", pt: "Dia 16" }, place: "Santa Monica, California", note: { es: "Llegada al cartel final y cena de cierre del grupo.", pt: "Chegada à placa final e jantar de encerramento do grupo." } }
+  { day: { es: "Día 01", pt: "Dia 01", en: "Day 01" }, place: "Chicago, Illinois", note: { es: "Recepción, entrega de motos y briefing de seguridad.", pt: "Recepção, entrega das motos e briefing de segurança.", en: "Welcome, bike handover and safety briefing." } },
+  { day: { es: "Día 03", pt: "Dia 03", en: "Day 03" }, place: "St. Louis, Missouri", note: { es: "Cruce del Mississippi y primeros tramos originales de la 66.", pt: "Travessia do Mississippi e primeiros trechos originais da 66.", en: "Crossing the Mississippi and the first original stretches of Route 66." } },
+  { day: { es: "Día 06", pt: "Dia 06", en: "Day 06" }, place: "Amarillo, Texas", note: { es: "Llanura, moteles históricos y noche libre.", pt: "Planície, motéis históricos e noite livre.", en: "Open plains, historic motels and a free evening." } },
+  { day: { es: "Día 09", pt: "Dia 09", en: "Day 09" }, place: "Santa Fe, Nuevo México", note: { es: "Día de descanso y mantenimiento de motos.", pt: "Dia de descanso e manutenção das motos.", en: "Rest day and bike servicing." } },
+  { day: { es: "Día 12", pt: "Dia 12", en: "Day 12" }, place: "Gran Cañón, Arizona", note: { es: "Desvío panorámico con parada fotográfica.", pt: "Desvio panorâmico com parada fotográfica.", en: "Scenic detour with a photo stop." } },
+  { day: { es: "Día 16", pt: "Dia 16", en: "Day 16" }, place: "Santa Monica, California", note: { es: "Llegada al cartel final y cena de cierre del grupo.", pt: "Chegada à placa final e jantar de encerramento do grupo.", en: "Arrival at the end-of-the-trail sign and farewell dinner." } }
 ];
 
 const R66_INCLUYE = {
   es: ["Motocicleta con seguro y kilometraje libre", "15 noches de hotel con desayuno", "Guía bilingüe y vehículo de apoyo", "Soporte mecánico en ruta", "Kit del viaje: mochila, 2 remeras y credencial", "Traslados aeropuerto — hotel"],
-  pt: ["Motocicleta com seguro e quilometragem livre", "15 noites de hotel com café da manhã", "Guia bilíngue e veículo de apoio", "Apoio mecânico na estrada", "Kit da viagem: mochila, 2 camisetas e credencial", "Traslados aeroporto — hotel"]
+  pt: ["Motocicleta com seguro e quilometragem livre", "15 noites de hotel com café da manhã", "Guia bilíngue e veículo de apoio", "Apoio mecânico na estrada", "Kit da viagem: mochila, 2 camisetas e credencial", "Traslados aeroporto — hotel"], en: ["Motorcycle with insurance and unlimited mileage", "15 hotel nights with breakfast", "Bilingual guide and support vehicle", "Mechanical support on the road", "Trip kit: backpack, 2 t-shirts and credential", "Airport — hotel transfers"]
 };
 const R66_NO_INCLUYE = {
   es: ["Pasajes aéreos internacionales", "Visa, tasas y seguro médico", "Combustible y almuerzos", "Gastos personales y propinas"],
-  pt: ["Passagens aéreas internacionais", "Visto, taxas e seguro médico", "Combustível e almoços", "Gastos pessoais e gorjetas"]
+  pt: ["Passagens aéreas internacionais", "Visto, taxas e seguro médico", "Combustível e almoços", "Gastos pessoais e gorjetas"], en: ["International flights", "Visa, fees and medical insurance", "Fuel and lunches", "Personal expenses and tips"]
 };
 
 const R66_SALIDAS = [
-  { date: "22/07/2027", state: { es: "Confirmada", pt: "Confirmada" }, open: true, lang: { es: "Guía ES / PT", pt: "Guia ES / PT" }, fill: "78%", spots: { es: "14 / 18 cupos", pt: "14 / 18 vagas" } },
-  { date: "12/08/2027", state: { es: "Abierta", pt: "Aberta" }, open: true, lang: { es: "Guía ES", pt: "Guia ES" }, fill: "40%", spots: { es: "8 / 20 cupos", pt: "8 / 20 vagas" } },
-  { date: "23/09/2027", state: { es: "Lista de espera", pt: "Lista de espera" }, open: false, lang: { es: "Guía PT", pt: "Guia PT" }, fill: "100%", spots: { es: "10 / 10 cupos", pt: "10 / 10 vagas" } }
+  { date: "22/07/2027", state: { es: "Confirmada", pt: "Confirmada", en: "Confirmed" }, open: true, lang: { es: "Guía ES / PT", pt: "Guia ES / PT", en: "ES / PT guide" }, fill: "78%", spots: { es: "14 / 18 cupos", pt: "14 / 18 vagas", en: "14 / 18 seats" } },
+  { date: "12/08/2027", state: { es: "Abierta", pt: "Aberta", en: "Open" }, open: true, lang: { es: "Guía ES", pt: "Guia ES", en: "ES guide" }, fill: "40%", spots: { es: "8 / 20 cupos", pt: "8 / 20 vagas", en: "8 / 20 seats" } },
+  { date: "23/09/2027", state: { es: "Lista de espera", pt: "Lista de espera", en: "Waiting list" }, open: false, lang: { es: "Guía PT", pt: "Guia PT", en: "PT guide" }, fill: "100%", spots: { es: "10 / 10 cupos", pt: "10 / 10 vagas", en: "10 / 10 seats" } }
 ];
 
 const R66_PAQUETES = [
-  { people: 1, name: { es: "Individual", pt: "Individual" }, price: "USD 9.400", detail: { es: "1 persona · 1 moto · habitación single", pt: "1 pessoa · 1 moto · quarto single" }, spots: { es: "6 cupos", pt: "6 vagas" } },
-  { people: 2, name: { es: "Dos motos", pt: "Duas motos" }, price: "USD 7.900", detail: { es: "2 personas · 2 motos · 1 habitación doble", pt: "2 pessoas · 2 motos · 1 quarto duplo" }, spots: { es: "8 cupos", pt: "8 vagas" } },
-  { people: 2, name: { es: "Piloto + acompañante", pt: "Piloto + acompanhante" }, price: "USD 8.600", detail: { es: "2 personas · 1 moto · 1 habitación doble", pt: "2 pessoas · 1 moto · 1 quarto duplo" }, spots: { es: "4 cupos", pt: "4 vagas" } }
+  { people: 1, name: { es: "Individual", pt: "Individual", en: "Solo" }, price: "USD 9.400", detail: { es: "1 persona · 1 moto · habitación single", pt: "1 pessoa · 1 moto · quarto single", en: "1 person · 1 bike · single room" }, spots: { es: "6 cupos", pt: "6 vagas", en: "6 seats" } },
+  { people: 2, name: { es: "Dos motos", pt: "Duas motos", en: "Two bikes" }, price: "USD 7.900", detail: { es: "2 personas · 2 motos · 1 habitación doble", pt: "2 pessoas · 2 motos · 1 quarto duplo", en: "2 people · 2 bikes · 1 double room" }, spots: { es: "8 cupos", pt: "8 vagas", en: "8 seats" } },
+  { people: 2, name: { es: "Piloto + acompañante", pt: "Piloto + acompanhante", en: "Rider + passenger" }, price: "USD 8.600", detail: { es: "2 personas · 1 moto · 1 habitación doble", pt: "2 pessoas · 1 moto · 1 quarto duplo", en: "2 people · 1 bike · 1 double room" }, spots: { es: "4 cupos", pt: "4 vagas", en: "4 seats" } }
 ];
+/* Estilos de moto de la flota. El pliego pide que el contenido sea
+   administrable; hasta que salga del ERP, esta lista es el lugar donde se
+   administra. Las fotos son de referencia: cuando ADR tenga las de sus propias
+   unidades, se reemplazan acá y nada más. */
+const MOTOS = [
+  { img: IMG.motoTouring,
+    estilo: { es: "Touring", pt: "Touring", en: "Touring" },
+    modelos: "Harley-Davidson Electra Glide · Street Glide · Road Glide",
+    detalle: { es: "Carenado, parabrisas, baúl y alforjas rígidas. La opción más cómoda para jornadas largas de ruta con equipaje.",
+               pt: "Carenagem, para-brisa, baú e malas rígidas. A opção mais confortável para longas jornadas de estrada com bagagem.",
+               en: "Fairing, windshield, top case and hard panniers. The most comfortable choice for long days on the road with luggage." } },
+  { img: IMG.motoGT,
+    estilo: { es: "Gran turismo", pt: "Grande turismo", en: "Grand touring" },
+    modelos: "Honda Gold Wing",
+    detalle: { es: "Motor de seis cilindros, suspensión blanda y la mejor posición para el acompañante. La referencia en viajes de a dos.",
+               pt: "Motor de seis cilindros, suspensão macia e a melhor posição para o garupa. A referência em viagens a dois.",
+               en: "Six-cylinder engine, soft suspension and the best seat for a passenger. The benchmark for two-up travel." } },
+  { img: IMG.motoCruiser,
+    estilo: { es: "Cruiser", pt: "Cruiser", en: "Cruiser" },
+    modelos: "Harley-Davidson Softail · Fat Boy · Breakout",
+    detalle: { es: "Posición relajada, par alto desde abajo y la estética clásica de la ruta americana. Equipaje blando sobre soportes.",
+               pt: "Posição relaxada, torque alto desde baixo e a estética clássica da estrada americana. Bagagem macia sobre suportes.",
+               en: "Relaxed riding position, strong low-end torque and the classic American road look. Soft luggage on racks." } },
+  { img: IMG.motoTrail,
+    estilo: { es: "Trail / Adventure", pt: "Trail / Adventure", en: "Adventure / dual-sport" },
+    modelos: "BMW R 1250 GS · Harley-Davidson Pan America",
+    detalle: { es: "Suspensión larga y rueda alta para tramos de ripio y desvíos de montaña. La elegida para Alaska y Patagonia.",
+               pt: "Suspensão longa e roda alta para trechos de cascalho e desvios de montanha. A escolhida para Alasca e Patagônia.",
+               en: "Long-travel suspension and a tall front wheel for gravel stretches and mountain detours. The pick for Alaska and Patagonia." } }
+];
+
 const EVENTS = [
-  { slug: "route-66", img: IMG.r66, year: 2027, open: true, badge: { es: "Múltiples salidas", pt: "Várias saídas" }, country: "Estados Unidos", name: "Route 66", dates: "07 · 08 / 2027", duration: { es: "16 días", pt: "16 dias" }, price: "USD 7.900", spots: { es: "3 fechas · 48 cupos en total", pt: "3 datas · 48 vagas no total" },
+  { slug: "route-66", img: IMG.r66, year: 2027, open: true, badge: { es: "Múltiples salidas", pt: "Várias saídas", en: "Several departures" }, country: "Estados Unidos", name: "Route 66", dates: "07 · 08 / 2027", duration: { es: "16 días", pt: "16 dias", en: "16 days" }, price: "USD 7.900", spots: { es: "3 fechas · 48 cupos en total", pt: "3 datas · 48 vagas no total", en: "3 dates · 48 seats in total" },
     foto: IMG.r66foto, recorrido: "Chicago → Santa Monica · 3.940 km",
-    resumen: { es: "El clásico absoluto. Dieciséis días desde Chicago hasta el Pacífico por la carretera madre, con guía en español y portugués, soporte mecánico y vehículo de apoyo durante todo el recorrido.", pt: "O clássico absoluto. Dezesseis dias de Chicago até o Pacífico pela estrada mãe, com guia em espanhol e português, apoio mecânico e veículo de apoio durante todo o percurso." },
-    specs: [{ label: { es: "Distancia", pt: "Distância" }, value: "3.940 km" },
-            { label: { es: "Duración", pt: "Duração" }, value: { es: "16 días / 15 noches", pt: "16 dias / 15 noites" } },
-            { label: { es: "Recorrido", pt: "Percurso" }, value: "Chicago → Santa Monica" }],
+    hotel: {
+      // El nombre lo carga ADR: no se inventa el hotel de un viaje que se vende
+      // de verdad. Mientras esté vacío, la ficha muestra la categoría y avisa
+      // que el hotel se confirma con el itinerario.
+      nombre: "",
+      categoria: { es: "Hoteles 3 y 4 estrellas · 15 noches con desayuno",
+                   pt: "Hotéis 3 e 4 estrelas · 15 noites com café da manhã",
+                   en: "3 and 4 star hotels · 15 nights with breakfast" },
+      descripcion: { es: "Las 15 noches del recorrido están reservadas de antemano, etapa por etapa. Habitación doble o single según el paquete, estacionamiento cubierto para las motos y desayuno incluido todos los días.",
+                     pt: "As 15 noites do percurso estão reservadas de antemão, etapa por etapa. Quarto duplo ou single conforme o pacote, estacionamento coberto para as motos e café da manhã incluído todos os dias.",
+                     en: "All 15 nights of the route are booked in advance, stage by stage. Double or single room depending on the package, covered parking for the bikes and breakfast included every day." },
+      servicios: {
+        es: ["Estacionamiento cubierto para las motos", "Desayuno incluido", "Wi-Fi en todo el hotel", "Lavandería disponible", "Habitación doble o single"],
+        pt: ["Estacionamento coberto para as motos", "Café da manhã incluído", "Wi-Fi em todo o hotel", "Lavanderia disponível", "Quarto duplo ou single"],
+        en: ["Covered parking for the bikes", "Breakfast included", "Wi-Fi throughout the hotel", "Laundry available", "Double or single room"]
+      },
+      fotos: [
+        { img: IMG.hotelResort, etiqueta: { es: "Resort", pt: "Resort", en: "Resort" } },
+        { img: IMG.hotelHab, etiqueta: { es: "Habitación", pt: "Quarto", en: "Room" } },
+        { img: IMG.hotelPileta, etiqueta: { es: "Piscina", pt: "Piscina", en: "Pool" } },
+        { img: IMG.hotelLobby, etiqueta: { es: "Instalaciones", pt: "Instalações", en: "Facilities" } }
+      ]
+    },
+    resumen: { es: "El clásico absoluto. Dieciséis días desde Chicago hasta el Pacífico por la carretera madre, con guía en español y portugués, soporte mecánico y vehículo de apoyo durante todo el recorrido.", pt: "O clássico absoluto. Dezesseis dias de Chicago até o Pacífico pela estrada mãe, com guia em espanhol e português, apoio mecânico e veículo de apoio durante todo o percurso.", en: "The absolute classic. Sixteen days from Chicago to the Pacific along the Mother Road, with a Spanish and Portuguese speaking guide, mechanical support and a support vehicle for the whole route." },
+    specs: [{ label: { es: "Distancia", pt: "Distância", en: "Distance" }, value: "3.940 km" },
+            { label: { es: "Duración", pt: "Duração", en: "Duration" }, value: { es: "16 días / 15 noches", pt: "16 dias / 15 noites", en: "16 days / 15 nights" } },
+            { label: { es: "Recorrido", pt: "Percurso", en: "Route" }, value: "Chicago → Santa Monica" }],
     itinerario: R66_ITINERARIO, incluye: R66_INCLUYE, noIncluye: R66_NO_INCLUYE,
     salidas: R66_SALIDAS, paquetes: R66_PAQUETES },
 
-  { slug: "daytona-bike-week", img: IMG.daytona, year: 2027, open: true, badge: { es: "Clásico", pt: "Clássico" }, country: "Florida, EE.UU.", name: "Daytona Bike Week", dates: "02 — 10 / 03 / 2027", duration: { es: "9 días", pt: "9 dias" }, price: "USD 4.600", spots: { es: "Single o doble · 2 motos por paquete", pt: "Single ou duplo · 2 motos por pacote" },
-    itinerario: [], incluye: { es: [], pt: [] }, noIncluye: { es: [], pt: [] },
-    salidas: [{ date: "02 — 10 / 03 / 2027", state: { es: "Clásico", pt: "Clássico" }, open: true, lang: null, fill: null, spots: { es: "Single o doble · 2 motos por paquete", pt: "Single ou duplo · 2 motos por pacote" } }],
-    paquetes: [{ people: 1, name: { es: "Paquete base", pt: "Pacote base" }, price: "USD 4.600", detail: { es: "1 persona · 1 moto", pt: "1 pessoa · 1 moto" }, spots: { es: "Single o doble", pt: "Single ou duplo" } }] },
+  { slug: "daytona-bike-week", img: IMG.daytona, year: 2027, open: true, badge: { es: "Clásico", pt: "Clássico", en: "Classic" }, country: "Florida, EE.UU.", name: "Daytona Bike Week", dates: "02 — 10 / 03 / 2027", duration: { es: "9 días", pt: "9 dias", en: "9 days" }, price: "USD 4.600", spots: { es: "Single o doble · 2 motos por paquete", pt: "Single ou duplo · 2 motos por pacote", en: "Single or double · 2 bikes per package" },
+    itinerario: [], incluye: { es: [], pt: [], en: [] }, noIncluye: { es: [], pt: [], en: [] },
+    salidas: [{ date: "02 — 10 / 03 / 2027", state: { es: "Clásico", pt: "Clássico", en: "Classic" }, open: true, lang: null, fill: null, spots: { es: "Single o doble · 2 motos por paquete", pt: "Single ou duplo · 2 motos por pacote", en: "Single or double · 2 bikes per package" } }],
+    paquetes: [{ people: 1, name: { es: "Paquete base", pt: "Pacote base", en: "Base package" }, price: "USD 4.600", detail: { es: "1 persona · 1 moto", pt: "1 pessoa · 1 moto", en: "1 person · 1 bike" }, spots: { es: "Single o doble", pt: "Single ou duplo", en: "Single or double" } }] },
 
-  { slug: "alaska-gold-rush", img: IMG.alaska, year: 2027, open: true, badge: { es: "Cupos limitados", pt: "Vagas limitadas" }, country: "Alaska · Canadá", name: "Alaska Gold Rush", dates: "06 / 2027", duration: { es: "18 días", pt: "18 dias" }, price: "USD 9.200", spots: { es: "Salida única · 14 cupos", pt: "Saída única · 14 vagas" },
-    itinerario: [], incluye: { es: [], pt: [] }, noIncluye: { es: [], pt: [] },
-    salidas: [{ date: "06 / 2027", state: { es: "Cupos limitados", pt: "Vagas limitadas" }, open: true, lang: null, fill: null, spots: { es: "Salida única · 14 cupos", pt: "Saída única · 14 vagas" } }],
-    paquetes: [{ people: 1, name: { es: "Paquete base", pt: "Pacote base" }, price: "USD 9.200", detail: { es: "1 persona · 1 moto", pt: "1 pessoa · 1 moto" }, spots: { es: "14 cupos", pt: "14 vagas" } }] },
+  { slug: "alaska-gold-rush", img: IMG.alaska, year: 2027, open: true, badge: { es: "Cupos limitados", pt: "Vagas limitadas", en: "Limited seats" }, country: "Alaska · Canadá", name: "Alaska Gold Rush", dates: "06 / 2027", duration: { es: "18 días", pt: "18 dias", en: "18 days" }, price: "USD 9.200", spots: { es: "Salida única · 14 cupos", pt: "Saída única · 14 vagas", en: "Single departure · 14 seats" },
+    itinerario: [], incluye: { es: [], pt: [], en: [] }, noIncluye: { es: [], pt: [], en: [] },
+    salidas: [{ date: "06 / 2027", state: { es: "Cupos limitados", pt: "Vagas limitadas", en: "Limited seats" }, open: true, lang: null, fill: null, spots: { es: "Salida única · 14 cupos", pt: "Saída única · 14 vagas", en: "Single departure · 14 seats" } }],
+    paquetes: [{ people: 1, name: { es: "Paquete base", pt: "Pacote base", en: "Base package" }, price: "USD 9.200", detail: { es: "1 persona · 1 moto", pt: "1 pessoa · 1 moto", en: "1 person · 1 bike" }, spots: { es: "14 cupos", pt: "14 vagas", en: "14 seats" } }] },
 
-  { slug: "sturgis-rally", img: IMG.sturgis, year: 2027, open: true, badge: { es: "Salida única", pt: "Saída única" }, country: "Dakota del Sur", name: "Sturgis Rally", dates: "08 / 2027", duration: { es: "12 días", pt: "12 dias" }, price: "USD 6.400", spots: { es: "Inscripción abierta hasta mayo", pt: "Inscrições abertas até maio" },
-    itinerario: [], incluye: { es: [], pt: [] }, noIncluye: { es: [], pt: [] },
-    salidas: [{ date: "08 / 2027", state: { es: "Salida única", pt: "Saída única" }, open: true, lang: null, fill: null, spots: { es: "Inscripción abierta hasta mayo", pt: "Inscrições abertas até maio" } }],
-    paquetes: [{ people: 1, name: { es: "Paquete base", pt: "Pacote base" }, price: "USD 6.400", detail: { es: "1 persona · 1 moto", pt: "1 pessoa · 1 moto" }, spots: { es: "Cupos limitados", pt: "Vagas limitadas" } }] },
+  { slug: "sturgis-rally", img: IMG.sturgis, year: 2027, open: true, badge: { es: "Salida única", pt: "Saída única", en: "Single departure" }, country: "Dakota del Sur", name: "Sturgis Rally", dates: "08 / 2027", duration: { es: "12 días", pt: "12 dias", en: "12 days" }, price: "USD 6.400", spots: { es: "Inscripción abierta hasta mayo", pt: "Inscrições abertas até maio", en: "Registration open until May" },
+    itinerario: [], incluye: { es: [], pt: [], en: [] }, noIncluye: { es: [], pt: [], en: [] },
+    salidas: [{ date: "08 / 2027", state: { es: "Salida única", pt: "Saída única", en: "Single departure" }, open: true, lang: null, fill: null, spots: { es: "Inscripción abierta hasta mayo", pt: "Inscrições abertas até maio", en: "Registration open until May" } }],
+    paquetes: [{ people: 1, name: { es: "Paquete base", pt: "Pacote base", en: "Base package" }, price: "USD 6.400", detail: { es: "1 persona · 1 moto", pt: "1 pessoa · 1 moto", en: "1 person · 1 bike" }, spots: { es: "Cupos limitados", pt: "Vagas limitadas", en: "Limited seats" } }] },
 
-  { slug: "coast-to-coast", img: IMG.coast, year: 2028, open: false, badge: { es: "Nuevo", pt: "Novo" }, country: "Estados Unidos", name: "Coast to Coast", dates: "2028", duration: { es: "21 días", pt: "21 dias" }, price: "USD 11.500", spots: { es: "Lista de interesados abierta", pt: "Lista de interessados aberta" },
-    itinerario: [], incluye: { es: [], pt: [] }, noIncluye: { es: [], pt: [] },
-    salidas: [{ date: "2028", state: { es: "Nuevo", pt: "Novo" }, open: false, lang: null, fill: null, spots: { es: "Lista de interesados abierta", pt: "Lista de interessados aberta" } }],
-    paquetes: [{ people: 1, name: { es: "Paquete base", pt: "Pacote base" }, price: "USD 11.500", detail: { es: "1 persona · 1 moto", pt: "1 pessoa · 1 moto" }, spots: { es: "Lista de interesados", pt: "Lista de interessados" } }] },
+  { slug: "coast-to-coast", img: IMG.coast, year: 2028, open: false, badge: { es: "Nuevo", pt: "Novo", en: "New" }, country: "Estados Unidos", name: "Coast to Coast", dates: "2028", duration: { es: "21 días", pt: "21 dias", en: "21 days" }, price: "USD 11.500", spots: { es: "Lista de interesados abierta", pt: "Lista de interessados aberta", en: "Waiting list open" },
+    itinerario: [], incluye: { es: [], pt: [], en: [] }, noIncluye: { es: [], pt: [], en: [] },
+    salidas: [{ date: "2028", state: { es: "Nuevo", pt: "Novo", en: "New" }, open: false, lang: null, fill: null, spots: { es: "Lista de interesados abierta", pt: "Lista de interessados aberta", en: "Waiting list open" } }],
+    paquetes: [{ people: 1, name: { es: "Paquete base", pt: "Pacote base", en: "Base package" }, price: "USD 11.500", detail: { es: "1 persona · 1 moto", pt: "1 pessoa · 1 moto", en: "1 person · 1 bike" }, spots: { es: "Lista de interesados", pt: "Lista de interessados", en: "Waiting list" } }] },
 
-  { slug: "patagonia-austral", img: IMG.pata, year: 2028, open: false, badge: { es: "Próximamente", pt: "Em breve" }, country: "Argentina · Chile", name: "Patagonia Austral", dates: "02 / 2028", duration: { es: "14 días", pt: "14 dias" }, price: "USD 5.800", spots: { es: "Preventa para clientes ADR", pt: "Pré-venda para clientes ADR" },
-    itinerario: [], incluye: { es: [], pt: [] }, noIncluye: { es: [], pt: [] },
-    salidas: [{ date: "02 / 2028", state: { es: "Próximamente", pt: "Em breve" }, open: false, lang: null, fill: null, spots: { es: "Preventa para clientes ADR", pt: "Pré-venda para clientes ADR" } }],
-    paquetes: [{ people: 1, name: { es: "Paquete base", pt: "Pacote base" }, price: "USD 5.800", detail: { es: "1 persona · 1 moto", pt: "1 pessoa · 1 moto" }, spots: { es: "Preventa ADR", pt: "Pré-venda ADR" } }] }
+  { slug: "patagonia-austral", img: IMG.pata, year: 2028, open: false, badge: { es: "Próximamente", pt: "Em breve", en: "Coming soon" }, country: "Argentina · Chile", name: "Patagonia Austral", dates: "02 / 2028", duration: { es: "14 días", pt: "14 dias", en: "14 days" }, price: "USD 5.800", spots: { es: "Preventa para clientes ADR", pt: "Pré-venda para clientes ADR", en: "Pre-sale for ADR customers" },
+    itinerario: [], incluye: { es: [], pt: [], en: [] }, noIncluye: { es: [], pt: [], en: [] },
+    salidas: [{ date: "02 / 2028", state: { es: "Próximamente", pt: "Em breve", en: "Coming soon" }, open: false, lang: null, fill: null, spots: { es: "Preventa para clientes ADR", pt: "Pré-venda para clientes ADR", en: "Pre-sale for ADR customers" } }],
+    paquetes: [{ people: 1, name: { es: "Paquete base", pt: "Pacote base", en: "Base package" }, price: "USD 5.800", detail: { es: "1 persona · 1 moto", pt: "1 pessoa · 1 moto", en: "1 person · 1 bike" }, spots: { es: "Preventa ADR", pt: "Pré-venda ADR", en: "ADR pre-sale" } }] }
 ];
 
 
 const STEPS = [
-  { n: "01", title: { es: "Elegí viaje y salida", pt: "Escolha viagem e saída" }, body: { es: "Cada fecha tiene su cupo, su idioma de guía y su propio estado.", pt: "Cada data tem sua vaga, idioma do guia e seu próprio status." } },
-  { n: "02", title: { es: "Elegí el paquete", pt: "Escolha o pacote" }, body: { es: "Personas, motos, habitación y adicionales como upgrades o single.", pt: "Pessoas, motos, quarto e adicionais como upgrades ou single." } },
-  { n: "03", title: { es: "Cargá los pasajeros", pt: "Cadastre os passageiros" }, body: { es: "Datos, licencia, documentación y talles de cada integrante.", pt: "Dados, carteira, documentação e tamanhos de cada integrante." } },
-  { n: "04", title: { es: "Reservá y pagá", pt: "Reserve e pague" }, body: { es: "Seña o pago total con tarjeta, transferencia o Pix.", pt: "Sinal ou pagamento total com cartão, transferência ou Pix." } }
+  { n: "01", title: { es: "Elegí viaje y salida", pt: "Escolha viagem e saída", en: "Pick trip and departure" }, body: { es: "Cada fecha tiene su cupo, su idioma de guía y su propio estado.", pt: "Cada data tem sua vaga, idioma do guia e seu próprio status.", en: "Each date has its own seats, guide language and status." } },
+  { n: "02", title: { es: "Elegí el paquete", pt: "Escolha o pacote", en: "Pick the package" }, body: { es: "Personas, motos, habitación y adicionales como upgrades o single.", pt: "Pessoas, motos, quarto e adicionais como upgrades ou single.", en: "People, bikes, room and extras such as upgrades or a single room." } },
+  { n: "03", title: { es: "Cargá los pasajeros", pt: "Cadastre os passageiros", en: "Add the travellers" }, body: { es: "Datos, licencia, documentación y talles de cada integrante.", pt: "Dados, carteira, documentação e tamanhos de cada integrante.", en: "Details, licence, paperwork and sizes for each person." } },
+  { n: "04", title: { es: "Reservá y pagá", pt: "Reserve e pague", en: "Book and pay" }, body: { es: "Seña o pago total con tarjeta, transferencia o Pix.", pt: "Sinal ou pagamento total com cartão, transferência ou Pix.", en: "Deposit or full payment by card, bank transfer or Pix." } }
 ];
 
 const SIZES = ["S", "M", "L", "XL", "XXL", "U"];
 
 const PRODUCTS = [
   { sku: "ADR-REM-001", c: 0, img: IMG.tee, price: 32, rank: 1, sizes: ["S","M","L","XL","XXL"], low: false,
-    name: { es: "Remera oficial 2027", pt: "Camiseta oficial 2027" },
-    variants: { es: "Negro · algodón peinado 180 g", pt: "Preto · algodão penteado 180 g" },
-    desc: { es: "La remera del Encuentro Internacional 2027, con el emblema bordado al frente y la ruta impresa en la espalda. Corte unisex.", pt: "A camiseta do Encontro Internacional 2027, com o emblema bordado na frente e a rota impressa nas costas. Corte unissex." },
-    specs: { es: ["Algodón peinado 180 g", "Serigrafía + bordado", "5 a 7 días hábiles"], pt: ["Algodão penteado 180 g", "Serigrafia + bordado", "5 a 7 dias úteis"] } },
+    name: { es: "Remera oficial 2027", pt: "Camiseta oficial 2027", en: "Official 2027 t-shirt" },
+    variants: { es: "Negro · algodón peinado 180 g", pt: "Preto · algodão penteado 180 g", en: "Black · 180 g combed cotton" },
+    desc: { es: "La remera del Encuentro Internacional 2027, con el emblema bordado al frente y la ruta impresa en la espalda. Corte unisex.", pt: "A camiseta do Encontro Internacional 2027, com o emblema bordado na frente e a rota impressa nas costas. Corte unissex.", en: "The 2027 International Rally t-shirt, with the emblem embroidered on the front and the route printed on the back. Unisex fit." },
+    specs: { es: ["Algodón peinado 180 g", "Serigrafía + bordado", "5 a 7 días hábiles"], pt: ["Algodão penteado 180 g", "Serigrafia + bordado", "5 a 7 dias úteis"], en: ["180 g combed cotton", "Screen print + embroidery", "5 to 7 working days"] } },
   { sku: "ADR-REM-005", c: 0, img: IMG.tee2, price: 56, rank: 4, sizes: ["S","M","L","XL"], low: false,
-    name: { es: "Pack 2 remeras ruta", pt: "Pack 2 camisetas estrada" },
-    variants: { es: "Negro + blanco · ahorro 12%", pt: "Preto + branco · economia 12%" },
-    desc: { es: "Dos remeras del kit oficial en un solo pack: una negra con el emblema completo y una blanca con la firma ADR.", pt: "Duas camisetas do kit oficial em um único pack: uma preta com o emblema completo e uma branca com a assinatura ADR." },
-    specs: { es: ["Algodón peinado 180 g", "Serigrafía", "5 a 7 días hábiles"], pt: ["Algodão penteado 180 g", "Serigrafia", "5 a 7 dias úteis"] } },
+    name: { es: "Pack 2 remeras ruta", pt: "Pack 2 camisetas estrada", en: "Road t-shirt 2-pack" },
+    variants: { es: "Negro + blanco · ahorro 12%", pt: "Preto + branco · economia 12%", en: "Black + white · save 12%" },
+    desc: { es: "Dos remeras del kit oficial en un solo pack: una negra con el emblema completo y una blanca con la firma ADR.", pt: "Duas camisetas do kit oficial em um único pack: uma preta com o emblema completo e uma branca com a assinatura ADR.", en: "Two official kit t-shirts in one pack: a black one with the full emblem and a white one with the ADR signature." },
+    specs: { es: ["Algodón peinado 180 g", "Serigrafía", "5 a 7 días hábiles"], pt: ["Algodão penteado 180 g", "Serigrafia", "5 a 7 dias úteis"], en: ["180 g combed cotton", "Screen print", "5 to 7 working days"] } },
   { sku: "ADR-REM-007", c: 0, img: IMG.tee3, price: 30, rank: 7, sizes: ["S","M","L","XL"], low: true,
-    name: { es: "Remera Route 66", pt: "Camiseta Route 66" },
-    variants: { es: "Blanco · estampa frontal", pt: "Branco · estampa frontal" },
-    desc: { es: "Edición del tour Route 66 con el mapa del recorrido Chicago — Santa Monica impreso al frente.", pt: "Edição do tour Route 66 com o mapa do percurso Chicago — Santa Monica impresso na frente." },
-    specs: { es: ["Algodón 160 g", "Serigrafía", "5 a 7 días hábiles"], pt: ["Algodão 160 g", "Serigrafia", "5 a 7 dias úteis"] } },
+    name: { es: "Remera Route 66", pt: "Camiseta Route 66", en: "Route 66 t-shirt" },
+    variants: { es: "Blanco · estampa frontal", pt: "Branco · estampa frontal", en: "White · front print" },
+    desc: { es: "Edición del tour Route 66 con el mapa del recorrido Chicago — Santa Monica impreso al frente.", pt: "Edição do tour Route 66 com o mapa do percurso Chicago — Santa Monica impresso na frente.", en: "Route 66 tour edition with the Chicago — Santa Monica route map printed on the front." },
+    specs: { es: ["Algodón 160 g", "Serigrafía", "5 a 7 días hábiles"], pt: ["Algodão 160 g", "Serigrafia", "5 a 7 dias úteis"], en: ["160 g cotton", "Screen print", "5 to 7 working days"] } },
   { sku: "ADR-GOR-003", c: 1, img: IMG.cap, price: 26, rank: 3, sizes: ["U"], low: true,
-    name: { es: "Gorra bordada", pt: "Boné bordado" },
-    variants: { es: "Negro · talle único · visera curva", pt: "Preto · tamanho único · aba curva" },
-    desc: { es: "Gorra negra con el emblema ADR bordado en hilo amarillo y cierre regulable metálico.", pt: "Boné preto com o emblema ADR bordado em fio amarelo e fecho regulável metálico." },
-    specs: { es: ["Gabardina de algodón", "Bordado 3D", "3 a 5 días hábiles"], pt: ["Gabardine de algodão", "Bordado 3D", "3 a 5 dias úteis"] } },
+    name: { es: "Gorra bordada", pt: "Boné bordado", en: "Embroidered cap" },
+    variants: { es: "Negro · talle único · visera curva", pt: "Preto · tamanho único · aba curva", en: "Black · one size · curved peak" },
+    desc: { es: "Gorra negra con el emblema ADR bordado en hilo amarillo y cierre regulable metálico.", pt: "Boné preto com o emblema ADR bordado em fio amarelo e fecho regulável metálico.", en: "Black cap with the ADR emblem embroidered in yellow thread and an adjustable metal clasp." },
+    specs: { es: ["Gabardina de algodón", "Bordado 3D", "3 a 5 días hábiles"], pt: ["Gabardine de algodão", "Bordado 3D", "3 a 5 dias úteis"], en: ["Cotton twill", "3D embroidery", "3 to 5 working days"] } },
   { sku: "ADR-GOR-008", c: 1, img: IMG.cap2, price: 24, rank: 8, sizes: ["U"], low: false,
-    name: { es: "Gorra trucker ADR", pt: "Boné trucker ADR" },
-    variants: { es: "Malla trasera · regulable", pt: "Tela traseira · ajustável" },
-    desc: { es: "Modelo trucker con frente rígido y malla trasera, pensada para los días largos de ruta.", pt: "Modelo trucker com frente rígida e tela traseira, pensado para os dias longos de estrada." },
-    specs: { es: ["Frente algodón · malla", "Parche bordado", "3 a 5 días hábiles"], pt: ["Frente algodão · tela", "Patch bordado", "3 a 5 dias úteis"] } },
+    name: { es: "Gorra trucker ADR", pt: "Boné trucker ADR", en: "ADR trucker cap" },
+    variants: { es: "Malla trasera · regulable", pt: "Tela traseira · ajustável", en: "Mesh back · adjustable" },
+    desc: { es: "Modelo trucker con frente rígido y malla trasera, pensada para los días largos de ruta.", pt: "Modelo trucker com frente rígida e tela traseira, pensado para os dias longos de estrada.", en: "Trucker style with a structured front and mesh back, made for long days on the road." },
+    specs: { es: ["Frente algodón · malla", "Parche bordado", "3 a 5 días hábiles"], pt: ["Frente algodão · tela", "Patch bordado", "3 a 5 dias úteis"], en: ["Cotton front · mesh", "Embroidered patch", "3 to 5 working days"] } },
   { sku: "ADR-MOC-002", c: 2, img: IMG.bag, price: 78, rank: 2, sizes: ["U"], low: false,
-    name: { es: "Mochila de ruta 35 L", pt: "Mochila de estrada 35 L" },
-    variants: { es: "Impermeable · porta casco", pt: "Impermeável · porta capacete" },
-    desc: { es: "Mochila de 35 litros con cubierta impermeable, red porta casco y bandas reflectivas en los laterales.", pt: "Mochila de 35 litros com capa impermeável, rede porta capacete e faixas refletivas nas laterais." },
-    specs: { es: ["Poliéster 600D", "Costuras selladas", "7 a 10 días hábiles"], pt: ["Poliéster 600D", "Costuras seladas", "7 a 10 dias úteis"] } },
+    name: { es: "Mochila de ruta 35 L", pt: "Mochila de estrada 35 L", en: "35 L road backpack" },
+    variants: { es: "Impermeable · porta casco", pt: "Impermeável · porta capacete", en: "Waterproof · helmet holder" },
+    desc: { es: "Mochila de 35 litros con cubierta impermeable, red porta casco y bandas reflectivas en los laterales.", pt: "Mochila de 35 litros com capa impermeável, rede porta capacete e faixas refletivas nas laterais.", en: "35 litre backpack with a waterproof cover, helmet net and reflective strips on the sides." },
+    specs: { es: ["Poliéster 600D", "Costuras selladas", "7 a 10 días hábiles"], pt: ["Poliéster 600D", "Costuras seladas", "7 a 10 dias úteis"], en: ["600D polyester", "Sealed seams", "7 to 10 working days"] } },
   { sku: "ADR-MOC-009", c: 2, img: IMG.bag2, price: 54, rank: 6, sizes: ["U"], low: false,
-    name: { es: "Bolso de tanque 12 L", pt: "Bolsa de tanque 12 L" },
-    variants: { es: "Base magnética · visor superior", pt: "Base magnética · visor superior" },
-    desc: { es: "Bolso de tanque con base magnética reforzada, visor superior para el teléfono y expansión de 4 litros.", pt: "Bolsa de tanque com base magnética reforçada, visor superior para o telefone e expansão de 4 litros." },
-    specs: { es: ["Nylon balístico", "Imanes reforzados", "7 a 10 días hábiles"], pt: ["Nylon balístico", "Ímãs reforçados", "7 a 10 dias úteis"] } },
+    name: { es: "Bolso de tanque 12 L", pt: "Bolsa de tanque 12 L", en: "12 L tank bag" },
+    variants: { es: "Base magnética · visor superior", pt: "Base magnética · visor superior", en: "Magnetic base · top window" },
+    desc: { es: "Bolso de tanque con base magnética reforzada, visor superior para el teléfono y expansión de 4 litros.", pt: "Bolsa de tanque com base magnética reforçada, visor superior para o telefone e expansão de 4 litros.", en: "Tank bag with a reinforced magnetic base, a top window for your phone and 4 litres of expansion." },
+    specs: { es: ["Nylon balístico", "Imanes reforzados", "7 a 10 días hábiles"], pt: ["Nylon balístico", "Ímãs reforçados", "7 a 10 dias úteis"], en: ["Ballistic nylon", "Reinforced magnets", "7 to 10 working days"] } },
   { sku: "ADR-STK-004", c: 3, img: IMG.emblem, price: 14, rank: 5, sizes: ["U"], low: false,
-    name: { es: "Set stickers + parche", pt: "Kit adesivos + patch" },
-    variants: { es: "6 piezas · vinilo y bordado", pt: "6 peças · vinil e bordado" },
-    desc: { es: "Seis piezas: cuatro stickers de vinilo resistentes a la intemperie, un parche bordado y un llavero de la edición.", pt: "Seis peças: quatro adesivos de vinil resistentes ao tempo, um patch bordado e um chaveiro da edição." },
-    specs: { es: ["Vinilo exterior", "Parche bordado", "3 a 5 días hábiles"], pt: ["Vinil externo", "Patch bordado", "3 a 5 dias úteis"] } }
+    name: { es: "Set stickers + parche", pt: "Kit adesivos + patch", en: "Sticker set + patch" },
+    variants: { es: "6 piezas · vinilo y bordado", pt: "6 peças · vinil e bordado", en: "6 pieces · vinyl and embroidery" },
+    desc: { es: "Seis piezas: cuatro stickers de vinilo resistentes a la intemperie, un parche bordado y un llavero de la edición.", pt: "Seis peças: quatro adesivos de vinil resistentes ao tempo, um patch bordado e um chaveiro da edição.", en: "Six pieces: four weatherproof vinyl stickers, an embroidered patch and an edition keyring." },
+    specs: { es: ["Vinilo exterior", "Parche bordado", "3 a 5 días hábiles"], pt: ["Vinil externo", "Patch bordado", "3 a 5 dias úteis"], en: ["Outdoor vinyl", "Embroidered patch", "3 to 5 working days"] } }
 ];
 
 const FAQS = [
-  { c: 0, q: { es: "¿Necesito licencia internacional?", pt: "Preciso de carteira internacional?" }, a: { es: "Sí. Te pedimos licencia vigente de categoría moto y permiso internacional de conducir; lo verificamos antes de confirmar tu lugar.", pt: "Sim. Pedimos carteira válida para moto e permissão internacional de conduzir; verificamos antes de confirmar sua vaga." } },
-  { c: 0, q: { es: "¿Qué documentación debo enviar?", pt: "Que documentos devo enviar?" }, a: { es: "Pasaporte vigente, licencia, visa cuando corresponda y seguro médico. Podés cargarlos después de reservar, desde tu enlace de reserva.", pt: "Passaporte válido, carteira, visto quando necessário e seguro médico. Você pode enviá-los depois de reservar, pelo link da sua reserva." } },
-  { c: 1, q: { es: "¿Puedo pagar en cuotas?", pt: "Posso pagar parcelado?" }, a: { es: "Reservás con la seña y después abonás en pagos parciales libres o en un plan de cuotas con vencimientos.", pt: "Você reserva com o sinal e depois paga em pagamentos parciais livres ou em um plano de parcelas com vencimentos." } },
-  { c: 1, q: { es: "¿Aceptan Pix?", pt: "Aceitam Pix?" }, a: { es: "Sí, para pasajeros de Brasil aceptamos Pix y pasarela en reales. Guardamos siempre la moneda y el importe original del pago.", pt: "Sim, para passageiros do Brasil aceitamos Pix e gateway em reais. Mantemos sempre a moeda e o valor original do pagamento." } },
-  { c: 1, q: { es: "¿Qué pasa si cancelo?", pt: "E se eu cancelar?" }, a: { es: "Cada viaje tiene su política de cancelación publicada en el detalle, con plazos y penalidades según la antelación.", pt: "Cada viagem tem sua política de cancelamento publicada no detalhe, com prazos e penalidades conforme a antecedência." } },
-  { c: 2, q: { es: "¿Puedo viajar de acompañante?", pt: "Posso viajar como acompanhante?" }, a: { es: "Sí. El paquete piloto + acompañante comparte moto y habitación, y el acompañante también recibe el kit del viaje.", pt: "Sim. O pacote piloto + acompanhante compartilha moto e quarto, e o acompanhante também recebe o kit da viagem." } },
-  { c: 2, q: { es: "¿Puedo elegir el modelo de moto?", pt: "Posso escolher o modelo da moto?" }, a: { es: "Sí, dentro de la flota disponible para cada salida. El upgrade de modelo se cotiza aparte al momento de reservar.", pt: "Sim, dentro da frota disponível para cada saída. O upgrade de modelo é cotado à parte no momento da reserva." } },
-  { c: 3, q: { es: "¿Cuándo recibo el kit?", pt: "Quando recebo o kit?" }, a: { es: "En el check-in del viaje, contra tu credencial con QR. Los talles se toman de tu reserva.", pt: "No check-in da viagem, com sua credencial com QR. Os tamanhos vêm da sua reserva." } },
-  { c: 3, q: { es: "¿Hay vehículo de apoyo?", pt: "Existe veículo de apoio?" }, a: { es: "Sí. Acompaña al grupo durante todo el recorrido con equipaje, herramientas y asistencia mecánica.", pt: "Sim. Acompanha o grupo durante todo o percurso com bagagem, ferramentas e assistência mecânica." } },
-  { c: 3, q: { es: "¿Cuántos kilómetros se hacen por día?", pt: "Quantos quilômetros por dia?" }, a: { es: "Entre 250 y 450 km según la etapa, con paradas programadas y al menos un día de descanso por viaje.", pt: "Entre 250 e 450 km conforme a etapa, com paradas programadas e pelo menos um dia de descanso por viagem." } }
+  { c: 0, q: { es: "¿Necesito licencia internacional?", pt: "Preciso de carteira internacional?", en: "Do I need an international licence?" }, a: { es: "Sí. Te pedimos licencia vigente de categoría moto y permiso internacional de conducir; lo verificamos antes de confirmar tu lugar.", pt: "Sim. Pedimos carteira válida para moto e permissão internacional de conduzir; verificamos antes de confirmar sua vaga.", en: "Yes. We ask for a valid motorcycle licence and an international driving permit; we check them before confirming your place." } },
+  { c: 0, q: { es: "¿Qué documentación debo enviar?", pt: "Que documentos devo enviar?", en: "What paperwork do I need to send?" }, a: { es: "Pasaporte vigente, licencia, visa cuando corresponda y seguro médico. Podés cargarlos después de reservar, desde tu enlace de reserva.", pt: "Passaporte válido, carteira, visto quando necessário e seguro médico. Você pode enviá-los depois de reservar, pelo link da sua reserva.", en: "A valid passport, your licence, a visa where required and medical insurance. You can upload them after booking, from your booking link." } },
+  { c: 1, q: { es: "¿Puedo pagar en cuotas?", pt: "Posso pagar parcelado?", en: "Can I pay in instalments?" }, a: { es: "Reservás con la seña y después abonás en pagos parciales libres o en un plan de cuotas con vencimientos.", pt: "Você reserva com o sinal e depois paga em pagamentos parciais livres ou em um plano de parcelas com vencimentos.", en: "You book with the deposit and then pay in free partial payments or on an instalment plan with due dates." } },
+  { c: 1, q: { es: "¿Aceptan Pix?", pt: "Aceitam Pix?", en: "Do you accept Pix?" }, a: { es: "Sí, para pasajeros de Brasil aceptamos Pix y pasarela en reales. Guardamos siempre la moneda y el importe original del pago.", pt: "Sim, para passageiros do Brasil aceitamos Pix e gateway em reais. Mantemos sempre a moeda e o valor original do pagamento.", en: "Yes, for travellers from Brazil we accept Pix and card payments in reais. We always keep the original currency and amount of each payment." } },
+  { c: 1, q: { es: "¿Qué pasa si cancelo?", pt: "E se eu cancelar?", en: "What happens if I cancel?" }, a: { es: "Cada viaje tiene su política de cancelación publicada en el detalle, con plazos y penalidades según la antelación.", pt: "Cada viagem tem sua política de cancelamento publicada no detalhe, com prazos e penalidades conforme a antecedência.", en: "Each trip has its cancellation policy published on its page, with deadlines and fees depending on how far ahead you cancel." } },
+  { c: 2, q: { es: "¿Puedo viajar de acompañante?", pt: "Posso viajar como acompanhante?", en: "Can I travel as a passenger?" }, a: { es: "Sí. El paquete piloto + acompañante comparte moto y habitación, y el acompañante también recibe el kit del viaje.", pt: "Sim. O pacote piloto + acompanhante compartilha moto e quarto, e o acompanhante também recebe o kit da viagem.", en: "Yes. The rider + passenger package shares a bike and a room, and the passenger also gets the trip kit." } },
+  { c: 2, q: { es: "¿Puedo elegir el modelo de moto?", pt: "Posso escolher o modelo da moto?", en: "Can I choose the bike model?" }, a: { es: "Sí, dentro de la flota disponible para cada salida. El upgrade de modelo se cotiza aparte al momento de reservar.", pt: "Sim, dentro da frota disponível para cada saída. O upgrade de modelo é cotado à parte no momento da reserva.", en: "Yes, within the fleet available for each departure. A model upgrade is quoted separately when you book." } },
+  { c: 3, q: { es: "¿Cuándo recibo el kit?", pt: "Quando recebo o kit?", en: "When do I get the kit?" }, a: { es: "En el check-in del viaje, contra tu credencial con QR. Los talles se toman de tu reserva.", pt: "No check-in da viagem, com sua credencial com QR. Os tamanhos vêm da sua reserva.", en: "At the trip check-in, against your QR credential. Sizes are taken from your booking." } },
+  { c: 3, q: { es: "¿Hay vehículo de apoyo?", pt: "Existe veículo de apoio?", en: "Is there a support vehicle?" }, a: { es: "Sí. Acompaña al grupo durante todo el recorrido con equipaje, herramientas y asistencia mecánica.", pt: "Sim. Acompanha o grupo durante todo o percurso com bagagem, ferramentas e assistência mecânica.", en: "Yes. It follows the group for the whole route with luggage, tools and mechanical assistance." } },
+  { c: 3, q: { es: "¿Cuántos kilómetros se hacen por día?", pt: "Quantos quilômetros por dia?", en: "How many kilometres a day?" }, a: { es: "Entre 250 y 450 km según la etapa, con paradas programadas y al menos un día de descanso por viaje.", pt: "Entre 250 e 450 km conforme a etapa, com paradas programadas e pelo menos um dia de descanso por viagem.", en: "Between 250 and 450 km depending on the stage, with scheduled stops and at least one rest day per trip." } }
 ];
 
 const PAGE = 6;
@@ -1592,6 +1849,7 @@ class Component extends DCLogic {
     if (view === "faq") return "#/faq";
     if (view === "nosotros") return "#/nosotros";
     if (view === "galeria") return "#/galeria";
+    if (view === "motos") return "#/motos";
     return "#/";
   }
 
@@ -1608,7 +1866,7 @@ class Component extends DCLogic {
       if (b && PRODUCTS.some((x) => x.sku === b)) return { view: "tienda", open: b };
       return { view: "tienda" };
     }
-    if (["faq", "nosotros", "galeria"].indexOf(a) >= 0) return { view: a };
+    if (["faq", "nosotros", "galeria", "motos"].indexOf(a) >= 0) return { view: a };
     return { view: "home" };
   }
 
@@ -1674,6 +1932,7 @@ class Component extends DCLogic {
     if (prod) return t.waProducto.replace("{x}", this.pick(prod.name) + " (" + prod.sku + ")");
     const v = this.state.view;
     if (v === "viaje") return t.waViaje.replace("{x}", this.eventoDetalle().name);
+    if (v === "motos") return t.waMotos;
     if (v === "tienda") return t.waTienda;
     if (v === "viajes") return t.waViajes;
     if (v === "faq") return t.waGeneral;
@@ -1716,6 +1975,7 @@ class Component extends DCLogic {
       { key: "home", label: t.navHome },
       { key: "nosotros", label: t.navAbout },
       { key: "viajes", label: t.navEvents },
+      { key: "motos", label: t.navBikes },
       { key: "galeria", label: t.navGallery },
       { key: "tienda", label: t.navStore },
       { key: "faq", label: "FAQ" }
@@ -1753,11 +2013,7 @@ class Component extends DCLogic {
       fg: this.state.size === s ? "#0B0A0A" : "#C2C3C4",
       border: this.state.size === s ? accent : "#201C1C"
     }));
-    const payments = [
-      { label: { es: "Tarjeta", pt: "Cartão" }, note: { es: "USD · pasarela", pt: "USD · gateway" } },
-      { label: "Pix", note: { es: "BRL · Brasil", pt: "BRL · Brasil" } },
-      { label: { es: "Transferencia", pt: "Transferência" }, note: { es: "USD · BRL · Gs", pt: "USD · BRL · Gs" } }
-    ].map((o, i) => ({
+    const payments = MEDIOS_PAGO.map((o, i) => ({
       label: p(o.label), note: p(o.note), pick: () => this.setState({ pay: i }),
       bg: this.state.pay === i ? "rgba(215,200,11,0.1)" : "#0B0A0A",
       border: this.state.pay === i ? accent : "#201C1C",
@@ -1886,7 +2142,19 @@ class Component extends DCLogic {
       // y en la vista de un viaje. Es el mismo markup: no hay dos copias que
       // mantener sincronizadas.
       muestraDetalle: view === "home" || view === "viaje",
-      isNosotros: view === "nosotros", isGaleria: view === "galeria",
+      isNosotros: view === "nosotros", isGaleria: view === "galeria", isMotos: view === "motos",
+      motos: MOTOS.map((m) => ({ img: m.img, estilo: p(m.estilo), modelos: m.modelos, detalle: p(m.detalle) })),
+      // El hotel es por evento: un viaje sin hotel cargado no muestra la sección.
+      tieneHotel: !!det.hotel,
+      hotel: det.hotel ? {
+        nombre: det.hotel.nombre || t.hotelPending,
+        tieneNombre: !!det.hotel.nombre,
+        categoria: p(det.hotel.categoria),
+        descripcion: p(det.hotel.descripcion),
+        servicios: (p(det.hotel.servicios) || []).map((x) => ({ text: x })),
+        foto: det.hotel.fotos[0].img,
+        fotos: det.hotel.fotos.slice(1).map((f) => ({ img: f.img, etiqueta: p(f.etiqueta) }))
+      } : null,
       aboutPillars: t.aboutPillars,
       // La galería se arma con las fotos de los eventos publicados: son las
       // imágenes que el sitio ya tiene. Cuando el CMS del ERP cargue las reales,
@@ -1912,9 +2180,9 @@ class Component extends DCLogic {
       detResumen: p(det.resumen || {}),
       tieneResumen: !!(det.resumen && p(det.resumen)),
       tourSpecs: (det.specs || [
-        { label: { es: "Duración", pt: "Duração" }, value: det.duration },
-        { label: { es: "Destino", pt: "Destino" }, value: det.country },
-        { label: { es: "Fechas", pt: "Datas" }, value: det.dates }
+        { label: { es: "Duración", pt: "Duração", en: "Duration" }, value: det.duration },
+        { label: { es: "Destino", pt: "Destino", en: "Destination" }, value: det.country },
+        { label: { es: "Fechas", pt: "Datas", en: "Dates" }, value: det.dates }
       ]).map((sp) => ({ label: p(sp.label), value: p(sp.value) })),
       itinerary: detItinerario.map((i) => ({ day: p(i.day), place: i.place, note: p(i.note) })),
       includes: detIncluye.map((text) => ({ text })),
@@ -1984,7 +2252,7 @@ class Component extends DCLogic {
         people: String(bPkg.people),
         name: this.state.bName.trim(), doc: this.state.bDoc.trim(), license: this.state.bLicense.trim(),
         role: t.roles[this.state.bRole], size: this.state.size,
-        pay: p(["Tarjeta", "Pix", { es: "Transferencia", pt: "Transferência" }][this.state.pay]),
+        pay: p(MEDIOS_PAGO[this.state.pay].label),
         moneda: monedaSel,
         total: enMoneda(bTotal, monedaSel), balance: enMoneda(bBalance, monedaSel),
         equivalente: monedaSel === MONEDA_BASE ? null
@@ -2034,10 +2302,12 @@ class Component extends DCLogic {
       waOpacity: this.state.atFooter ? "0" : "1",
       waTransform: this.state.atFooter ? "translateY(24px) scale(0.92)" : "none",
       waEvents: this.state.atFooter ? "none" : "auto",
-      setEs: () => this.setState({ lang: "es" }),
-      setPt: () => this.setState({ lang: "pt" }),
-      esBg: L === "es" ? accent : "transparent", esFg: L === "es" ? "#0B0A0A" : "#A6A7A7",
-      ptBg: L === "pt" ? accent : "transparent", ptFg: L === "pt" ? "#0B0A0A" : "#A6A7A7"
+      idiomas: IDIOMAS.map((c) => ({
+        label: c.toUpperCase(),
+        pick: () => this.setState({ lang: c }),
+        bg: L === c ? accent : "transparent",
+        fg: L === c ? "#0B0A0A" : "#A6A7A7"
+      }))
     };
   }
 }

@@ -910,26 +910,69 @@
   <sc-if value="{{ isNosotros }}" hint-placeholder-val="{{ false }}">
     <div>
       <div style="position:relative;overflow:hidden;borderBottom:1px solid #201C1C">
-        <div style="position:absolute;inset:0;width:100%;height:100%;background-size:cover;filter:grayscale(0.35);background-position:center;background-image:url({{ det.foto }})" data-kenburns></div>
-        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,10,10,0.68),rgba(11,10,10,0.96))"></div>
+        <div style="position:absolute;inset:0;width:100%;height:100%;background-size:cover;background-position:center 38%;filter:grayscale(0.2);background-image:url({{ nosotrosPortada }})" data-kenburns></div>
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,10,10,0.62),rgba(11,10,10,0.95))"></div>
         <div style="position:relative;maxWidth:1340px;margin:0 auto;padding:clamp(34px,5vw,60px) clamp(16px,3vw,24px) clamp(30px,4.5vw,54px)" data-stagger>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letterSpacing:0.24em;textTransform:uppercase;color:#D7C80B" data-reveal="down">{{ t.navAbout }}</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letterSpacing:0.24em;textTransform:uppercase;color:#D7C80B" data-reveal="down">{{ t.aboutKicker }}</div>
           <h1 style="margin:14px 0 0;font-size:clamp(36px,5.4vw,70px);lineHeight:0.9;font-weight:700;textTransform:uppercase;color:#E2E3E3" data-reveal>{{ t.aboutTitle }}</h1>
-          <p style="margin:18px 0 0;max-width:600px;font-size:17px;lineHeight:1.55;color:#C2C3C4;text-wrap:pretty;borderLeft:3px solid #D7C80B;paddingLeft:18px" data-reveal>{{ t.aboutLead }}</p>
+          <p style="margin:18px 0 0;max-width:640px;font-size:17px;lineHeight:1.55;color:#C2C3C4;text-wrap:pretty;borderLeft:3px solid #D7C80B;paddingLeft:18px" data-reveal>{{ t.aboutLead }}</p>
         </div>
       </div>
 
-      <div style="maxWidth:1340px;margin:0 auto;padding:clamp(34px,5vw,56px) clamp(16px,3vw,24px) clamp(46px,7vw,80px)">
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:18px" data-stagger>
-          <sc-for list="{{ aboutPillars }}" as="pil" hint-placeholder-count="4">
-            <div style="padding:clamp(22px,3vw,28px);background:#141212;border:1px solid #201C1C;borderRadius:18px" data-reveal data-card>
-              <div style="width:30px;height:2px;background:#D7C80B"></div>
-              <div style="font-size:19px;font-weight:700;textTransform:uppercase;color:#E2E3E3;marginTop:16px;lineHeight:1.15">{{ pil.t }}</div>
-              <div style="font-size:15px;lineHeight:1.55;color:#A6A7A7;marginTop:10px;text-wrap:pretty">{{ pil.d }}</div>
+      <div style="maxWidth:1340px;margin:0 auto;padding:clamp(34px,5vw,56px) clamp(16px,3vw,24px) clamp(20px,3vw,30px)">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:34px;align-items:start">
+          <div style="display:flex;flex-direction:column;gap:18px" data-reveal="left">
+            <p style="margin:0;font-size:clamp(17px,1.5vw,19px);lineHeight:1.6;color:#E2E3E3;text-wrap:pretty">{{ t.aboutP1 }}</p>
+            <p style="margin:0;font-size:16px;lineHeight:1.65;color:#A6A7A7;text-wrap:pretty">{{ t.aboutP2 }}</p>
+            <p style="margin:0;font-size:16px;lineHeight:1.65;color:#A6A7A7;text-wrap:pretty">{{ t.aboutP3 }}</p>
+            <a href="{{ waHref }}" target="_blank" rel="noopener" style="align-self:flex-start;marginTop:6px;padding:15px 28px;background:#D7C80B;color:#0B0A0A;font-size:13px;font-weight:700;letterSpacing:0.16em;textTransform:uppercase;borderRadius:999px" style-hover="background:#E2E3E3" data-shine>{{ t.aboutJoin }}</a>
+          </div>
+          <div style="position:relative;min-height:clamp(260px,32vw,380px);border:1px solid #201C1C;borderRadius:18px;overflow:hidden" data-reveal="right" data-card>
+            <div style="position:absolute;inset:0;background-size:cover;background-position:center;background-image:url({{ nosotrosRetrato }})" data-zoom></div>
+            <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,10,10,0.05),rgba(11,10,10,0.6))"></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="maxWidth:1340px;margin:0 auto;padding:clamp(14px,2vw,20px) clamp(16px,3vw,24px)">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:2px" data-stagger>
+          <sc-for list="{{ aboutFacts }}" as="fc" hint-placeholder-count="4">
+            <div style="padding:clamp(20px,3vw,26px) clamp(18px,2.6vw,22px);background:#141212;border:1px solid #201C1C" data-reveal data-card>
+              <div style="width:28px;height:2px;background:#D7C80B"></div>
+              <div style="font-size:17px;font-weight:700;textTransform:uppercase;color:#E2E3E3;marginTop:14px;lineHeight:1.15">{{ fc.t }}</div>
+              <div style="font-size:15px;lineHeight:1.55;color:#A6A7A7;marginTop:8px;text-wrap:pretty">{{ fc.d }}</div>
             </div>
           </sc-for>
         </div>
-        <div style="marginTop:28px;padding:18px 20px;border:1px dashed #2c2929;borderRadius:14px;font-size:14px;lineHeight:1.55;color:#757676;text-wrap:pretty" data-reveal>{{ t.aboutPending }}</div>
+      </div>
+
+      <div style="maxWidth:1340px;margin:0 auto;padding:clamp(34px,5vw,52px) clamp(16px,3vw,24px) clamp(20px,3vw,28px)">
+        <h2 style="margin:0 0 20px;font-size:14px;font-weight:700;letterSpacing:0.2em;textTransform:uppercase;color:#D7C80B" data-reveal="left">{{ t.aboutRallies }}</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:16px" data-stagger>
+          <sc-for list="{{ encuentros }}" as="ec" hint-placeholder-count="3">
+            <div style="padding:22px;borderRadius:18px;border:1px solid {{ ec.borde }};background:{{ ec.bg }};color:{{ ec.fg }}" data-reveal data-card>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letterSpacing:0.18em;textTransform:uppercase;color:{{ ec.etiquetaFg }}">{{ ec.estado }}</div>
+              <div style="display:flex;align-items:baseline;gap:10px;marginTop:12px">
+                <span style="font-size:30px;font-weight:700;lineHeight:1">{{ ec.n }}</span>
+                <span style="font-size:20px;font-weight:700;textTransform:uppercase;lineHeight:1.1">{{ ec.lugar }}</span>
+              </div>
+              <div style="font-size:15px;opacity:0.8;marginTop:8px">{{ ec.pais }}</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;marginTop:12px">{{ ec.detalle }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="maxWidth:1340px;margin:0 auto;padding:clamp(20px,3vw,28px) clamp(16px,3vw,24px) clamp(46px,7vw,80px)">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px" data-stagger>
+          <sc-for list="{{ nosotrosFotos }}" as="nf" hint-placeholder-count="4">
+            <div style="position:relative;height:230px;borderRadius:18px;overflow:hidden;border:1px solid #201C1C" data-reveal="zoom" data-card>
+              <div style="position:absolute;inset:0;background-size:cover;background-position:center;background-image:url({{ nf.img }})" data-zoom></div>
+              <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,10,10,0.05),rgba(11,10,10,0.82))"></div>
+              <div style="position:absolute;left:16px;right:16px;bottom:14px;font-family:'JetBrains Mono',monospace;font-size:10px;letterSpacing:0.16em;textTransform:uppercase;color:#C2C3C4">{{ nf.etiqueta }}</div>
+            </div>
+          </sc-for>
+        </div>
       </div>
     </div>
   </sc-if>
@@ -1121,6 +1164,12 @@ const IMG = {
   hotelHab:    px(34496701, "jpeg", 1200),
   hotelPileta: px(2259226, "jpeg", 1200),
   hotelLobby:  px(33803734, "jpeg", 1200),
+  // Fotos propias de ADR (las pasó el cliente). Reemplazan al stock en Nosotros.
+  adrGramadoPoster: "/assets/encuentro-gramado-2025.webp",
+  adrGrupo: "/assets/grupo-gramado-2025.webp",
+  adrRafaJackieRuta: "/assets/rafa-jackie-ruta.webp",
+  adrRafaJackieEncuentro: "/assets/rafa-jackie-encuentro.webp",
+  adrRafaJackieGramado: "/assets/rafa-jackie-gramado.webp",
   emblem: "assets/adr-emblema.jpeg"
 };
 
@@ -1137,15 +1186,22 @@ const COPY = {
     hotelName: "Hotel",
     hotelServices: "Servicios",
     hotelPending: "El hotel de cada etapa se confirma junto con el itinerario. Las imágenes son de referencia.",
-    aboutTitle: "Quiénes somos",
-    aboutLead: "Somos una empresa de turismo especializada en viajes en motocicleta. Diseñamos el itinerario, reservamos motos y hoteles, y acompañamos al grupo en ruta con guía bilingüe y vehículo de apoyo.",
-    aboutPillars: [
-      { t: "Itinerario armado", d: "Cada viaje tiene su recorrido, sus etapas y sus noches definidas de antemano. No improvisamos sobre la marcha." },
-      { t: "Guía bilingüe", d: "Acompañamiento en español y portugués durante todo el recorrido, para grupos de los dos países." },
-      { t: "Vehículo de apoyo", d: "Soporte mecánico en ruta y traslado de equipaje, para que la moto vaya liviana." },
-      { t: "Moto y hotel resueltos", d: "Motocicleta con seguro y kilometraje libre, y hoteles reservados noche por noche." }
+    aboutKicker: "La comunidad",
+    aboutTitle: "¿Quiénes somos?",
+    aboutP1: "Amigos de Ruta es una comunidad de motociclistas liderada por Rafa y Jackie que celebra la hermandad sobre dos ruedas.",
+    aboutP2: "Somos conocidos por organizar grandes encuentros internacionales, como el 4º en Gramado y el que tuvimos en Foz. Cada edición junta a moteros de varios países de Latinoamérica alrededor de la misma ruta.",
+    aboutP3: "Entre encuentro y encuentro compartimos la magia de nuestros viajes y conectamos a quienes quieran sumarse a rodar con nosotros. Escribinos por WhatsApp y te contamos cómo unirte a la próxima ruta.",
+    aboutLead: "Una comunidad de motociclistas liderada por Rafa y Jackie que celebra la hermandad sobre dos ruedas, con encuentros internacionales que reúnen a moteros de toda Latinoamérica.",
+    aboutRallies: "Nuestros encuentros",
+    aboutNext: "Próximo encuentro",
+    aboutPast: "Edición realizada",
+    aboutJoin: "Sumate a la próxima ruta",
+    aboutFacts: [
+      { t: "Rafa y Jackie", d: "Lideran la comunidad y encabezan cada encuentro y cada ruta." },
+      { t: "Encuentros internacionales", d: "Seis ediciones organizadas, con base en Brasil y convocatoria de toda la región." },
+      { t: "Comunidad latinoamericana", d: "Moteros de varios países que se cruzan en la ruta y vuelven cada año." },
+      { t: "Punto de contacto", d: "La puerta de entrada para sumarse a los viajes y a los encuentros." }
     ],
-    aboutPending: "Esta sección está armada con lo que el sitio ya comunica. La historia de la empresa, el equipo y las cifras de trayectoria los tiene que escribir Amigos de Ruta.",
     galleryTitle: "Galería",
     galleryBody: "Imágenes de los viajes y encuentros. Se administra desde el ERP junto con cada evento.",
     galleryPending: "Galería de muestra: las fotos definitivas se cargan por evento desde el ERP.",
@@ -1226,15 +1282,22 @@ const COPY = {
     hotelName: "Hotel",
     hotelServices: "Serviços",
     hotelPending: "O hotel de cada etapa é confirmado junto com o itinerário. As imagens são de referência.",
-    aboutTitle: "Quem somos",
-    aboutLead: "Somos uma empresa de turismo especializada em viagens de motocicleta. Desenhamos o itinerário, reservamos motos e hotéis, e acompanhamos o grupo na estrada com guia bilíngue e veículo de apoio.",
-    aboutPillars: [
-      { t: "Itinerário pronto", d: "Cada viagem tem seu percurso, suas etapas e suas noites definidas de antemão. Não improvisamos no caminho." },
-      { t: "Guia bilíngue", d: "Acompanhamento em espanhol e português durante todo o percurso, para grupos dos dois países." },
-      { t: "Veículo de apoio", d: "Apoio mecânico na estrada e transporte de bagagem, para a moto ir leve." },
-      { t: "Moto e hotel resolvidos", d: "Motocicleta com seguro e quilometragem livre, e hotéis reservados noite a noite." }
+    aboutKicker: "A comunidade",
+    aboutTitle: "Quem somos?",
+    aboutP1: "Amigos de Ruta é uma comunidade de motociclistas liderada por Rafa e Jackie que celebra a irmandade sobre duas rodas.",
+    aboutP2: "Somos conhecidos por organizar grandes encontros internacionais, como o 4º em Gramado e o que tivemos em Foz. Cada edição reúne motociclistas de vários países da América Latina em torno da mesma estrada.",
+    aboutP3: "Entre um encontro e outro, compartilhamos a magia das nossas viagens e conectamos quem quiser rodar com a gente. Fale conosco pelo WhatsApp e contamos como entrar na próxima rota.",
+    aboutLead: "Uma comunidade de motociclistas liderada por Rafa e Jackie que celebra a irmandade sobre duas rodas, com encontros internacionais que reúnem motociclistas de toda a América Latina.",
+    aboutRallies: "Nossos encontros",
+    aboutNext: "Próximo encontro",
+    aboutPast: "Edição realizada",
+    aboutJoin: "Entre na próxima rota",
+    aboutFacts: [
+      { t: "Rafa e Jackie", d: "Lideram a comunidade e estão à frente de cada encontro e cada rota." },
+      { t: "Encontros internacionais", d: "Seis edições organizadas, com base no Brasil e participação de toda a região." },
+      { t: "Comunidade latino-americana", d: "Motociclistas de vários países que se cruzam na estrada e voltam todo ano." },
+      { t: "Ponto de contato", d: "A porta de entrada para participar das viagens e dos encontros." }
     ],
-    aboutPending: "Esta seção foi montada com o que o site já comunica. A história da empresa, a equipe e os números de trajetória devem ser escritos pela Amigos de Ruta.",
     galleryTitle: "Galeria",
     galleryBody: "Imagens das viagens e encontros. É administrada no ERP junto com cada evento.",
     galleryPending: "Galeria de amostra: as fotos definitivas são carregadas por evento a partir do ERP.",
@@ -1315,15 +1378,22 @@ const COPY = {
     hotelName: "Hotel",
     hotelServices: "Amenities",
     hotelPending: "The hotel for each stage is confirmed along with the itinerary. Images are for reference.",
-    aboutTitle: "Who we are",
-    aboutLead: "We are a travel company specialising in motorcycle trips. We design the itinerary, book the bikes and hotels, and ride with the group with a bilingual guide and a support vehicle.",
-    aboutPillars: [
-      { t: "A planned route", d: "Every trip has its route, its stages and its nights set in advance. We do not improvise along the way." },
-      { t: "Bilingual guide", d: "Support in Spanish and Portuguese for the whole route, for groups from both countries." },
-      { t: "Support vehicle", d: "Mechanical support on the road and luggage transfer, so the bike travels light." },
-      { t: "Bike and hotel sorted", d: "Motorcycle with insurance and unlimited mileage, and hotels booked night by night." }
+    aboutKicker: "The community",
+    aboutTitle: "Who are we?",
+    aboutP1: "Amigos de Ruta is a community of riders led by Rafa and Jackie that celebrates brotherhood on two wheels.",
+    aboutP2: "We are known for putting together large international rallies, like the 4th in Gramado and the one we held in Foz. Each edition brings riders from several Latin American countries together on the same road.",
+    aboutP3: "Between rallies we share the magic of our trips and connect anyone who wants to ride with us. Message us on WhatsApp and we will tell you how to join the next route.",
+    aboutLead: "A community of riders led by Rafa and Jackie that celebrates brotherhood on two wheels, with international rallies that bring together riders from all over Latin America.",
+    aboutRallies: "Our rallies",
+    aboutNext: "Next rally",
+    aboutPast: "Past edition",
+    aboutJoin: "Join the next route",
+    aboutFacts: [
+      { t: "Rafa and Jackie", d: "They lead the community and ride at the front of every rally and every route." },
+      { t: "International rallies", d: "Six editions organised, based in Brazil and drawing riders from across the region." },
+      { t: "Latin American community", d: "Riders from several countries who meet on the road and come back every year." },
+      { t: "A way in", d: "The front door for joining the trips and the rallies." }
     ],
-    aboutPending: "This section was built from what the site already says about itself. The company history, the team and the track record are for Amigos de Ruta to write.",
     galleryTitle: "Gallery",
     galleryBody: "Images from the trips and rallies. Managed from the ERP alongside each event.",
     galleryPending: "Sample gallery: the final photos are loaded per event from the ERP.",
@@ -1486,6 +1556,24 @@ const R66_PAQUETES = [
    administrable; hasta que salga del ERP, esta lista es el lugar donde se
    administra. Las fotos son de referencia: cuando ADR tenga las de sus propias
    unidades, se reemplazan acá y nada más. */
+/* Historia y encuentros de la comunidad. Los datos son los que aportó ADR:
+   el 4º fue Gramado 2025, el 5º Foz 2026 y el 6º es Caldas Novas, del 16 al 19
+   de septiembre de 2027. */
+const ENCUENTROS = [
+  { n: "4º", lugar: "Gramado, RS", pais: "Brasil", anio: "2025", estado: "pasado" },
+  { n: "5º", lugar: "Foz do Iguaçu", pais: "Brasil", anio: "2026", estado: "pasado" },
+  { n: "6º", lugar: "Caldas Novas", pais: "Brasil", anio: "2027",
+    fechas: { es: "16 al 19 de septiembre", pt: "16 a 19 de setembro", en: "16 to 19 September" },
+    estado: "proximo" }
+];
+
+const NOSOTROS_FOTOS = [
+  { img: IMG.adrGrupo, etiqueta: { es: "4º Encuentro Internacional · Gramado 2025", pt: "4º Encontro Internacional · Gramado 2025", en: "4th International Rally · Gramado 2025" } },
+  { img: IMG.adrRafaJackieGramado, etiqueta: { es: "Rafa y Jackie · Gramado", pt: "Rafa e Jackie · Gramado", en: "Rafa and Jackie · Gramado" } },
+  { img: IMG.adrRafaJackieRuta, etiqueta: { es: "En ruta", pt: "Na estrada", en: "On the road" } },
+  { img: IMG.adrRafaJackieEncuentro, etiqueta: { es: "Noche de encuentro", pt: "Noite de encontro", en: "Rally night" } }
+];
+
 const MOTOS = [
   { img: IMG.motoTouring,
     estilo: { es: "Touring", pt: "Touring", en: "Touring" },
@@ -2155,7 +2243,23 @@ class Component extends DCLogic {
         foto: det.hotel.fotos[0].img,
         fotos: det.hotel.fotos.slice(1).map((f) => ({ img: f.img, etiqueta: p(f.etiqueta) }))
       } : null,
-      aboutPillars: t.aboutPillars,
+      aboutFacts: t.aboutFacts,
+      nosotrosFotos: NOSOTROS_FOTOS.map((f) => ({ img: f.img, etiqueta: p(f.etiqueta) })),
+      nosotrosPortada: IMG.adrGrupo,
+      nosotrosRetrato: IMG.adrRafaJackieRuta,
+      encuentros: ENCUENTROS.map((e) => ({
+        n: e.n,
+        lugar: e.lugar,
+        pais: e.pais,
+        anio: e.anio,
+        // Sólo el próximo muestra fechas; de los pasados alcanza con el año.
+        detalle: e.estado === "proximo" ? (p(e.fechas) + " · " + e.anio) : e.anio,
+        estado: e.estado === "proximo" ? t.aboutNext : t.aboutPast,
+        bg: e.estado === "proximo" ? accent : "transparent",
+        fg: e.estado === "proximo" ? "#0B0A0A" : "#C2C3C4",
+        borde: e.estado === "proximo" ? accent : "#201C1C",
+        etiquetaFg: e.estado === "proximo" ? "#0B0A0A" : "#757676"
+      })),
       // La galería se arma con las fotos de los eventos publicados: son las
       // imágenes que el sitio ya tiene. Cuando el CMS del ERP cargue las reales,
       // esto pasa a leer de ahí.

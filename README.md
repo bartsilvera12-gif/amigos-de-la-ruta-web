@@ -163,6 +163,25 @@ dos veces (una para dibujar, otra para armar el mensaje de WhatsApp) y la segund
 sin traducir, así que el pedido en inglés decía "Tarjeta". Ahora sale todo de
 `MEDIOS_PAGO`.
 
+## Nosotros
+
+Contenido **real**, aportado por ADR: la comunidad la lideran Rafa y Jackie, y los
+encuentros internacionales van en `ENCUENTROS` (4º Gramado 2025, 5º Foz 2026, 6º Caldas
+Novas del 16 al 19 de septiembre de 2027). La tarjeta del próximo encuentro se resalta
+sola: sale de `estado: "proximo"`, no de un estilo escrito a mano. Al sumar la 7ª edición,
+basta cambiar ese campo.
+
+Las fotos son propias (`assets/`), no stock. Dos cosas a saber de ellas:
+
+- La selfie del portal de Gramado venía **espejada** (cámara frontal): el cartel se leía al
+  revés. Se guardó volteada horizontalmente.
+- La imagen del póster del 4º encuentro (`encuentro-gramado-2025.webp`) está en el repo
+  pero no se usa en la página: lleva el título quemado encima y chocaba con el texto del
+  hero. Se usa la versión limpia de la misma foto.
+
+La estructura sigue a maxingpy.com/nosotros: kicker, título en pregunta, prosa corta y una
+fila de tarjetas de datos.
+
 ## Las motos
 
 `MOTOS`, arriba del script. Cada tarjeta lleva el **estilo** como título y los modelos

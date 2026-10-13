@@ -540,11 +540,17 @@
               </div>
             </div>
             <div style="display:flex;align-items:center;gap:16px;flexWrap:wrap;marginTop:30px;paddingTop:24px;borderTop:1px solid #201C1C">
-              <div onClick="{{ doBook }}" style="padding:16px 30px;background:#D7C80B;color:#0B0A0A;font-size:15px;font-weight:700;letterSpacing:0.16em;textTransform:uppercase;borderRadius:999px;cursor:pointer" style-hover="background:#E2E3E3" data-shine>{{ t.ctaPay }}</div>
+              <div onClick="{{ doBook }}" style="padding:16px 30px;background:#D7C80B;color:#0B0A0A;font-size:15px;font-weight:700;letterSpacing:0.16em;textTransform:uppercase;borderRadius:999px;cursor:pointer" style-hover="background:#E2E3E3" data-shine>{{ ctaPayLabel }}</div>
               <div style="font-size:14px;color:#757676;max-width:280px;text-wrap:pretty">{{ t.payNote }}</div>
             </div>
             <sc-if value="{{ bSent }}" hint-placeholder-val="{{ false }}">
               <div style="marginTop:18px;padding:16px 18px;border:1px solid #D7C80B;background:rgba(215,200,11,0.08);borderRadius:12px;font-size:14px;lineHeight:1.5;color:#E2E3E3;text-wrap:pretty">{{ t.sentNote }}</div>
+            </sc-if>
+            <sc-if value="{{ bCodigo }}" hint-placeholder-val="{{ false }}">
+              <div style="marginTop:12px;padding:16px 18px;border:1px solid #D7C80B;background:rgba(215,200,11,0.08);borderRadius:12px;font-size:14px;lineHeight:1.5;color:#E2E3E3;text-wrap:pretty">{{ bCodigoNota }}</div>
+            </sc-if>
+            <sc-if value="{{ bError }}" hint-placeholder-val="{{ false }}">
+              <div style="marginTop:12px;padding:16px 18px;border:1px solid #6b2b2b;background:rgba(107,43,43,0.18);borderRadius:12px;font-size:14px;lineHeight:1.5;color:#E2E3E3;text-wrap:pretty">{{ bError }}</div>
             </sc-if>
           </div>
 
@@ -1130,7 +1136,16 @@
             <div style="font-size:13px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase;color:#757676">{{ t.total }}</div>
             <div style="font-size:30px;font-weight:700;color:#D7C80B">{{ cartTotal }}</div>
           </div>
-          <div onClick="{{ doCheckout }}" style="padding:16px;background:#D7C80B;color:#0B0A0A;borderRadius:999px;text-align:center;font-size:13px;font-weight:700;letterSpacing:0.16em;textTransform:uppercase;cursor:pointer;minHeight:50px;display:flex;align-items:center;justify-content:center" style-hover="background:#E2E3E3" data-shine>{{ t.checkout }}</div>
+          <input type="text" value="{{ cNombre }}" onChange="{{ onCartName }}" placeholder="{{ t.phCartName }}" style="padding:13px 14px;background:#0B0A0A;border:1px solid #2c2929;borderRadius:10px;font-size:16px;color:#E2E3E3;width:100%;outline:none;minHeight:48px;font-family:inherit" />
+          <input type="tel" value="{{ cTelefono }}" onChange="{{ onCartPhone }}" placeholder="{{ t.phCartPhone }}" style="padding:13px 14px;background:#0B0A0A;border:1px solid #2c2929;borderRadius:10px;font-size:16px;color:#E2E3E3;width:100%;outline:none;minHeight:48px;font-family:inherit" />
+          <div style="font-size:12px;lineHeight:1.5;color:#757676;text-wrap:pretty">{{ t.cartDatos }}</div>
+          <div onClick="{{ doCheckout }}" style="padding:16px;background:#D7C80B;color:#0B0A0A;borderRadius:999px;text-align:center;font-size:13px;font-weight:700;letterSpacing:0.16em;textTransform:uppercase;cursor:pointer;minHeight:50px;display:flex;align-items:center;justify-content:center" style-hover="background:#E2E3E3" data-shine>{{ checkoutLabel }}</div>
+          <sc-if value="{{ cCodigo }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:13px 15px;border:1px solid #D7C80B;background:rgba(215,200,11,0.08);borderRadius:12px;font-size:13px;lineHeight:1.5;color:#E2E3E3;text-wrap:pretty">{{ cCodigoNota }}</div>
+          </sc-if>
+          <sc-if value="{{ cError }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:13px 15px;border:1px solid #6b2b2b;background:rgba(107,43,43,0.18);borderRadius:12px;font-size:13px;lineHeight:1.5;color:#E2E3E3;text-wrap:pretty">{{ cError }}</div>
+          </sc-if>
           <div style="font-size:13px;lineHeight:1.5;color:#757676;text-wrap:pretty">{{ t.shipNote }}</div>
         </div>
       </div>
@@ -1261,6 +1276,12 @@ const COPY = {
     stockNote: "El stock mostrado es en tiempo real. Los kits incluidos en una inscripción ya están reservados y no figuran disponibles.",
     ctaCart: "Agregar al carrito", pickSize: "Elegí tu talle", noResults: "No encontramos productos con esos filtros.", more: "Mostrar más productos",
     cart: "Carrito", cartTitle: "Tu carrito", total: "Total", checkout: "Finalizar compra",
+    phCartName: "Tu nombre y apellido", phCartPhone: "Teléfono (opcional)",
+    cartDatos: "Dejanos tu nombre y registramos el pedido; si no, se va sólo por WhatsApp.",
+    erpEnviando: "Enviando…",
+    erpReserva: "Tu inscripción quedó registrada con el código {x}. Te vamos a escribir para confirmarla.",
+    erpPedido: "Tu pedido quedó registrado con el número {x}.",
+    erpError: "No pudimos registrarlo en este momento. El mensaje de WhatsApp igual se abrió.",
     cartEmpty: "Todavía no agregaste productos. Elegí algo del catálogo y lo vas a ver acá.",
     shipNote: "Envíos a Paraguay, Brasil y Argentina. También podés retirar tu pedido en el check-in del viaje.",
     shopCats: ["Remeras", "Gorras", "Mochilas y bolsos", "Accesorios"],
@@ -1357,6 +1378,12 @@ const COPY = {
     stockNote: "O estoque exibido é em tempo real. Os kits incluídos em uma inscrição já estão reservados e não aparecem disponíveis.",
     ctaCart: "Adicionar ao carrinho", pickSize: "Escolha seu tamanho", noResults: "Não encontramos produtos com esses filtros.", more: "Mostrar mais produtos",
     cart: "Carrinho", cartTitle: "Seu carrinho", total: "Total", checkout: "Finalizar compra",
+    phCartName: "Seu nome e sobrenome", phCartPhone: "Telefone (opcional)",
+    cartDatos: "Deixe seu nome e registramos o pedido; sem ele, vai só pelo WhatsApp.",
+    erpEnviando: "Enviando…",
+    erpReserva: "Sua inscrição foi registrada com o código {x}. Vamos entrar em contato para confirmar.",
+    erpPedido: "Seu pedido foi registrado com o número {x}.",
+    erpError: "Não conseguimos registrar agora. A mensagem do WhatsApp foi aberta de todo jeito.",
     cartEmpty: "Você ainda não adicionou produtos. Escolha algo do catálogo e aparecerá aqui.",
     shipNote: "Enviamos para Paraguai, Brasil e Argentina. Você também pode retirar o pedido no check-in da viagem.",
     shopCats: ["Camisetas", "Bonés", "Mochilas e bolsas", "Acessórios"],
@@ -1453,6 +1480,12 @@ const COPY = {
     stockNote: "The stock shown is real time. Kits included in a booking are already reserved and do not show as available.",
     ctaCart: "Add to cart", pickSize: "Choose your size", noResults: "We found no products with those filters.", more: "Show more products",
     cart: "Cart", cartTitle: "Your cart", total: "Total", checkout: "Checkout",
+    phCartName: "Your full name", phCartPhone: "Phone (optional)",
+    cartDatos: "Leave your name and we will log the order; without it, it only goes out by WhatsApp.",
+    erpEnviando: "Sending…",
+    erpReserva: "Your registration was logged with code {x}. We will get in touch to confirm it.",
+    erpPedido: "Your order was logged with number {x}.",
+    erpError: "We could not log it right now. The WhatsApp message opened anyway.",
     cartEmpty: "You have not added anything yet. Pick something from the catalogue and it will show up here.",
     shipNote: "We ship to Paraguay, Brazil and Argentina. You can also collect your order at the trip check-in.",
     shopCats: ["T-shirts", "Caps", "Backpacks and bags", "Accessories"],
@@ -1474,6 +1507,21 @@ const COPY = {
    Los precios del catálogo son strings ("USD 7.900") porque así se muestran; para
    calcular saldo y porcentaje hay que volverlos número y después formatearlos de
    nuevo. `de-DE` es el locale que separa miles con punto, como el resto del sitio. */
+/* --- ERP ------------------------------------------------------------------
+   Los viajes, las salidas, los paquetes, la tienda, las motos y las preguntas
+   los administra Amigos de la Ruta desde su ERP. Esta pagina los pide al cargar.
+
+   Las constantes de mas abajo NO se borran: son el respaldo. Si el ERP no
+   responde, o si una coleccion todavia esta vacia, el sitio muestra lo mismo
+   que hoy en vez de quedar en blanco. El reemplazo es por coleccion: si hay
+   viajes cargados pero ningun producto, se usan los viajes del ERP y los
+   productos de este archivo.
+
+   Un viaje del ERP que comparte `slug` con uno de aca se superpone campo por
+   campo sobre el: asi Route 66 conserva su itinerario, su hotel y sus fotos
+   aunque el ERP todavia no los tenga cargados. */
+const ERP_BASE = (typeof window !== "undefined" && window.ADR_ERP) || "https://amigosdelaruta.neura.com.py";
+
 const WHATSAPP = "595981000000";
 const TELEFONO_VISIBLE = "+595 981 000 000";
 
@@ -1567,14 +1615,14 @@ const ENCUENTROS = [
     estado: "proximo" }
 ];
 
-const NOSOTROS_FOTOS = [
+let NOSOTROS_FOTOS = [
   { img: IMG.adrGrupo, pos: "center 60%", etiqueta: { es: "4º Encuentro Internacional · Gramado 2025", pt: "4º Encontro Internacional · Gramado 2025", en: "4th International Rally · Gramado 2025" } },
   { img: IMG.adrRafaJackieGramado, pos: "center 42%", etiqueta: { es: "Rafa y Jackie · Gramado", pt: "Rafa e Jackie · Gramado", en: "Rafa and Jackie · Gramado" } },
   { img: IMG.adrRafaJackieRuta, pos: "center 12%", etiqueta: { es: "En ruta", pt: "Na estrada", en: "On the road" } },
   { img: IMG.adrRafaJackieEncuentro, pos: "center 28%", etiqueta: { es: "Noche de encuentro", pt: "Noite de encontro", en: "Rally night" } }
 ];
 
-const MOTOS = [
+let MOTOS = [
   { img: IMG.motoTouring,
     estilo: { es: "Touring", pt: "Touring", en: "Touring" },
     modelos: "Harley-Davidson Electra Glide · Street Glide · Road Glide",
@@ -1601,7 +1649,7 @@ const MOTOS = [
                en: "Long-travel suspension and a tall front wheel for gravel stretches and mountain detours. The pick for Alaska and Patagonia." } }
 ];
 
-const EVENTS = [
+let EVENTS = [
   { slug: "route-66", img: IMG.r66, year: 2027, open: true, badge: { es: "Múltiples salidas", pt: "Várias saídas", en: "Several departures" }, country: "Estados Unidos", name: "Route 66", dates: "07 · 08 / 2027", duration: { es: "16 días", pt: "16 dias", en: "16 days" }, price: "USD 7.900", spots: { es: "3 fechas · 48 cupos en total", pt: "3 datas · 48 vagas no total", en: "3 dates · 48 seats in total" },
     foto: IMG.r66foto, recorrido: "Chicago → Santa Monica · 3.940 km",
     hotel: {
@@ -1670,7 +1718,7 @@ const STEPS = [
 
 const SIZES = ["S", "M", "L", "XL", "XXL", "U"];
 
-const PRODUCTS = [
+let PRODUCTS = [
   { sku: "ADR-REM-001", c: 0, img: IMG.tee, price: 32, rank: 1, sizes: ["S","M","L","XL","XXL"], low: false,
     name: { es: "Remera oficial 2027", pt: "Camiseta oficial 2027", en: "Official 2027 t-shirt" },
     variants: { es: "Negro · algodón peinado 180 g", pt: "Preto · algodão penteado 180 g", en: "Black · 180 g combed cotton" },
@@ -1713,7 +1761,7 @@ const PRODUCTS = [
     specs: { es: ["Vinilo exterior", "Parche bordado", "3 a 5 días hábiles"], pt: ["Vinil externo", "Patch bordado", "3 a 5 dias úteis"], en: ["Outdoor vinyl", "Embroidered patch", "3 to 5 working days"] } }
 ];
 
-const FAQS = [
+let FAQS = [
   { c: 0, q: { es: "¿Necesito licencia internacional?", pt: "Preciso de carteira internacional?", en: "Do I need an international licence?" }, a: { es: "Sí. Te pedimos licencia vigente de categoría moto y permiso internacional de conducir; lo verificamos antes de confirmar tu lugar.", pt: "Sim. Pedimos carteira válida para moto e permissão internacional de conduzir; verificamos antes de confirmar sua vaga.", en: "Yes. We ask for a valid motorcycle licence and an international driving permit; we check them before confirming your place." } },
   { c: 0, q: { es: "¿Qué documentación debo enviar?", pt: "Que documentos devo enviar?", en: "What paperwork do I need to send?" }, a: { es: "Pasaporte vigente, licencia, visa cuando corresponda y seguro médico. Podés cargarlos después de reservar, desde tu enlace de reserva.", pt: "Passaporte válido, carteira, visto quando necessário e seguro médico. Você pode enviá-los depois de reservar, pelo link da sua reserva.", en: "A valid passport, your licence, a visa where required and medical insurance. You can upload them after booking, from your booking link." } },
   { c: 1, q: { es: "¿Puedo pagar en cuotas?", pt: "Posso pagar parcelado?", en: "Can I pay in instalments?" }, a: { es: "Reservás con la seña y después abonás en pagos parciales libres o en un plan de cuotas con vencimientos.", pt: "Você reserva com o sinal e depois paga em pagamentos parciais livres ou em um plano de parcelas com vencimentos.", en: "You book with the deposit and then pay in free partial payments or on an instalment plan with due dates." } },
@@ -1727,7 +1775,249 @@ const FAQS = [
 ];
 
 const PAGE = 6;
-const CAROUSEL = EVENTS.slice(0, 5);
+let CAROUSEL = EVENTS.slice(0, 5);
+
+/* --- Catálogo del ERP -------------------------------------------------------
+   Lo de arriba queda como respaldo; esto lo reemplaza con lo que ADR tenga
+   publicado. Una sola llamada GET al cargar la página: si falla, no se nota. */
+
+const ERP_FALLBACK = { eventos: EVENTS, productos: PRODUCTS, motos: MOTOS, faqs: FAQS, fotos: NOSOTROS_FOTOS };
+
+/* Importe con separador de miles y sin decimales. `money()` (más arriba) lee
+   estos textos quitando todo lo que no sea dígito, así que un precio con
+   centavos se leería como un número cien veces más grande: se redondea. */
+const erpPrecio = (n, mon) => (mon || "USD") + " " + Math.round(Number(n) || 0).toLocaleString("es-PY");
+
+/* Rango de fechas con el formato que ya usa el sitio ("05 — 14 / 07 / 2027"). */
+function erpRango(ini, fin) {
+  const partes = (v) => String(v || "").slice(0, 10).split("-");
+  const i = partes(ini);
+  if (i.length !== 3) return "";
+  const f = partes(fin);
+  if (f.length !== 3 || fin === ini) return i[2] + " / " + i[1] + " / " + i[0];
+  if (i[0] === f[0] && i[1] === f[1]) return i[2] + " — " + f[2] + " / " + i[1] + " / " + i[0];
+  if (i[0] === f[0]) return i[2] + " / " + i[1] + " — " + f[2] + " / " + f[1] + " / " + i[0];
+  return i[2] + " / " + i[1] + " / " + i[0] + " — " + f[2] + " / " + f[1] + " / " + f[0];
+}
+
+/* Un jsonb multilingüe del ERP se pasa casi tal cual: `pick()` resuelve
+   {es,pt,en}. Devuelve null si viene vacío, para que el campo del respaldo gane.
+
+   Los idiomas vacíos se SACAN del objeto, no se dejan en "". `pick()` hace
+   `o[lang] ?? o.es`, y eso sólo cae en español cuando la clave no está: con
+   `pt: []` cargado a medias, un visitante brasileño vería la lista en blanco
+   en vez del castellano. */
+function erpI18n(v) {
+  const lleno = (x) =>
+    Array.isArray(x) ? x.length > 0 : typeof x === "string" ? x.trim().length > 0 : x != null;
+  if (v == null) return null;
+  if (typeof v === "string") return v.trim() ? v : null;
+  if (Array.isArray(v)) return v.length ? v : null;
+  if (typeof v === "object") {
+    const out = {};
+    for (const k in v) if (lleno(v[k])) out[k] = v[k];
+    /* Si no hay castellano no se puede garantizar el respaldo de `pick()`: el
+       primer idioma cargado hace de `es`. */
+    if (!("es" in out)) {
+      const primero = Object.keys(out)[0];
+      if (primero) out.es = out[primero];
+    }
+    return Object.keys(out).length ? out : null;
+  }
+  return null;
+}
+
+/* Lo del ERP pisa al respaldo sólo cuando trae algo. Un campo vacío en el ERP
+   no borra lo que el sitio ya mostraba. */
+function erpMerge(base, encima) {
+  const out = Object.assign({}, base || {});
+  for (const k in encima) if (encima[k] != null) out[k] = encima[k];
+  return out;
+}
+
+const ERP_ESTADO_SALIDA = {
+  abierta:      { abierta: true,  es: "Inscripción abierta", pt: "Inscrições abertas", en: "Registration open" },
+  confirmada:   { abierta: true,  es: "Confirmada",          pt: "Confirmada",         en: "Confirmed" },
+  lista_espera: { abierta: false, es: "Lista de espera",     pt: "Lista de espera",    en: "Waiting list" },
+  cerrada:      { abierta: false, es: "Cerrada",             pt: "Fechada",            en: "Closed" },
+  finalizada:   { abierta: false, es: "Finalizada",          pt: "Finalizada",         en: "Finished" }
+};
+
+function erpViajes(viajes) {
+  return viajes.map((v) => {
+    const base = ERP_FALLBACK.eventos.find((e) => e.slug === v.slug) || {};
+
+    const salidas = (v.salidas || []).map((sal) => {
+      const est = ERP_ESTADO_SALIDA[String(sal.estado)] || ERP_ESTADO_SALIDA.cerrada;
+      return {
+        id: sal.id,                       // lo necesita POST /api/web/reserva
+        date: erpRango(sal.fecha_inicio, sal.fecha_fin),
+        state: { es: est.es, pt: est.pt, en: est.en },
+        open: est.abierta,
+        lang: erpI18n(sal.idioma_guia),
+        /* El porcentaje de ocupación sale de las reservas, que no son públicas:
+           la barra se muestra sólo cuando el ERP lo publique. */
+        fill: null,
+        spots: sal.cupo_total
+          ? { es: sal.cupo_total + " cupos", pt: sal.cupo_total + " vagas", en: sal.cupo_total + " seats" }
+          : null
+      };
+    });
+
+    const paquetes = (v.paquetes || []).map((pq) => ({
+      id: pq.id,                          // lo necesita POST /api/web/reserva
+      people: Number(pq.personas) || 1,
+      name: erpI18n(pq.nombre) || { es: "Paquete", pt: "Pacote", en: "Package" },
+      price: erpPrecio(pq.precio, pq.moneda),
+      detail: erpI18n(pq.detalle),
+      spots: pq.cupo ? { es: pq.cupo + " cupos", pt: pq.cupo + " vagas", en: pq.cupo + " seats" } : null
+    }));
+
+    const abiertas = salidas.filter((sal) => sal.open).length;
+    const desde = paquetes.length
+      ? paquetes.reduce((min, pq) => Math.min(min, money(pq.price)), Infinity)
+      : null;
+    const anio = Number(String(((v.salidas || [])[0] || {}).fecha_inicio || "").slice(0, 4));
+
+    const badge = v.destacado
+      ? { es: "Destacado", pt: "Destaque", en: "Featured" }
+      : !abiertas
+        ? { es: "Próximamente", pt: "Em breve", en: "Coming soon" }
+        : salidas.length > 1
+          ? { es: "Múltiples salidas", pt: "Várias saídas", en: "Several departures" }
+          : { es: "Salida única", pt: "Saída única", en: "Single departure" };
+
+    const itinerario = (v.itinerario || []).map((it) => ({
+      day: erpI18n(it.etiqueta) || (it.dia ? { es: "Día " + it.dia, pt: "Dia " + it.dia, en: "Day " + it.dia } : ""),
+      place: it.lugar || "",
+      note: erpI18n(it.nota) || ""
+    }));
+
+    return erpMerge(base, {
+      slug: v.slug,
+      /* El nombre va como texto plano, igual que en el respaldo: los viajes se
+         llaman igual en los tres idiomas ("Route 66", "Alaska Gold Rush"). */
+      name: typeof v.nombre === "string"
+        ? v.nombre
+        : (v.nombre && (v.nombre.es || v.nombre.pt || v.nombre.en)) || base.name,
+      img: v.portada_url || null,
+      foto: v.portada_url || null,
+      year: anio || base.year || new Date().getFullYear(),
+      open: salidas.length ? abiertas > 0 : null,
+      badge: badge,
+      country: v.pais || null,
+      dates: salidas.length ? salidas[0].date : null,
+      duration: v.duracion_dias
+        ? { es: v.duracion_dias + " días", pt: v.duracion_dias + " dias", en: v.duracion_dias + " days" }
+        : null,
+      price: desde != null && isFinite(desde)
+        ? erpPrecio(desde, ((v.paquetes || [])[0] || {}).moneda || v.moneda_base)
+        : null,
+      spots: salidas.length === 1
+        ? salidas[0].spots
+        : (abiertas
+            ? { es: abiertas + " salidas abiertas", pt: abiertas + " saídas abertas", en: abiertas + " open departures" }
+            : null),
+      resumen: erpI18n(v.resumen),
+      recorrido: v.punto_salida && v.punto_llegada
+        ? v.punto_salida + " → " + v.punto_llegada +
+          (v.distancia_km ? " · " + Math.round(v.distancia_km).toLocaleString("es-PY") + " km" : "")
+        : null,
+      hotel: erpI18n(v.hotel),
+      incluye: erpI18n(v.incluye),
+      noIncluye: erpI18n(v.no_incluye),
+      itinerario: itinerario.length ? itinerario : null,
+      salidas: salidas.length ? salidas : null,
+      paquetes: paquetes.length ? paquetes : null
+    });
+  });
+}
+
+function erpTienda(tienda) {
+  return tienda.map((w) => {
+    const base = ERP_FALLBACK.productos.find((p) => p.sku === w.sku) || {};
+    return erpMerge(base, {
+      sku: w.sku,
+      price: Number(w.precio) || 0,
+      img: w.img || null,
+      c: Number(w.categoria) || 0,
+      rank: Number(w.orden) || base.rank || 0,
+      /* `low` es el cartel de "últimas unidades". Sin stock también se marca:
+         el ERP es la única fuente del stock, y esconder el producto dejaría la
+         tienda distinta según la hora. */
+      low: !!(w.poco_stock || w.sin_stock),
+      sinStock: !!w.sin_stock,
+      name: erpI18n(w.nombre),
+      desc: erpI18n(w.descripcion),
+      variants: erpI18n(w.variantes),
+      specs: erpI18n(w.specs),
+      /* El ERP todavía no administra talles: se conservan los del respaldo y,
+         para un producto nuevo, queda talle único. */
+      sizes: base.sizes || ["U"]
+    });
+  }).filter((p) => p.name);          // sin nombre cargado no se publica
+
+}
+
+function erpMotos(motos) {
+  return motos.map((m) => {
+    const base = ERP_FALLBACK.motos.find((x) => x.modelos === m.nombre) || {};
+    return erpMerge(base, {
+      img: m.imagen_url || null,
+      estilo: m.nombre || null,
+      modelos: m.anio ? m.nombre + " · " + m.anio : m.nombre || null,
+      detalle: erpI18n(m.descripcion)
+    });
+  });
+}
+
+/* El ERP no categoriza las preguntas; van todas al primer grupo. El filtro por
+   categoría del sitio sigue andando, con los demás grupos vacíos. */
+function erpFaqs(faqs) {
+  return faqs
+    .map((f) => ({ c: 0, q: erpI18n(f.pregunta), a: erpI18n(f.respuesta) }))
+    .filter((f) => f.q && f.a);
+}
+
+function erpFotos(encuentros) {
+  return encuentros
+    .filter((e) => e.imagen_url)
+    .map((e) => ({ img: e.imagen_url, pos: "center", etiqueta: erpI18n(e.titulo) || "" }));
+}
+
+/* Reemplaza colección por colección. Lo que venga vacío no toca el respaldo. */
+function erpAplicar(data) {
+  const usados = [];
+  const poner = (nombre, filas, mapa, asignar) => {
+    if (!Array.isArray(filas) || !filas.length) return;
+    let out;
+    try { out = mapa(filas); } catch (e) { return; }
+    if (!out || !out.length) return;
+    asignar(out);
+    usados.push(nombre);
+  };
+  poner("viajes", data.viajes, erpViajes, (v) => { EVENTS = v; CAROUSEL = EVENTS.slice(0, 5); });
+  poner("tienda", data.tienda, erpTienda, (v) => { PRODUCTS = v; });
+  poner("motos", data.motos, erpMotos, (v) => { MOTOS = v; });
+  poner("faqs", data.faqs, erpFaqs, (v) => { FAQS = v; });
+  poner("encuentros", data.encuentros, erpFotos, (v) => { NOSOTROS_FOTOS = v; });
+  return usados;
+}
+
+/* POST al ERP. Devuelve el cuerpo ya parseado o lanza con el mensaje que el
+   ERP haya dado (p. ej. "No quedan lugares en esa salida"), que es texto
+   pensado para el visitante. */
+async function erpPost(ruta, cuerpo) {
+  const r = await fetch(ERP_BASE + ruta, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(cuerpo)
+  });
+  let j = null;
+  try { j = await r.json(); } catch (e) { /* respuesta sin JSON */ }
+  if (!r.ok || !j || j.ok !== true) throw new Error((j && j.error) || "No se pudo registrar el pedido.");
+  return j;
+}
 
 class Component extends DCLogic {
   state = {
@@ -1736,6 +2026,10 @@ class Component extends DCLogic {
     size: "L", pay: 0,
     trip: 0, departure: 0, pkg: 1, bRole: 0, openSel: null, moneda: "USD",
     bName: "", bDoc: "", bLicense: "", bTouched: false, bSent: false,
+    /* Reserva y pedido contra el ERP: codigo devuelto, error del ERP y el
+       "mandando" que bloquea el boton para no duplicar. */
+    bEnviando: false, bCodigo: null, bError: null,
+    cNombre: "", cTelefono: "", cEnviando: false, cCodigo: null, cError: null,
     tripFilter: "all", faqCat: -1,
     cat: -1, shopSize: null, maxPrice: 120, query: "", sort: 0, limit: PAGE,
     open: null, qty: 1, detailSize: null, cartOpen: false, cart: {}
@@ -1743,6 +2037,7 @@ class Component extends DCLogic {
 
   componentDidMount() {
     this.ensureTimers();
+    this.cargarCatalogo();
     if (typeof IntersectionObserver !== "undefined") {
       const el = document.getElementById("contacto");
       if (el) {
@@ -1754,6 +2049,31 @@ class Component extends DCLogic {
       }
     }
   }
+  /* Pide el catalogo al ERP y re-renderiza si trajo algo. Un fallo no se le
+     muestra al visitante: el sitio ya tiene su respaldo y no hay nada que el
+     visitante pueda hacer al respecto. Queda en la consola para nosotros. */
+  cargarCatalogo() {
+    if (typeof fetch === "undefined") return;
+    const ctrl = typeof AbortController !== "undefined" ? new AbortController() : null;
+    // Si el ERP esta caido, el fetch no se queda colgado para siempre.
+    const corte = ctrl ? setTimeout(() => ctrl.abort(), 8000) : null;
+    fetch(ERP_BASE + "/api/web/catalogo", { signal: ctrl ? ctrl.signal : undefined })
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error("HTTP " + r.status))))
+      .then((data) => {
+        if (!data || data.ok !== true) throw new Error("respuesta sin ok");
+        const usados = erpAplicar(data);
+        if (usados.length) {
+          this._erp = usados;
+          // Reinicia los indices: el viaje 3 del respaldo puede no existir en el ERP.
+          this.setState({ trip: 0, departure: 0, pkg: 0, slide: 0, shop: 0, limit: PAGE, cart: {} });
+        }
+      })
+      .catch((e) => {
+        if (typeof console !== "undefined") console.warn("[adr] catalogo del ERP no disponible:", e && e.message);
+      })
+      .finally(() => { if (corte) clearTimeout(corte); });
+  }
+
   componentWillUnmount() {
     clearInterval(this._tick); clearInterval(this._shop); clearTimeout(this._wrap);
     if (this._io) { this._io.disconnect(); this._io = null; }
@@ -1832,12 +2152,35 @@ class Component extends DCLogic {
     return trip.paquetes || [];
   }
 
-  /* Sin backend: valida y abre WhatsApp con el pedido escrito. Si hay algo mal,
-     marca el formulario como tocado — recién ahí se muestran los errores, para no
-     recibir a nadie con todo en rojo antes de escribir una letra. */
+  /* Valida, registra la inscripción en el ERP y abre WhatsApp con el pedido
+     escrito. Si hay algo mal, marca el formulario como tocado — recién ahí se
+     muestran los errores, para no recibir a nadie con todo en rojo antes de
+     escribir una letra.
+
+     WhatsApp se abre igual que antes, incluso si el ERP falla: el canal que ADR
+     usa de verdad no se puede perder por un error nuestro. Lo que cambia es que
+     ahora la inscripción también queda registrada, con su código. */
   submitBooking(d) {
     if (d.invalid) { this.setState({ bTouched: true }); return; }
+    if (this.state.bEnviando) return;
     const t = COPY[this.lang];
+
+    /* `salidaId` sólo existe cuando el viaje vino del ERP. Con el catálogo de
+       respaldo no hay dónde registrar la reserva: queda el flujo de siempre. */
+    if (d.salidaId) {
+      this.setState({ bEnviando: true, bError: null, bCodigo: null });
+      erpPost("/api/web/reserva", {
+        salida_id: d.salidaId,
+        paquete_id: d.paqueteId || null,
+        idioma: this.lang,
+        telefono: d.telefono || null,
+        comentario: [t.fRole + ": " + d.role, t.fShirt + ": " + d.size, t.fPay + ": " + d.pay].join(" · "),
+        participantes: [{ nombre: d.name, documento: d.doc, licencia: d.license }]
+      })
+        .then((j) => this.setState({ bEnviando: false, bCodigo: j.codigo || null, bError: null }))
+        .catch((e) => this.setState({ bEnviando: false, bError: e.message || t.erpError }));
+    }
+
     const texto = [
       t.waIntro, "",
       t.fTrip + ": " + d.trip,
@@ -1997,12 +2340,31 @@ class Component extends DCLogic {
     }
   }
 
-  /* Pedido de la tienda por WhatsApp. Interino: el checkout real (pasarela, Pix,
-     descuento de stock, factura) depende del ERP. Hasta entonces, mejor un pedido
-     que llega que un botón que no hace nada. */
+  /* Pedido de la tienda: queda registrado en el ERP y además se abre WhatsApp.
+     La pasarela de pago (tarjeta, Pix) sigue pendiente; hasta entonces el pedido
+     entra como pendiente y ADR lo confirma desde el ERP, que ahí sí descuenta
+     stock y genera la venta.
+
+     El nombre es obligatorio del lado del ERP: sin nombre no se registra nada y
+     el pedido se va solo por WhatsApp, como antes. */
   pedirCarrito(lineas, importe) {
     if (!lineas.length) return;
     const t = COPY[this.lang];
+
+    const nombre = this.state.cNombre.trim();
+    if (nombre.length >= 3 && !this.state.cEnviando) {
+      this.setState({ cEnviando: true, cError: null, cCodigo: null });
+      erpPost("/api/web/pedido", {
+        nombre: nombre,
+        telefono: this.state.cTelefono.trim() || null,
+        idioma: this.lang,
+        moneda: importe.moneda,
+        items: lineas.map((l) => ({ sku: l.sku, cantidad: l.qty, talle: l.talle || null }))
+      })
+        .then((j) => this.setState({ cEnviando: false, cCodigo: j.numero != null ? String(j.numero) : "", cError: null }))
+        .catch((e) => this.setState({ cEnviando: false, cError: e.message || t.erpError }));
+    }
+
     const texto = [t.waPedido, ""]
       .concat(lineas.map((l) => "· " + l.name + " · " + l.line + " ×" + l.qty + " — " + l.subtotal))
       .concat(["", t.fPayCurrency + ": " + importe.moneda, t.cartTotal + ": " + importe.total])
@@ -2200,18 +2562,26 @@ class Component extends DCLogic {
     })) : [];
 
     // cart
+    /* Un sku del carrito puede no estar en PRODUCTS: el catálogo lo administra
+       el ERP y un producto se puede dar de baja con el carrito ya abierto. Se
+       saltea en vez de romper el render. */
     const cart = Object.entries(this.state.cart).map(([k, qty]) => {
-      const pr = PRODUCTS.find((x) => x.sku === k.split("|")[0]);
+      const sku = k.split("|")[0];
+      const pr = PRODUCTS.find((x) => x.sku === sku);
+      if (!pr) return null;
       const size = k.split("|")[1];
       return {
-        name: pr.name[L], img: pr.img, qty,
+        name: p(pr.name), img: pr.img, qty, sku: sku, talle: size || null,
         line: enMoneda(pr.price, monedaSel) + (size && size !== "U" ? " · " + size : ""),
         subtotal: enMoneda(pr.price * qty, monedaSel),
         inc: () => this.bump(k, 1), dec: () => this.bump(k, -1)
       };
-    });
+    }).filter(Boolean);
     const count = cart.reduce((n, c) => n + c.qty, 0);
-    const total = Object.entries(this.state.cart).reduce((n, [k, q]) => n + q * PRODUCTS.find((x) => x.sku === k.split("|")[0]).price, 0);
+    const total = cart.reduce((n, c) => {
+      const pr = PRODUCTS.find((x) => x.sku === c.sku);
+      return n + c.qty * (pr ? pr.price : 0);
+    }, 0);
 
     // faq
     const fc = this.state.faqCat;
@@ -2343,15 +2713,18 @@ class Component extends DCLogic {
       telefonoHref: "https://wa.me/" + WHATSAPP,
       redes: REDES.filter((r) => r.url).map((r) => ({ label: r.label, url: r.url })),
       sinRedes: REDES.every((r) => !r.url),
-      onName: (e) => { this.marcarInicioInscripcion(); this.setState({ bName: e.target.value, bSent: false }); },
-      onDoc: (e) => { this.marcarInicioInscripcion(); this.setState({ bDoc: e.target.value, bSent: false }); },
-      onLicense: (e) => { this.marcarInicioInscripcion(); this.setState({ bLicense: e.target.value, bSent: false }); },
+      onName: (e) => { this.marcarInicioInscripcion(); this.setState({ bName: e.target.value, bSent: false, bCodigo: null, bError: null }); },
+      onDoc: (e) => { this.marcarInicioInscripcion(); this.setState({ bDoc: e.target.value, bSent: false, bCodigo: null, bError: null }); },
+      onLicense: (e) => { this.marcarInicioInscripcion(); this.setState({ bLicense: e.target.value, bSent: false, bCodigo: null, bError: null }); },
       bName: this.state.bName, bDoc: this.state.bDoc, bLicense: this.state.bLicense,
       errName: vistos ? errName : null, errDoc: vistos ? errDoc : null, errLicense: vistos ? errLicense : null,
       lineName: line(errName), lineDoc: line(errDoc), lineLicense: line(errLicense),
       bSent: this.state.bSent && !bInvalid,
       doBook: () => this.submitBooking({
         invalid: bInvalid,
+        /* Sólo existen cuando el viaje vino del ERP; con el catálogo de respaldo
+           van en null y la reserva no se registra (ver submitBooking). */
+        salidaId: bDep.id || null, paqueteId: bPkg.id || null,
         trip: bTrip.name, departure: p(bDep.date), pkg: p(bPkg.name) + " · " + p(bPkg.detail),
         people: String(bPkg.people),
         name: this.state.bName.trim(), doc: this.state.bDoc.trim(), license: this.state.bLicense.trim(),
@@ -2362,6 +2735,22 @@ class Component extends DCLogic {
         equivalente: monedaSel === MONEDA_BASE ? null
           : usd(bTotal) + " (1 " + MONEDA_BASE + " = " + enMoneda(1, monedaSel) + ", " + COTIZACIONES.fecha + ")"
       }),
+
+      // Reserva registrada en el ERP
+      bEnviando: this.state.bEnviando,
+      bCodigo: this.state.bCodigo,
+      bCodigoNota: t.erpReserva.replace("{x}", this.state.bCodigo || ""),
+      bError: this.state.bError,
+      ctaPayLabel: this.state.bEnviando ? t.erpEnviando : t.ctaPay,
+
+      // Pedido de la tienda registrado en el ERP
+      cNombre: this.state.cNombre, cTelefono: this.state.cTelefono,
+      onCartName: (e) => this.setState({ cNombre: e.target.value, cCodigo: null, cError: null }),
+      onCartPhone: (e) => this.setState({ cTelefono: e.target.value, cCodigo: null, cError: null }),
+      cCodigo: this.state.cCodigo,
+      cCodigoNota: this.state.cCodigo ? t.erpPedido.replace("{x}", this.state.cCodigo) : "",
+      cError: this.state.cError,
+      checkoutLabel: this.state.cEnviando ? t.erpEnviando : t.checkout,
 
       shirtSizes, payments,
 

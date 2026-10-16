@@ -392,6 +392,7 @@
           </sc-for>
         </div>
 
+        <sc-if value="{{ hayReserva }}" hint-placeholder-val="{{ true }}">
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:24px;marginTop:44px" data-reveal data-stagger>
           <div style="padding:clamp(20px,3vw,30px);background:#141212;border:1px solid #201C1C;borderRadius:18px">
             <h3 style="margin:0 0 22px;font-size:15px;font-weight:700;letterSpacing:0.2em;textTransform:uppercase;color:#D7C80B">{{ t.formTitle }}</h3>
@@ -582,6 +583,13 @@
             </div>
           </div>
         </div>
+        </sc-if>
+        <sc-if value="{{ sinReserva }}" hint-placeholder-val="{{ false }}">
+          <div style="marginTop:40px;padding:clamp(22px,3vw,30px);border:1px dashed #2c2929;borderRadius:18px;background:#141212" data-reveal>
+            <div style="font-size:17px;lineHeight:1.6;color:#C2C3C4;text-wrap:pretty">{{ t.sinSalidas }}</div>
+            <a href="{{ waHref }}" target="_blank" rel="noopener" style="display:inline-block;marginTop:18px;padding:15px 28px;background:#D7C80B;color:#0B0A0A;font-size:13px;font-weight:700;letterSpacing:0.16em;textTransform:uppercase;borderRadius:999px" style-hover="background:#E2E3E3" data-shine>{{ t.ctaContact }}</a>
+          </div>
+        </sc-if>
       </div>
     </div>
   </sc-if>
@@ -1233,6 +1241,7 @@ const COPY = {
     packagesTitle: "Paquetes disponibles", ctaSelect: "Elegir",
     depositLabel: "Seña para reservar", depositNote: "El saldo se puede abonar en cuotas hasta 45 días antes de la salida.", ctaJoin: "Reservar",
     signupTitle: "Reservá en cuatro pasos",
+    sinSalidas: "Todavía no hay salidas abiertas para reservar online. Escribinos por WhatsApp y te avisamos apenas se publiquen las próximas fechas.",
     signupBody: "La reserva se completa online. Señás tu lugar, cargás los datos de cada pasajero y seguís tu saldo desde el mismo enlace hasta el día de la salida.",
     formTitle: "Datos del participante",
     fName: "Nombre y apellido", fDoc: "Documento / pasaporte", fRole: "Rol en la reserva",
@@ -1335,6 +1344,7 @@ const COPY = {
     packagesTitle: "Pacotes disponíveis", ctaSelect: "Escolher",
     depositLabel: "Sinal para reservar", depositNote: "O saldo pode ser pago em parcelas até 45 dias antes da saída.", ctaJoin: "Reservar",
     signupTitle: "Reserve em quatro passos",
+    sinSalidas: "Ainda não há saídas abertas para reservar online. Fale com a gente pelo WhatsApp e avisamos assim que as próximas datas forem publicadas.",
     signupBody: "A reserva é feita online. Você garante sua vaga com um sinal, cadastra os dados de cada passageiro e acompanha seu saldo pelo mesmo link até o dia da saída.",
     formTitle: "Dados do participante",
     fName: "Nome e sobrenome", fDoc: "Documento / passaporte", fRole: "Papel na reserva",
@@ -1437,6 +1447,7 @@ const COPY = {
     packagesTitle: "Available packages", ctaSelect: "Choose",
     depositLabel: "Deposit to book", depositNote: "The balance can be paid in instalments up to 45 days before departure.", ctaJoin: "Book",
     signupTitle: "Book in four steps",
+    sinSalidas: "There are no departures open for online booking yet. Message us on WhatsApp and we will let you know as soon as the next dates are published.",
     signupBody: "Booking is completed online. You pay a deposit, enter each passenger's details and follow your balance from the same link until the day you leave.",
     formTitle: "Rider details",
     fName: "Full name", fDoc: "ID / passport", fRole: "Role in the booking",
@@ -2138,18 +2149,22 @@ class Component extends DCLogic {
      y paquetes propios. Para los demás derivamos una salida única y un paquete base
      del propio evento, así el formulario siempre tiene datos reales que calcular en
      vez de quedar vacío o inventar precios. */
-  bookingTrips() { return EVENTS.filter((e) => e.open); }
+  bookingTrips() {
+    return EVENTS.filter((e) =>
+      e && e.open && (e.salidas || []).length > 0 && (e.paquetes || []).length > 0);
+  }
 
   /* Cada viaje trae sus salidas y sus paquetes (ver EVENTS). Antes esto miraba el
      nombre "Route 66" para decidir, que es justo lo que el pliego prohíbe. Sólo se
      ofrecen las salidas abiertas: a una lista de espera no se reserva. */
   bookingDepartures(trip) {
-    const abiertas = (trip.salidas || []).filter((d) => d.open);
-    return abiertas.length ? abiertas : (trip.salidas || []);
+    const salidas = (trip && trip.salidas) || [];
+    const abiertas = salidas.filter((d) => d.open);
+    return abiertas.length ? abiertas : salidas;
   }
 
   bookingPackages(trip) {
-    return trip.paquetes || [];
+    return (trip && trip.paquetes) || [];
   }
 
   /* Valida, registra la inscripción en el ERP y abre WhatsApp con el pedido
@@ -2491,19 +2506,24 @@ class Component extends DCLogic {
     // opción que ya no existe (elegís "Piloto + acompañante" en Route 66 y después
     // cambiás a un viaje que sólo tiene paquete base).
     const bTrips = this.bookingTrips();
-    const tripIdx = Math.min(this.state.trip, bTrips.length - 1);
-    const bTrip = bTrips[tripIdx];
-    const bDeps = this.bookingDepartures(bTrip);
-    const depIdx = Math.min(this.state.departure, bDeps.length - 1);
-    const bDep = bDeps[depIdx];
-    const bPkgs = this.bookingPackages(bTrip);
-    const pkgIdx = Math.min(this.state.pkg, bPkgs.length - 1);
-    const bPkg = bPkgs[pkgIdx];
+    const hayReserva = bTrips.length > 0;
+    // `acotar` corta por arriba Y por abajo: con la lista vacía, length - 1 es
+    // -1 y el índice se iba a negativo.
+    const acotar = (i, n) => (n > 0 ? Math.min(Math.max(i | 0, 0), n - 1) : 0);
 
-    const bTotal = money(bPkg.price);
+    const tripIdx = acotar(this.state.trip, bTrips.length);
+    const bTrip = bTrips[tripIdx] || null;
+    const bDeps = this.bookingDepartures(bTrip);
+    const depIdx = acotar(this.state.departure, bDeps.length);
+    const bDep = bDeps[depIdx] || null;
+    const bPkgs = this.bookingPackages(bTrip);
+    const pkgIdx = acotar(this.state.pkg, bPkgs.length);
+    const bPkg = bPkgs[pkgIdx] || null;
+
+    const bTotal = bPkg ? money(bPkg.price) : 0;
     const bDeposit = Math.min(DEPOSIT, bTotal);
     const bBalance = bTotal - bDeposit;
-    const bPaidPct = Math.round((bDeposit / bTotal) * 100);
+    const bPaidPct = bTotal > 0 ? Math.round((bDeposit / bTotal) * 100) : 0;
 
     const errName = this.state.bName.trim().length < 3 ? t.errName : null;
     const errDoc = this.state.bDoc.trim().length < 5 ? t.errDoc : null;
@@ -2600,6 +2620,8 @@ class Component extends DCLogic {
       // y en la vista de un viaje. Es el mismo markup: no hay dos copias que
       // mantener sincronizadas.
       muestraDetalle: view === "home" || view === "viaje",
+      hayReserva,
+      sinReserva: !hayReserva,
       isNosotros: view === "nosotros", isGaleria: view === "galeria", isMotos: view === "motos",
       motos: MOTOS.map((m) => ({ img: m.img, estilo: p(m.estilo), modelos: m.modelos, detalle: p(m.detalle) })),
       // El hotel es por evento: un viaje sin hotel cargado no muestra la sección.
@@ -2675,10 +2697,10 @@ class Component extends DCLogic {
       tienePaquetes: (det.paquetes || []).length > 0,
       steps: STEPS.map((s) => ({ n: s.n, title: p(s.title), body: p(s.body) })),
       summary: [
-        { k: t.fTrip, v: bTrip.name },
-        { k: t.fDeparture, v: p(bDep.date) },
-        { k: t.fPackage, v: p(bPkg.detail) },
-        { k: t.fPassengers, v: String(bPkg.people) },
+        { k: t.fTrip, v: bTrip ? bTrip.name : "—" },
+        { k: t.fDeparture, v: bDep ? p(bDep.date) : "—" },
+        { k: t.fPackage, v: bPkg ? p(bPkg.detail) : "—" },
+        { k: t.fPassengers, v: bPkg ? String(bPkg.people) : "—" },
         { k: t.fTotal, v: enMoneda(bTotal, monedaSel) }
       ],
       monedas, monedaSel,
@@ -2724,9 +2746,10 @@ class Component extends DCLogic {
         invalid: bInvalid,
         /* Sólo existen cuando el viaje vino del ERP; con el catálogo de respaldo
            van en null y la reserva no se registra (ver submitBooking). */
-        salidaId: bDep.id || null, paqueteId: bPkg.id || null,
-        trip: bTrip.name, departure: p(bDep.date), pkg: p(bPkg.name) + " · " + p(bPkg.detail),
-        people: String(bPkg.people),
+        salidaId: (bDep && bDep.id) || null, paqueteId: (bPkg && bPkg.id) || null,
+        trip: bTrip ? bTrip.name : "", departure: bDep ? p(bDep.date) : "",
+        pkg: bPkg ? p(bPkg.name) + " · " + p(bPkg.detail) : "",
+        people: bPkg ? String(bPkg.people) : "1",
         name: this.state.bName.trim(), doc: this.state.bDoc.trim(), license: this.state.bLicense.trim(),
         role: t.roles[this.state.bRole], size: this.state.size,
         pay: p(MEDIOS_PAGO[this.state.pay].label),

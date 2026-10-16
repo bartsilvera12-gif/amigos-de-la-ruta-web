@@ -51,34 +51,103 @@
   @keyframes adrSlideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
   @keyframes adrFadeIn { from { opacity: 0; } to { opacity: 1; } }
   @keyframes adrPopIn { from { opacity: 0; transform: translateY(18px) scale(0.985); } to { opacity: 1; transform: none; } }
+
+  /* ──────────────────────────────────────────────────────────────────────
+     Encabezado en pantallas chicas.
+
+     El menu ya existia, pero en el celular se partia en dos filas y empujaba
+     el boton del carrito a una tercera: el encabezado ocupaba 194px de los
+     812px de un telefono, casi un cuarto de la pantalla.
+
+     Ahora el menu va en UNA fila que se desliza de costado, y el carrito se
+     achica. Las reglas llevan !important porque los estilos del export son
+     inline y, sin eso, ganan siempre.
+     ────────────────────────────────────────────────────────────────────── */
+  @media (max-width: 1200px) {
+    .adr-headbar { padding: 8px 14px !important; gap: 8px 12px !important; }
+    .adr-spacer  { display: none !important; }
+
+    /* `display:contents` disuelve el contenedor: el menu, los idiomas y el
+       carrito pasan a ser hijos directos de la barra y se pueden repartir en
+       dos filas. Fila 1: marca + idiomas + carrito. Fila 2: el menu entero. */
+    .adr-actions { display: contents !important; }
+    .adr-idiomas { margin-left: auto !important; }
+
+    /* La marca se achica lo justo para que idiomas y carrito entren en la
+       misma fila; si no, el carrito se cae solo a una tercera. */
+    .adr-brand > div:first-child { font-size: 13px !important; letter-spacing: 0.04em !important; }
+    .adr-brand-sub { font-size: 9px !important; letter-spacing: 0.16em !important; }
+
+    /* El menu se desliza en vez de envolverse: "Motos" y "FAQ" siguen a un
+       toque de distancia sin robar una fila entera. */
+    .adr-nav {
+      order: 3 !important;
+      flex: 1 0 100% !important;
+      min-width: 0 !important;
+      flex-wrap: nowrap !important;
+      overflow-x: auto !important;
+      gap: 16px !important;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x proximity;
+    }
+    .adr-nav::-webkit-scrollbar { display: none; }
+    .adr-nav > div { white-space: nowrap !important; scroll-snap-align: start; }
+
+    .adr-idiomas { flex-shrink: 0 !important; }
+    .adr-idiomas > div { padding: 6px 9px !important; font-size: 11px !important; }
+
+    /* El carrito queda como icono + contador: la palabra ocupaba media fila. */
+    .adr-cart { flex-shrink: 0 !important; padding: 8px 12px !important; min-height: 38px !important; gap: 7px !important; }
+    .adr-cart-label { font-size: 11px !important; letter-spacing: 0.08em !important; }
+  }
+
+  /* Telefonos angostos (iPhone SE y parecidos): el nombre no entra junto a los
+     idiomas y el carrito, y empujaba al carrito a una fila propia. Queda el
+     emblema, que ya identifica al sitio. */
+  @media (max-width: 400px) {
+    .adr-brand { display: none !important; }
+  }
+
+  @media (max-width: 420px) {
+    .adr-brand-sub { display: none !important; }
+    /* La palabra "Carrito" se va, pero el icono entra en su lugar: un circulo
+       amarillo con un numero suelto no dice que es. */
+    .adr-cart-label { display: none !important; }
+    .adr-cart-icon  { display: block !important; }
+    .adr-cart { padding: 8px 11px !important; }
+  }
 </style>
 </helmet>
 
-<div style="background:#0B0A0A;min-height:100vh;overflow-x:hidden">
+<div style="background:#0B0A0A;min-height:100vh;overflow-x:clip">
 
-  <div style="position:sticky;top:0;zIndex:50;background:rgba(11,10,10,0.94);backdropFilter:blur(10px);borderBottom:1px solid #201C1C">
-    <div style="maxWidth:1340px;margin:0 auto;padding:10px clamp(14px,2.4vw,24px);display:flex;align-items:center;gap:14px 22px;flexWrap:wrap">
+  <div class="adr-header" style="position:sticky;top:0;zIndex:50;background:rgba(11,10,10,0.94);backdropFilter:blur(10px);borderBottom:1px solid #201C1C">
+    <div class="adr-headbar" style="maxWidth:1340px;margin:0 auto;padding:10px clamp(14px,2.4vw,24px);display:flex;align-items:center;gap:14px 22px;flexWrap:wrap">
       <div onClick="{{ goHome }}" style="display:flex;align-items:center;gap:12px;flex-shrink:0;cursor:pointer">
         <div style="width:clamp(42px,4.4vw,52px);height:clamp(42px,4.4vw,52px);borderRadius:12px;background:linear-gradient(160deg,#E2E3E3,#A6A7A7);display:flex;align-items:center;justify-content:center;border:1px solid #757676;flex-shrink:0;overflow:hidden">
           <img src="/assets/adr-emblema.jpeg" alt="Amigos de Ruta" style="width:100%;height:100%;objectFit:contain;mixBlendMode:multiply" />
         </div>
-        <div style="lineHeight:1">
+        <div class="adr-brand" style="lineHeight:1">
           <div style="font-size:clamp(15px,1.5vw,19px);font-weight:700;letterSpacing:0.06em;color:#E2E3E3;textTransform:uppercase">Amigos de Ruta</div>
-          <div style="font-size:11px;font-weight:700;letterSpacing:0.24em;color:#D7C80B;textTransform:uppercase;marginTop:4px">Encuentro Internacional</div>
+          <div class="adr-brand-sub" style="font-size:11px;font-weight:700;letterSpacing:0.24em;color:#D7C80B;textTransform:uppercase;marginTop:4px">Encuentro Internacional</div>
         </div>
       </div>
-      <div style="flex:1;min-width:0"></div>
-      <div style="display:flex;align-items:center;gap:12px 22px;flexWrap:wrap;justify-content:flex-end">
+      <div class="adr-spacer" style="flex:1;min-width:0"></div>
+      <div class="adr-actions" style="display:flex;align-items:center;gap:12px 22px;flexWrap:wrap;justify-content:flex-end">
+        <div class="adr-nav" style="display:flex;align-items:center;gap:12px 22px;flexWrap:wrap">
         <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5">
           <div onClick="{{ n.go }}" style="font-size:clamp(12px,1.1vw,14px);font-weight:700;letterSpacing:0.12em;textTransform:uppercase;color:{{ n.color }};cursor:pointer;paddingBottom:3px;borderBottom:2px solid {{ n.line }}" style-hover="color:#E2E3E3" data-underline>{{ n.label }}</div>
         </sc-for>
-        <div style="display:flex;border:1px solid #757676;borderRadius:999px;overflow:hidden">
+        </div>
+        <div class="adr-idiomas" style="display:flex;border:1px solid #757676;borderRadius:999px;overflow:hidden">
           <sc-for list="{{ idiomas }}" as="id" hint-placeholder-count="3">
             <div onClick="{{ id.pick }}" style="padding:7px 13px;font-size:12px;font-weight:700;letterSpacing:0.1em;cursor:pointer;background:{{ id.bg }};color:{{ id.fg }}">{{ id.label }}</div>
           </sc-for>
         </div>
-        <div onClick="{{ openCart }}" style="display:flex;align-items:center;gap:10px;padding:10px 20px;background:#D7C80B;color:#0B0A0A;borderRadius:999px;cursor:pointer;minHeight:44px" style-hover="background:#E2E3E3" data-shine>
-          <span style="font-size:13px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase">{{ t.cart }}</span>
+        <div class="adr-cart" onClick="{{ openCart }}" style="display:flex;align-items:center;gap:10px;padding:10px 20px;background:#D7C80B;color:#0B0A0A;borderRadius:999px;cursor:pointer;minHeight:44px" style-hover="background:#E2E3E3" data-shine>
+          <svg class="adr-cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:17px;height:17px;flex-shrink:0;display:none"><circle cx="9" cy="20" r="1.6"/><circle cx="18" cy="20" r="1.6"/><path d="M2 3h2.2l2.4 11.4a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 7H5"/></svg>
+          <span class="adr-cart-label" style="font-size:13px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase">{{ t.cart }}</span>
           <span style="min-width:22px;height:22px;borderRadius:999px;background:#0B0A0A;color:#D7C80B;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 6px">{{ cartCount }}</span>
         </div>
       </div>

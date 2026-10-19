@@ -1099,8 +1099,8 @@
       <div style="display:flex;flex-direction:column;gap:14px" data-reveal="right">
         <div style="font-size:12px;font-weight:700;letterSpacing:0.18em;textTransform:uppercase;color:#757676">{{ t.contactDirect }}</div>
         <a href="{{ telefonoHref }}" target="_blank" rel="noopener" style="font-size:26px;font-weight:700;color:#E2E3E3" data-underline>{{ telefono }}</a>
-        <a href="#contacto" style="font-size:19px;color:#C2C3C4" data-underline>info@amigosderuta.com</a>
-        <div style="font-size:16px;color:#757676;marginTop:4px">Asunción · Paraguay</div>
+        <a href="{{ emailHref }}" style="font-size:19px;color:#C2C3C4" data-underline>{{ email }}</a>
+        <div style="font-size:16px;color:#757676;marginTop:4px">{{ ubicacion }}</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px" data-reveal="right">
         <div style="font-size:12px;font-weight:700;letterSpacing:0.18em;textTransform:uppercase;color:#757676">{{ t.contactSocial }}</div>
@@ -1602,13 +1602,18 @@ const COPY = {
    aunque el ERP todavia no los tenga cargados. */
 const ERP_BASE = (typeof window !== "undefined" && window.ADR_ERP) || "https://amigosdelaruta.neura.com.py";
 
-const WHATSAPP = "595981000000";
-const TELEFONO_VISIBLE = "+595 981 000 000";
+/* Datos de contacto. Son `let` porque el ERP los sobreescribe: se editan en
+   Web → Configuración y llegan en `config.contacto` del catálogo. Lo de acá es
+   el respaldo para cuando el ERP no responde. */
+let WHATSAPP = "595981000000";
+let TELEFONO_VISIBLE = "+595 981 000 000";
+let EMAIL = "info@amigosderuta.com";
+let UBICACION = "Asunción · Paraguay";
 
 /* Redes sociales. Dejar en "" las que no se usen: el enlace se oculta en vez de
    quedar muerto apuntando a "#". El pliego las pide administrables; hasta que
    exista el CMS del ERP, este objeto es el lugar donde se administran. */
-const REDES = [
+let REDES = [
   { label: "Instagram", url: "" },
   { label: "Facebook", url: "" },
   { label: "YouTube", url: "" },
@@ -2081,6 +2086,40 @@ function erpAplicar(data) {
   poner("motos", data.motos, erpMotos, (v) => { MOTOS = v; });
   poner("faqs", data.faqs, erpFaqs, (v) => { FAQS = v; });
   poner("encuentros", data.encuentros, erpFotos, (v) => { NOSOTROS_FOTOS = v; });
+
+  /* Contacto: no es una lista, asi que va aparte de `poner`. Cada campo se
+     pisa solo si el ERP trae algo; uno vacio deja el respaldo, para que
+     borrarlo sin querer en el ERP no deje el sitio sin telefono. */
+    const c = data.config && data.config.contacto;
+  if (c && typeof c === "object") {
+    const txt = (v) => (typeof v === "string" && v.trim() ? v.trim() : null);
+    const wa = txt(c.whatsapp);
+    if (wa) WHATSAPP = wa.replace(/[^0-9]/g, "") || WHATSAPP;
+    const tel = txt(c.telefono_visible) || txt(c.telefono);
+    if (tel) TELEFONO_VISIBLE = tel;
+    else if (wa) {
+      /* Si cargaron el WhatsApp pero no el telefono visible, se muestra ese
+         mismo numero. Dejar el de respaldo haria que el texto diga uno y el
+         enlace lleve a otro. */
+      const d = WHATSAPP;
+      TELEFONO_VISIBLE = d.length >= 11
+        ? "+" + d.slice(0, 3) + " " + d.slice(3, 6) + " " + d.slice(6, 9) + " " + d.slice(9)
+        : "+" + d;
+    }
+    const mail = txt(c.email);
+    if (mail) EMAIL = mail;
+    const ubi = txt(c.ubicacion);
+    if (ubi) UBICACION = ubi;
+    if (c.redes && typeof c.redes === "object") {
+      const previas = REDES.slice();
+      REDES = previas.map((r) => {
+        const u = txt(c.redes[r.label.toLowerCase()]);
+        return u ? { label: r.label, url: u } : r;
+      });
+    }
+    usados.push("contacto");
+  }
+
   return usados;
 }
 
@@ -2802,6 +2841,9 @@ class Component extends DCLogic {
       }),
       telefono: TELEFONO_VISIBLE,
       telefonoHref: "https://wa.me/" + WHATSAPP,
+      email: EMAIL,
+      emailHref: EMAIL ? "mailto:" + EMAIL : "#contacto",
+      ubicacion: UBICACION,
       redes: REDES.filter((r) => r.url).map((r) => ({ label: r.label, url: r.url })),
       sinRedes: REDES.every((r) => !r.url),
       onName: (e) => { this.marcarInicioInscripcion(); this.setState({ bName: e.target.value, bSent: false, bCodigo: null, bError: null }); },

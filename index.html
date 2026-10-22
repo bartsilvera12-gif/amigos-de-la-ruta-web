@@ -2108,7 +2108,25 @@ function erpAplicar(data) {
     asignar(out);
     usados.push(nombre);
   };
-  poner("viajes", data.viajes, erpViajes, (v) => { EVENTS = v; CAROUSEL = EVENTS.slice(0, 5); });
+  /*
+   * Los viajes del ERP COMPLETAN el catalogo del sitio, no lo reemplazan.
+   *
+   * Antes `EVENTS = v` dejaba unicamente lo que hubiera en el ERP: con un solo
+   * viaje de prueba cargado, Route 66 y los demas desaparecian de Viajes, de
+   * Galeria y del carrusel, aunque siguieran escritos en el sitio.
+   *
+   * Ahora el del ERP pisa al del sitio cuando comparten `slug` —que es como
+   * Route 66 toma sus fechas reales conservando su itinerario y sus fotos— y
+   * los que el ERP todavia no tiene se mantienen. Los viajes nuevos del ERP
+   * van primero: son los que se estan vendiendo.
+   */
+  poner("viajes", data.viajes, erpViajes, (v) => {
+    const delErp = new Map(v.map((e) => [e.slug, e]));
+    const delSitio = ERP_FALLBACK.eventos.map((e) => delErp.get(e.slug) || e);
+    const soloErp = v.filter((e) => !ERP_FALLBACK.eventos.some((b) => b.slug === e.slug));
+    EVENTS = soloErp.concat(delSitio);
+    CAROUSEL = EVENTS.slice(0, 5);
+  });
   poner("tienda", data.tienda, erpTienda, (v) => { PRODUCTS = v; });
   poner("motos", data.motos, erpMotos, (v) => { MOTOS = v; });
   poner("faqs", data.faqs, erpFaqs, (v) => { FAQS = v; });

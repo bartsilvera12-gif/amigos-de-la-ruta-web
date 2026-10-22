@@ -581,6 +581,17 @@
                 <div style="font-size:12px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase;color:#757676;marginBottom:7px">{{ t.fPhone }}</div>
                 <input type="tel" value="{{ bPhone }}" onChange="{{ onPhone }}" placeholder="{{ t.phPhone }}" style="padding:13px 14px;background:#0B0A0A;border:1px solid #201C1C;borderRadius:10px;font-size:16px;color:#E2E3E3;width:100%;outline:none;minHeight:48px;font-family:inherit" />
               </div>
+              <!-- Datos para la factura. Opcionales: quien reserva puede no tener
+                   RUC, y exigirlo espantaria inscripciones. Si vienen, el ERP
+                   crea la ficha lista para facturar. -->
+              <div>
+                <div style="font-size:12px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase;color:#757676;marginBottom:7px">{{ t.fRuc }}</div>
+                <input type="text" value="{{ bRuc }}" onChange="{{ onRuc }}" placeholder="{{ t.phRuc }}" style="padding:13px 14px;background:#0B0A0A;border:1px solid #201C1C;borderRadius:10px;font-size:16px;color:#E2E3E3;width:100%;outline:none;minHeight:48px;font-family:inherit" />
+              </div>
+              <div>
+                <div style="font-size:12px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase;color:#757676;marginBottom:7px">{{ t.fRazon }}</div>
+                <input type="text" value="{{ bRazon }}" onChange="{{ onRazon }}" placeholder="{{ t.phRazon }}" style="padding:13px 14px;background:#0B0A0A;border:1px solid #201C1C;borderRadius:10px;font-size:16px;color:#E2E3E3;width:100%;outline:none;minHeight:48px;font-family:inherit" />
+              </div>
               <div>
                 <div style="font-size:12px;font-weight:700;letterSpacing:0.14em;textTransform:uppercase;color:#757676;marginBottom:7px">{{ t.fLicense }}</div>
                 <input type="text" value="{{ bLicense }}" onChange="{{ onLicense }}" placeholder="{{ t.phLicense }}" style="padding:13px 14px;background:#0B0A0A;border:1px solid {{ lineLicense }};borderRadius:10px;font-size:16px;color:#E2E3E3;width:100%;outline:none;minHeight:48px;font-family:inherit" />
@@ -1344,6 +1355,7 @@ const COPY = {
     sentNote: "Te abrimos WhatsApp con la reserva ya escrita. Si el navegador lo bloqueó, escribinos vos y pasanos estos datos.",
     fLicense: "Licencia de conducir", fShirt: "Talle de remera del evento", fPay: "Medio de pago",
     fEmail: "Email", phEmail: "tu@correo.com", fPhone: "Teléfono", phPhone: "+595 9xx xxx xxx",
+    fRuc: "RUC o CI para la factura", phRuc: "80012345-6 (opcional)", fRazon: "Nombre o razón social para la factura", phRazon: "Opcional",
     ctaPay: "Reservar mi lugar", payNote: "Recibís el comprobante y el acceso a tu reserva por correo y WhatsApp.",
     summaryTitle: "Resumen de la reserva", balance: "Saldo pendiente", paidNote: "Abonado {a} de {b}",
     kitNote: "Tu reserva incluye el kit del viaje: mochila ADR, dos remeras y credencial. Los talles informados acá se usan para la producción.",
@@ -1448,6 +1460,7 @@ const COPY = {
     sentNote: "Abrimos o WhatsApp com a reserva já escrita. Se o navegador bloqueou, fale com a gente e passe estes dados.",
     fLicense: "Carteira de motorista", fShirt: "Tamanho da camiseta do evento", fPay: "Meio de pagamento",
     fEmail: "E-mail", phEmail: "seu@email.com", fPhone: "Telefone", phPhone: "+595 9xx xxx xxx",
+    fRuc: "RUC ou CI para a nota", phRuc: "80012345-6 (opcional)", fRazon: "Nome ou razão social para a nota", phRazon: "Opcional",
     ctaPay: "Reservar meu lugar", payNote: "Você recebe o comprovante e o acesso à sua reserva por e-mail e WhatsApp.",
     summaryTitle: "Resumo da reserva", balance: "Saldo pendente", paidNote: "Pago {a} de {b}",
     kitNote: "Sua reserva inclui o kit da viagem: mochila ADR, duas camisetas e credencial. Os tamanhos informados aqui são usados na produção.",
@@ -1552,6 +1565,7 @@ const COPY = {
     sentNote: "We opened WhatsApp with your booking already written out. If your browser blocked it, message us and send these details.",
     fLicense: "Driving licence", fShirt: "Event t-shirt size", fPay: "Payment method",
     fEmail: "Email", phEmail: "you@email.com", fPhone: "Phone", phPhone: "+595 9xx xxx xxx",
+    fRuc: "Tax ID for the invoice", phRuc: "80012345-6 (optional)", fRazon: "Name or company for the invoice", phRazon: "Optional",
     ctaPay: "Book my place", payNote: "You get the receipt and access to your booking by email and WhatsApp.",
     summaryTitle: "Booking summary", balance: "Outstanding balance", paidNote: "Paid {a} of {b}",
     kitNote: "Your booking includes the trip kit: an ADR backpack, two t-shirts and a credential. The sizes you enter here are used for production.",
@@ -2157,7 +2171,7 @@ class Component extends DCLogic {
     slide: 0, progress: 0, shop: 0, tourTab: 0,
     size: "L", pay: 0,
     trip: 0, departure: 0, pkg: 1, bRole: 0, openSel: null, moneda: "USD",
-    bName: "", bDoc: "", bLicense: "", bEmail: "", bPhone: "", bTouched: false, bSent: false,
+    bName: "", bDoc: "", bLicense: "", bEmail: "", bPhone: "", bRuc: "", bRazon: "", bTouched: false, bSent: false,
     /* Reserva y pedido contra el ERP: codigo devuelto, error del ERP y el
        "mandando" que bloquea el boton para no duplicar. */
     bEnviando: false, bCodigo: null, bError: null,
@@ -2311,6 +2325,8 @@ class Component extends DCLogic {
         idioma: this.lang,
         email: d.email || null,
         telefono: d.telefono || null,
+        ruc: d.ruc || null,
+        razon_social: d.razon || null,
         comentario: [t.fRole + ": " + d.role, t.fShirt + ": " + d.size, t.fPay + ": " + d.pay].join(" · "),
         participantes: [{ nombre: d.name, documento: d.doc, licencia: d.license }]
       })
@@ -2867,6 +2883,9 @@ class Component extends DCLogic {
       onPhone: (e) => { this.marcarInicioInscripcion(); this.setState({ bPhone: e.target.value, bSent: false, bCodigo: null, bError: null }); },
       bName: this.state.bName, bDoc: this.state.bDoc, bLicense: this.state.bLicense,
       bEmail: this.state.bEmail, bPhone: this.state.bPhone,
+      onRuc: (e) => { this.marcarInicioInscripcion(); this.setState({ bRuc: e.target.value, bSent: false, bCodigo: null, bError: null }); },
+      onRazon: (e) => { this.marcarInicioInscripcion(); this.setState({ bRazon: e.target.value, bSent: false, bCodigo: null, bError: null }); },
+      bRuc: this.state.bRuc, bRazon: this.state.bRazon,
       errName: vistos ? errName : null, errDoc: vistos ? errDoc : null, errLicense: vistos ? errLicense : null,
       lineName: line(errName), lineDoc: line(errDoc), lineLicense: line(errLicense),
       bSent: this.state.bSent && !bInvalid,
@@ -2880,6 +2899,7 @@ class Component extends DCLogic {
         people: bPkg ? String(bPkg.people) : "1",
         name: this.state.bName.trim(), doc: this.state.bDoc.trim(), license: this.state.bLicense.trim(),
         email: this.state.bEmail.trim(), telefono: this.state.bPhone.trim(),
+        ruc: this.state.bRuc.trim(), razon: this.state.bRazon.trim(),
         role: t.roles[this.state.bRole], size: this.state.size,
         pay: p(MEDIOS_PAGO[this.state.pay].label),
         moneda: monedaSel,

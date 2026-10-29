@@ -1172,6 +1172,10 @@
       <div style="display:flex;flex-direction:column;gap:14px" data-reveal="right">
         <div style="font-size:12px;font-weight:700;letterSpacing:0.18em;textTransform:uppercase;color:#757676">{{ t.contactDirect }}</div>
         <a href="{{ telefonoHref }}" target="_blank" rel="noopener" style="font-size:26px;font-weight:700;color:#E2E3E3" data-underline>{{ telefono }}</a>
+        <!-- Segundo numero: solo aparece si esta cargado en el ERP. -->
+        <sc-if value="{{ hayTelefono2 }}" hint-placeholder-val="{{ false }}">
+          <a href="{{ telefono2Href }}" target="_blank" rel="noopener" style="font-size:26px;font-weight:700;color:#E2E3E3" data-underline>{{ telefono2 }}</a>
+        </sc-if>
         <a href="{{ emailHref }}" style="font-size:19px;color:#C2C3C4" data-underline>{{ email }}</a>
         <div style="font-size:16px;color:#757676;marginTop:4px">{{ ubicacion }}</div>
       </div>
@@ -1707,6 +1711,9 @@ const ERP_BASE = (typeof window !== "undefined" && window.ADR_ERP) || "https://a
 let WHATSAPP = "595981000000";
 let TELEFONO_VISIBLE = "+595 981 000 000";
 let EMAIL = "info@amigosderuta.com";
+/* Segundo numero de contacto. Vacio = el sitio muestra uno solo. */
+let WHATSAPP2 = "";
+let TELEFONO_VISIBLE2 = "";
 let UBICACION = "Asunción · Paraguay";
 
 /* Redes sociales. Dejar en "" las que no se usen: el enlace se oculta en vez de
@@ -2749,6 +2756,20 @@ function erpAplicar(data) {
     if (mail) EMAIL = mail;
     const ubi = txt(c.ubicacion);
     if (ubi) UBICACION = ubi;
+
+    /* El segundo numero se vacia si lo borran en el ERP: es el unico campo
+       donde borrar tiene que significar "no mostrarlo", porque no hay un
+       valor de respaldo razonable para un telefono que puede no existir. */
+    const wa2 = txt(c.whatsapp2);
+    WHATSAPP2 = wa2 ? wa2.replace(/[^0-9]/g, "") : "";
+    const tel2 = txt(c.telefono_visible2);
+    if (tel2) TELEFONO_VISIBLE2 = tel2;
+    else if (WHATSAPP2) {
+      const d = WHATSAPP2;
+      TELEFONO_VISIBLE2 = d.length >= 11
+        ? "+" + d.slice(0, 3) + " " + d.slice(3, 6) + " " + d.slice(6, 9) + " " + d.slice(9)
+        : "+" + d;
+    } else TELEFONO_VISIBLE2 = "";
     if (c.redes && typeof c.redes === "object") {
       const previas = REDES.slice();
       REDES = previas.map((r) => {
@@ -3538,6 +3559,9 @@ class Component extends DCLogic {
       }),
       telefono: TELEFONO_VISIBLE,
       telefonoHref: "https://wa.me/" + WHATSAPP,
+      telefono2: TELEFONO_VISIBLE2,
+      telefono2Href: WHATSAPP2 ? "https://wa.me/" + WHATSAPP2 : "#contacto",
+      hayTelefono2: !!(WHATSAPP2 || TELEFONO_VISIBLE2),
       email: EMAIL,
       emailHref: EMAIL ? "mailto:" + EMAIL : "#contacto",
       ubicacion: UBICACION,

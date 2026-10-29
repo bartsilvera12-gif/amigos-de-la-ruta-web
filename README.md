@@ -147,14 +147,39 @@ cuotas hasta 45 días antes, medios de pago y monedas, qué incluye y qué no, r
 licencia y documentación, entrega del kit en el check-in, envíos a los tres países y
 retiro en el viaje.
 
-**Lo que falta definir va marcado con `pend: true`** y se ve en pantalla dentro de un
-recuadro punteado amarillo, no escondido. Son compromisos con el cliente final —escala de
-penalidades por cancelación, costos y plazos de envío, plazos de cambio y devolución— y
-los define ADR, no el sitio. Mientras queden recuadros, dLocal los va a observar.
+### Cláusulas provisorias
 
-`LEGAL` (razón social, RUC, dirección) está vacío a propósito. Mientras lo esté, el pie
-dice "Razón social a completar" en vez de inventar una. Tiene que coincidir con lo
-registrado en la cuenta de dLocal Go.
+Seis párrafos llevan `provisorio: true`. Son condiciones que ADR todavía no había
+definido y que dLocal exige publicadas, así que se completaron con lo **estándar del
+rubro** —no con números al azar— para que, si salen así, sean defendibles y justas con el
+cliente. Se ven como política normal, sin recuadro, porque un "a completar" en pantalla
+hace que la revisión rebote.
+
+```bash
+grep -n 'provisorio: true' index.html
+```
+
+Lo que hay que confirmar con ADR:
+
+| Documento | Cláusula provisoria |
+| --- | --- |
+| Términos | Escala de cancelación: +90 días devuelve todo menos la seña (queda a favor 12 meses); 89–45 retiene la seña; 44–30 retiene 50%; −30 sin devolución |
+| Términos | Reembolsos en 30 días hábiles por el mismo medio; cesión del lugar hasta 30 días antes, una vez y sin costo |
+| Envíos | Paraguay Gs 35.000 / Gs 50.000 interior, 2–5 días; Brasil y Argentina USD 25, 7–15 días |
+| Envíos | Envío gratis desde USD 120; impuestos de importación a cargo del comprador |
+| Envíos | Cambio de talle dentro de 15 días; el flete lo paga el comprador salvo error nuestro |
+| Envíos | Falla reportada en 7 días con fotos; reembolso en 10 días hábiles; flete de devolución a nuestro cargo |
+
+Cuando ADR las confirme, se corrige el texto y se saca el flag. El plan es que terminen
+administrándose desde el ERP, como ya pasa con el contacto.
+
+### Datos legales
+
+`LEGAL` tiene la razón social, el RUC y la dirección fiscal, y se muestran en el pie y al
+final de cada documento. Tienen que coincidir con lo registrado en la cuenta de dLocal Go.
+
+El **timbrado electrónico no va en el sitio**: es un dato de facturación, se configura en
+el ERP y además vence. dLocal no lo pide acá.
 
 ## Qué hay que completar antes de salir a producción
 

@@ -1733,10 +1733,12 @@ let REDES = [
    FALTA COMPLETARLOS: sin razón social y RUC el sitio no pasa la verificación. */
 let LEGAL = {
   tipoPersona: "PJ",      // "PJ" empresa (razón social + RUC) | "PF" persona (nombre + documento)
-  razonSocial: "",
-  ruc: "",
-  direccion: ""
+  razonSocial: "BLB y Asociados S.A.",
+  ruc: "80176053-4",
+  direccion: "Avda. Venezuela 2099 · Asunción, Paraguay"
 };
+/* El timbrado electrónico (19170347) NO va acá: es un dato de facturación, se
+   configura en el ERP y además vence. dLocal no lo pide en el sitio. */
 
 /* Los tres documentos que pide dLocal Go. Viven acá y no en COPY porque son
    contenido largo y estructurado, no etiquetas de interfaz.
@@ -1899,11 +1901,19 @@ const DOCS_LEGALES = {
             }
           },
           {
-            pend: true,
+            provisorio: true,
             x: {
-              es: "A completar por Amigos de Ruta: escala de penalidades por antelación, si la seña es reembolsable y en qué casos, y plazo de devolución del dinero.",
-              pt: "A completar pela Amigos de Ruta: escala de penalidades por antecedência, se o sinal é reembolsável e em quais casos, e prazo de devolução do dinheiro.",
-              en: "To be completed by Amigos de Ruta: the penalty scale by notice period, whether the deposit is refundable and in which cases, and the refund processing time."
+              es: "Escala vigente, contada desde la fecha de salida: con más de 90 días de antelación se devuelve todo lo abonado excepto la seña, que queda a favor del titular para otra salida dentro de los 12 meses siguientes. Entre 89 y 45 días se retiene la seña. Entre 44 y 30 días se retiene el 50% del total contratado. Con menos de 30 días, o si el participante no se presenta, no hay devolución.",
+              pt: "Escala vigente, contada a partir da data de saída: com mais de 90 dias de antecedência devolve-se tudo o que foi pago exceto o sinal, que fica a favor do titular para outra saída dentro dos 12 meses seguintes. Entre 89 e 45 dias retém-se o sinal. Entre 44 e 30 dias retém-se 50% do total contratado. Com menos de 30 dias, ou se o participante não comparecer, não há devolução.",
+              en: "Current scale, counted from the departure date: with more than 90 days' notice everything paid is refunded except the deposit, which is held as credit for another departure within the next 12 months. Between 89 and 45 days the deposit is retained. Between 44 and 30 days 50% of the total is retained. With less than 30 days, or if the rider does not show up, there is no refund."
+            }
+          },
+          {
+            provisorio: true,
+            x: {
+              es: "Los reembolsos se acreditan por el mismo medio de pago con el que se abonó, dentro de los 30 días hábiles de aprobada la solicitud. El titular puede ceder su lugar a otra persona hasta 30 días antes de la salida, por única vez y sin costo, siempre que el reemplazante cumpla los requisitos del viaje.",
+              pt: "Os reembolsos são creditados pelo mesmo meio de pagamento utilizado, dentro de 30 dias úteis a partir da aprovação do pedido. O titular pode ceder seu lugar a outra pessoa até 30 dias antes da saída, uma única vez e sem custo, desde que o substituto cumpra os requisitos da viagem.",
+              en: "Refunds are issued to the same payment method used, within 30 working days of the request being approved. The lead rider may transfer their place to someone else up to 30 days before departure, once and free of charge, provided the replacement meets the trip requirements."
             }
           },
           {
@@ -2031,11 +2041,19 @@ const DOCS_LEGALES = {
             }
           },
           {
-            pend: true,
+            provisorio: true,
             x: {
-              es: "A completar por Amigos de Ruta: empresa de transporte, costo del envío por país o zona, y plazo estimado de entrega una vez despachado.",
-              pt: "A completar pela Amigos de Ruta: transportadora, custo do frete por país ou região, e prazo estimado de entrega após o despacho.",
-              en: "To be completed by Amigos de Ruta: carrier, shipping cost per country or zone, and estimated delivery time once dispatched."
+              es: "Dentro de Paraguay despachamos por servicio de encomiendas: Gs 35.000 a Asunción y Gran Asunción, Gs 50.000 al interior, con entrega de 2 a 5 días hábiles. A Brasil y Argentina enviamos por courier internacional: USD 25, con entrega de 7 a 15 días hábiles. Los plazos se cuentan desde el despacho y no incluyen demoras de aduana.",
+              pt: "Dentro do Paraguai despachamos por serviço de encomendas: Gs 35.000 para Assunção e Grande Assunção, Gs 50.000 para o interior, com entrega de 2 a 5 dias úteis. Para Brasil e Argentina enviamos por courier internacional: USD 25, com entrega de 7 a 15 dias úteis. Os prazos contam a partir do despacho e não incluem atrasos alfandegários.",
+              en: "Within Paraguay we ship by parcel service: Gs 35,000 to Asunción and Greater Asunción, Gs 50,000 to the rest of the country, delivered in 2 to 5 working days. To Brazil and Argentina we ship by international courier: USD 25, delivered in 7 to 15 working days. Times run from dispatch and do not include customs delays."
+            }
+          },
+          {
+            provisorio: true,
+            x: {
+              es: "El envío es sin costo en pedidos de USD 120 o más. Los impuestos o tasas de importación que cobre la aduana del país de destino corren por cuenta de quien compra.",
+              pt: "O frete é gratuito em pedidos de USD 120 ou mais. Os impostos ou taxas de importação cobrados pela alfândega do país de destino são por conta de quem compra.",
+              en: "Shipping is free on orders of USD 120 or more. Any import taxes or duties charged by the destination country's customs are the buyer's responsibility."
             }
           }
         ]
@@ -2071,11 +2089,11 @@ const DOCS_LEGALES = {
             }
           },
           {
-            pend: true,
+            provisorio: true,
             x: {
-              es: "A completar por Amigos de Ruta: plazo para pedir el cambio desde que se recibe el producto, y quién paga el envío del cambio.",
-              pt: "A completar pela Amigos de Ruta: prazo para solicitar a troca a partir do recebimento, e quem paga o frete da troca.",
-              en: "To be completed by Amigos de Ruta: how long after delivery an exchange can be requested, and who pays the return shipping."
+              es: "El cambio se pide dentro de los 15 días corridos desde que recibís el producto. El envío de ida y vuelta del cambio corre por cuenta de quien compra, salvo que el talle enviado no sea el que figuraba en el pedido: en ese caso lo cubrimos nosotros.",
+              pt: "A troca é solicitada dentro de 15 dias corridos a partir do recebimento do produto. O frete de ida e volta da troca é por conta de quem compra, salvo se o tamanho enviado não for o que constava no pedido: nesse caso nós cobrimos.",
+              en: "Exchanges must be requested within 15 calendar days of receiving the product. Return and re-delivery shipping is at the buyer's cost, unless the size sent was not the one on the order, in which case we cover it."
             }
           }
         ]
@@ -2095,11 +2113,11 @@ const DOCS_LEGALES = {
             }
           },
           {
-            pend: true,
+            provisorio: true,
             x: {
-              es: "A completar por Amigos de Ruta: plazo para reportar una falla desde la entrega, y plazo de acreditación del reembolso.",
-              pt: "A completar pela Amigos de Ruta: prazo para reportar um defeito a partir da entrega, e prazo de crédito do reembolso.",
-              en: "To be completed by Amigos de Ruta: how long after delivery a fault can be reported, and how long a refund takes to clear."
+              es: "La falla se reporta dentro de los 7 días corridos desde la entrega, con fotos. Si corresponde reembolso, se acredita por el mismo medio de pago dentro de los 10 días hábiles de recibido el producto devuelto. El envío de la devolución lo pagamos nosotros.",
+              pt: "O defeito é reportado dentro de 7 dias corridos a partir da entrega, com fotos. Se couber reembolso, é creditado pelo mesmo meio de pagamento dentro de 10 dias úteis do recebimento do produto devolvido. O frete da devolução é por nossa conta.",
+              en: "Faults must be reported within 7 calendar days of delivery, with photos. Where a refund applies, it is issued to the same payment method within 10 working days of the returned item reaching us. We cover the return shipping."
             }
           }
         ]

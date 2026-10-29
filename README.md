@@ -34,10 +34,18 @@ Hostinger** y es a donde apuntan los metadatos. Las URL absolutas están en tres
 el `<head>` de `index.html` (canonical, og:url, og:image, twitter:image), `robots.txt` y
 `sitemap.xml`. Si el dominio cambia, hay que tocar esos tres.
 
-**`.vercelignore` no sirve en Hostinger.** Esa es la razón de `.htaccess`: los PDF de
-`fuentes/` —manual de marca y pliego— quedaron descargables desde el dominio real hasta
-que se agregó. Si se suma material interno nuevo, va en `fuentes/` o se le agrega su
-regla.
+**El material interno ya no vive en este repo.** `fuentes/` tenía el manual de marca, el
+pliego funcional y las capturas de referencia, y en Hostinger quedaban descargables desde
+el dominio: `.vercelignore` los tapaba en Vercel, pero Hostinger no lee ese archivo. Como
+este repo ES la raíz web, se quitaron. Siguen en el historial de git:
+
+```bash
+git show f0bd25e^:fuentes/Manual_de_Identidad_Visual_ADR_12_paginas.pdf > manual.pdf
+```
+
+`.htaccess` igual bloquea `/fuentes/`, `.git` y los archivos de config, como segunda
+barrera por si algo vuelve a caer ahí. No guardar material interno en este repo: lo que
+está acá se publica.
 
 Pendiente de decidir: www contra sin www. Las dos responden y hoy no redirigen; el
 canonical ya le dice a Google cuál es la buena. Si quieren el redirect, va en el mismo

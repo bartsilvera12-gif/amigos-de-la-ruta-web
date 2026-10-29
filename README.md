@@ -24,13 +24,24 @@ python -m http.server 8000
 
 Y entrar a http://localhost:8000
 
-## Deploy en Vercel
+## Dónde vive
 
-Importar el repo y dejar el framework en **Other**. Sin build command, sin output
-directory: Vercel publica la raíz tal cual. Cada push a `main` redespliega.
+**amigosderuta.com, en Hostinger**, desplegado por git. El sitio es estático: lo que hay
+en el repo es lo que se sirve.
 
-Es un proyecto aparte del ERP (Zentra) a propósito: son dos deploys independientes y no
-comparten nada.
+Vercel quedó de los primeros pasos y sirve como preview, pero **el dominio real es el de
+Hostinger** y es a donde apuntan los metadatos. Las URL absolutas están en tres archivos:
+el `<head>` de `index.html` (canonical, og:url, og:image, twitter:image), `robots.txt` y
+`sitemap.xml`. Si el dominio cambia, hay que tocar esos tres.
+
+**`.vercelignore` no sirve en Hostinger.** Esa es la razón de `.htaccess`: los PDF de
+`fuentes/` —manual de marca y pliego— quedaron descargables desde el dominio real hasta
+que se agregó. Si se suma material interno nuevo, va en `fuentes/` o se le agrega su
+regla.
+
+Pendiente de decidir: www contra sin www. Las dos responden y hoy no redirigen; el
+canonical ya le dice a Google cuál es la buena. Si quieren el redirect, va en el mismo
+`.htaccess`.
 
 ## Animaciones
 

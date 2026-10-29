@@ -1,0 +1,21 @@
+# =============================================================================
+# Hostinger / LiteSpeed — amigosderuta.com
+#
+# El sitio es estático: lo único que hace falta acá es tapar lo que no se
+# publica. `.vercelignore` servía para eso en Vercel, pero Hostinger no lo lee,
+# así que los PDF internos quedaban descargables desde el dominio real.
+# =============================================================================
+
+# Material interno (manual de marca, pliego, capturas). 404 y no 403: no hace
+# falta confirmarle a nadie que la carpeta existe.
+RedirectMatch 404 ^/fuentes/
+
+# Por las dudas: nada de metadatos del repo si el deploy los arrastra.
+RedirectMatch 404 ^/\.git(/|$)
+RedirectMatch 404 ^/\.vercelignore$
+RedirectMatch 404 ^/README\.md$
+
+# Sin ErrorDocument a index.html a proposito: las rutas de este sitio van en el
+# hash, no en el path, asi que no hay nada que capturar — y un fallback haria
+# que una imagen faltante devolviera HTML con 404 en vez de un 404 limpio,
+# escondiendo el problema.

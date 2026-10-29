@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-# El material de referencia no se publica (ver .vercelignore), pero por si acaso:
+# Material interno: no se publica (ver .htaccess, que lo corta de verdad).
 Disallow: /fuentes/
 
-Sitemap: https://amigos-de-la-ruta-web.vercel.app/sitemap.xml
+Sitemap: https://amigosderuta.com/sitemap.xml

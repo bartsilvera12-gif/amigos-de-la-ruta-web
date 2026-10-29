@@ -1,125 +1,124 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generado a partir de los slugs de EVENTS y los SKU de PRODUCTS en index.html,
-     mas las paginas fijas. Las rutas van en el hash porque el sitio es un unico
-     index.html servido estatico. -->
+<!-- El sitio vive en amigosderuta.com (Hostinger). Si el dominio cambia hay que
+     tocar esto, robots.txt y las cinco URL absolutas del <head> de index.html. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://amigos-de-la-ruta-web.vercel.app/</loc>
+    <loc>https://amigosderuta.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://amigos-de-la-ruta-web.vercel.app/#/nosotros</loc>
+    <loc>https://amigosderuta.com/#/nosotros</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://amigos-de-la-ruta-web.vercel.app/#/viajes</loc>
+    <loc>https://amigosderuta.com/#/viajes</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://amigos-de-la-ruta-web.vercel.app/#/motos</loc>
+    <loc>https://amigosderuta.com/#/motos</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://amigos-de-la-ruta-web.vercel.app/#/galeria</loc>
+    <loc>https://amigosderuta.com/#/galeria</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://amigos-de-la-ruta-web.vercel.app/#/tienda</loc>
+    <loc>https://amigosderuta.com/#/tienda</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://amigos-de-la-ruta-web.vercel.app/#/faq</loc>
+    <loc>https://amigosderuta.com/#/faq</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://amigos-de-la-ruta-web.vercel.app/#/terminos</loc>
+    <loc>https://amigosderuta.com/#/terminos</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://amigos-de-la-ruta-web.vercel.app/#/envios</loc>
+    <loc>https://amigosderuta.com/#/envios</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://amigos-de-la-ruta-web.vercel.app/#/privacidad</loc>
+    <loc>https://amigosderuta.com/#/privacidad</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://amigos-de-la-ruta-web.vercel.app/#/viajes/route-66</loc>
+    <loc>https://amigosderuta.com/#/viajes/route-66</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://amigos-de-la-ruta-web.vercel.app/#/viajes/daytona-bike-week</loc>
+    <loc>https://amigosderuta.com/#/viajes/daytona-bike-week</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://amigos-de-la-ruta-web.vercel.app/#/viajes/alaska-gold-rush</loc>
+    <loc>https://amigosderuta.com/#/viajes/alaska-gold-rush</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://amigos-de-la-ruta-web.vercel.app/#/viajes/sturgis-rally</loc>
+    <loc>https://amigosderuta.com/#/viajes/sturgis-rally</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://amigos-de-la-ruta-web.vercel.app/#/viajes/coast-to-coast</loc>
+    <loc>https://amigosderuta.com/#/viajes/coast-to-coast</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://amigos-de-la-ruta-web.vercel.app/#/viajes/patagonia-austral</loc>
+    <loc>https://amigosderuta.com/#/viajes/patagonia-austral</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://amigos-de-la-ruta-web.vercel.app/#/tienda/ADR-REM-001</loc>
+    <loc>https://amigosderuta.com/#/tienda/ADR-REM-001</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://amigos-de-la-ruta-web.vercel.app/#/tienda/ADR-REM-005</loc>
+    <loc>https://amigosderuta.com/#/tienda/ADR-REM-005</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://amigos-de-la-ruta-web.vercel.app/#/tienda/ADR-REM-007</loc>
+    <loc>https://amigosderuta.com/#/tienda/ADR-REM-007</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://amigos-de-la-ruta-web.vercel.app/#/tienda/ADR-GOR-003</loc>
+    <loc>https://amigosderuta.com/#/tienda/ADR-GOR-003</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://amigos-de-la-ruta-web.vercel.app/#/tienda/ADR-GOR-008</loc>
+    <loc>https://amigosderuta.com/#/tienda/ADR-GOR-008</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://amigos-de-la-ruta-web.vercel.app/#/tienda/ADR-MOC-002</loc>
+    <loc>https://amigosderuta.com/#/tienda/ADR-MOC-002</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://amigos-de-la-ruta-web.vercel.app/#/tienda/ADR-MOC-009</loc>
+    <loc>https://amigosderuta.com/#/tienda/ADR-MOC-009</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://amigos-de-la-ruta-web.vercel.app/#/tienda/ADR-STK-004</loc>
+    <loc>https://amigosderuta.com/#/tienda/ADR-STK-004</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

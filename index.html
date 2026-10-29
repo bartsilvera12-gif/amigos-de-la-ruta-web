@@ -976,6 +976,58 @@
 
   </div>
 
+  <sc-if value="{{ isLegal }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <div style="position:relative;overflow:hidden;borderBottom:1px solid #201C1C;background:#141212">
+        <div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,#1a1717 0px,#1a1717 7px,#141212 7px,#141212 16px);opacity:0.6"></div>
+        <div style="position:relative;maxWidth:1340px;margin:0 auto;padding:clamp(34px,5vw,56px) clamp(16px,3vw,24px) clamp(26px,4vw,40px)" data-stagger>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letterSpacing:0.24em;textTransform:uppercase;color:#D7C80B" data-reveal="down">{{ t.legalKicker }}</div>
+          <h1 style="margin:14px 0 0;font-size:clamp(30px,4.4vw,52px);lineHeight:1;font-weight:700;textTransform:uppercase;color:#E2E3E3" data-reveal>{{ legal.titulo }}</h1>
+          <p style="margin:16px 0 0;max-width:720px;font-size:17px;lineHeight:1.55;color:#C2C3C4;text-wrap:pretty;borderLeft:3px solid #D7C80B;paddingLeft:18px" data-reveal>{{ legal.bajada }}</p>
+        </div>
+      </div>
+
+      <div style="maxWidth:1340px;margin:0 auto;padding:clamp(24px,3.4vw,34px) clamp(16px,3vw,24px) 0">
+        <div style="display:flex;gap:8px;flexWrap:wrap" data-reveal>
+          <sc-for list="{{ legalDocs }}" as="ld" hint-placeholder-count="3">
+            <div onClick="{{ ld.go }}" style="padding:11px 20px;borderRadius:999px;border:1px solid {{ ld.borde }};background:{{ ld.bg }};color:{{ ld.fg }};font-size:13px;font-weight:700;letterSpacing:0.1em;textTransform:uppercase;cursor:pointer;min-height:44px;display:flex;align-items:center">{{ ld.label }}</div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="maxWidth:900px;margin:0 auto;padding:clamp(28px,4vw,42px) clamp(16px,3vw,24px) clamp(46px,7vw,80px)">
+        <sc-for list="{{ legal.secciones }}" as="sec" hint-placeholder-count="6">
+          <div style="paddingBottom:30px;marginBottom:30px;borderBottom:1px solid #201C1C" data-reveal>
+            <div style="display:flex;align-items:baseline;gap:14px">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:#D7C80B;flex-shrink:0">{{ sec.n }}</span>
+              <h2 style="margin:0;font-size:clamp(19px,2.2vw,24px);font-weight:700;textTransform:uppercase;color:#E2E3E3;lineHeight:1.2">{{ sec.t }}</h2>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px;marginTop:16px;paddingLeft:27px">
+              <sc-for list="{{ sec.parrafos }}" as="pa" hint-placeholder-count="2">
+                <div style="font-size:16px;lineHeight:1.65;color:{{ pa.color }};text-wrap:pretty;border:{{ pa.borde }};background:{{ pa.fondo }};padding:{{ pa.padding }};borderRadius:10px">{{ pa.texto }}</div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+
+        <div style="padding:22px;background:#141212;border:1px solid #201C1C;borderRadius:18px" data-reveal>
+          <div style="font-size:11px;font-weight:700;letterSpacing:0.18em;textTransform:uppercase;color:#757676;marginBottom:10px">{{ t.legalKicker }}</div>
+          <div style="font-size:18px;font-weight:700;color:#E2E3E3">{{ legalNombre }}</div>
+          <sc-if value="{{ legalId }}" hint-placeholder-val="{{ false }}">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#C2C3C4;marginTop:6px">{{ legalId }}</div>
+          </sc-if>
+          <sc-if value="{{ legalDireccion }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:15px;color:#A6A7A7;marginTop:6px">{{ legalDireccion }}</div>
+          </sc-if>
+          <div style="display:flex;gap:18px;flexWrap:wrap;marginTop:14px">
+            <a href="{{ emailHref }}" style="font-size:15px;color:#D7C80B" data-underline>{{ email }}</a>
+            <a href="{{ telefonoHref }}" target="_blank" rel="noopener" style="font-size:15px;color:#D7C80B" data-underline>{{ telefono }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
   <sc-if value="{{ isMotos }}" hint-placeholder-val="{{ false }}">
     <div>
       <div style="position:relative;overflow:hidden;borderBottom:1px solid #201C1C">
@@ -1137,10 +1189,15 @@
     </div>
     <div style="borderTop:1px solid #201C1C">
       <div style="maxWidth:1340px;margin:0 auto;padding:22px clamp(16px,3vw,24px);display:flex;align-items:center;gap:20px;flexWrap:wrap">
-        <div style="font-size:13px;letterSpacing:0.1em;textTransform:uppercase;color:#757676">© 2027 Encuentro Internacional Amigos de Ruta</div>
+        <div>
+          <div style="font-size:13px;letterSpacing:0.1em;textTransform:uppercase;color:#757676">© 2027 Encuentro Internacional Amigos de Ruta</div>
+          <div style="font-size:13px;color:#A6A7A7;marginTop:6px">{{ legalNombre }} <span style="font-family:'JetBrains Mono',monospace;color:#757676">{{ legalId }}</span></div>
+        </div>
         <div style="flex:1"></div>
         <div style="display:flex;align-items:center;gap:18px;flexWrap:wrap">
-          <a href="#contacto" style="font-size:13px;letterSpacing:0.08em;color:#A6A7A7" style-hover="color:#D7C80B">{{ t.privacy }}</a>
+          <div onClick="{{ irTerminos }}" style="font-size:13px;letterSpacing:0.08em;color:#A6A7A7;cursor:pointer" style-hover="color:#D7C80B">{{ t.terminos }}</div>
+          <div onClick="{{ irEnvios }}" style="font-size:13px;letterSpacing:0.08em;color:#A6A7A7;cursor:pointer" style-hover="color:#D7C80B">{{ t.envios }}</div>
+          <div onClick="{{ irPrivacidad }}" style="font-size:13px;letterSpacing:0.08em;color:#A6A7A7;cursor:pointer" style-hover="color:#D7C80B">{{ t.privacy }}</div>
           <span style="width:4px;height:4px;borderRadius:50%;background:#2c2929"></span>
           <a href="https://neura.com.py" target="_blank" rel="noopener" style="font-size:13px;letterSpacing:0.08em;color:#A6A7A7" style-hover="color:#D7C80B">{{ t.byNeura }} <strong style="color:#D7C80B">Neura</strong></a>
         </div>
@@ -1290,6 +1347,11 @@ const COPY = {
   es: {
     navHome: "Inicio", navEvents: "Viajes", navTour: "Tour", navSignup: "Reservar", navStore: "Tienda",
     backToTrips: "Volver a viajes",
+    legalKicker: "Información legal", legalNav: "Documentos",
+    legalRuc: "RUC", legalDoc: "Documento",
+    legalPendiente: "Razón social a completar",
+    legalAviso: "Los datos legales de la empresa todavía no están cargados en el sitio.",
+    terminos: "Términos y condiciones", envios: "Envíos y devoluciones",
     navAbout: "Nosotros", navGallery: "Galería", navBikes: "Motos",
     bikesTitle: "Las motos",
     bikesBody: "Elegís el estilo al reservar y nosotros resolvemos la unidad, el seguro y el kilometraje libre. Todas salen revisadas y con soporte mecánico en ruta.",
@@ -1395,6 +1457,11 @@ const COPY = {
   pt: {
     navHome: "Início", navEvents: "Viagens", navTour: "Tour", navSignup: "Reservar", navStore: "Loja",
     backToTrips: "Voltar às viagens",
+    legalKicker: "Informação legal", legalNav: "Documentos",
+    legalRuc: "RUC", legalDoc: "Documento",
+    legalPendiente: "Razão social a completar",
+    legalAviso: "Os dados legais da empresa ainda não estão carregados no site.",
+    terminos: "Termos e condições", envios: "Envios e devoluções",
     navAbout: "Sobre nós", navGallery: "Galeria", navBikes: "Motos",
     bikesTitle: "As motos",
     bikesBody: "Você escolhe o estilo ao reservar e nós resolvemos a unidade, o seguro e a quilometragem livre. Todas saem revisadas e com apoio mecânico na estrada.",
@@ -1500,6 +1567,11 @@ const COPY = {
   en: {
     navHome: "Home", navEvents: "Trips", navTour: "Tour", navSignup: "Book", navStore: "Shop",
     backToTrips: "Back to trips",
+    legalKicker: "Legal information", legalNav: "Documents",
+    legalRuc: "Tax ID", legalDoc: "ID",
+    legalPendiente: "Legal name to be added",
+    legalAviso: "The company's legal details have not been added to the site yet.",
+    terminos: "Terms and conditions", envios: "Shipping and returns",
     navAbout: "About", navGallery: "Gallery", navBikes: "Bikes",
     bikesTitle: "The bikes",
     bikesBody: "You pick the style when you book and we sort out the unit, the insurance and the unlimited mileage. Every bike leaves serviced, with mechanical support on the road.",
@@ -1646,6 +1718,528 @@ let REDES = [
   { label: "YouTube", url: "" },
   { label: "TikTok", url: "" }
 ];
+
+/* Datos legales de la empresa. dLocal Go los exige visibles y accesibles en el
+   sitio, y tienen que coincidir con los de la cuenta. Son `let` para que el ERP
+   pueda sobreescribirlos como ya hace con el contacto.
+
+   FALTA COMPLETARLOS: sin razón social y RUC el sitio no pasa la verificación. */
+let LEGAL = {
+  tipoPersona: "PJ",      // "PJ" empresa (razón social + RUC) | "PF" persona (nombre + documento)
+  razonSocial: "",
+  ruc: "",
+  direccion: ""
+};
+
+/* Los tres documentos que pide dLocal Go. Viven acá y no en COPY porque son
+   contenido largo y estructurado, no etiquetas de interfaz.
+
+   `pend: true` marca lo que ADR tiene que definir: se ve en pantalla con un
+   recuadro aparte en vez de quedar escondido. No se inventan plazos ni
+   penalidades: son compromisos con el cliente final. */
+const DOCS_LEGALES = {
+  terminos: {
+    titulo: {
+      es: "Términos y condiciones",
+      pt: "Termos e condições",
+      en: "Terms and conditions"
+    },
+    bajada: {
+      es: "Condiciones del servicio de viajes organizados en motocicleta de Amigos de Ruta: qué incluye, cómo se contrata, cómo se paga y qué requisitos tiene que cumplir cada participante.",
+      pt: "Condições do serviço de viagens organizadas de motocicleta da Amigos de Ruta: o que inclui, como se contrata, como se paga e quais requisitos cada participante precisa cumprir.",
+      en: "Terms for Amigos de Ruta's organised motorcycle trips: what is included, how to book, how to pay and what each rider must provide."
+    },
+    secciones: [
+      {
+        t: {
+          es: "Qué contratás",
+          pt: "O que você contrata",
+          en: "What you are booking"
+        },
+        p: [
+          {
+            x: {
+              es: "Amigos de Ruta organiza viajes grupales en motocicleta con itinerario definido de antemano, etapa por etapa. El precio publicado es por persona y depende del paquete elegido.",
+              pt: "A Amigos de Ruta organiza viagens em grupo de motocicleta com itinerário definido de antemão, etapa por etapa. O preço publicado é por pessoa e depende do pacote escolhido.",
+              en: "Amigos de Ruta runs group motorcycle trips on a route set in advance, stage by stage. The published price is per person and depends on the package you choose."
+            }
+          },
+          {
+            x: {
+              es: "Cada viaje publica en su página qué incluye y qué no. Como referencia general, los paquetes incluyen motocicleta con seguro y kilometraje libre, alojamiento con desayuno, guía bilingüe español/portugués, vehículo de apoyo, soporte mecánico en ruta, kit del viaje y traslados aeropuerto–hotel.",
+              pt: "Cada viagem publica em sua página o que inclui e o que não. Como referência geral, os pacotes incluem motocicleta com seguro e quilometragem livre, hospedagem com café da manhã, guia bilíngue espanhol/português, veículo de apoio, apoio mecânico na estrada, kit da viagem e traslados aeroporto–hotel.",
+              en: "Each trip page lists what is and is not included. As a general reference, packages include a motorcycle with insurance and unlimited mileage, accommodation with breakfast, a Spanish/Portuguese speaking guide, a support vehicle, mechanical support on the road, the trip kit and airport–hotel transfers."
+            }
+          },
+          {
+            x: {
+              es: "No están incluidos los pasajes aéreos internacionales, la visa y las tasas, el seguro médico, el combustible, los almuerzos ni los gastos personales.",
+              pt: "Não estão incluídas as passagens aéreas internacionais, o visto e as taxas, o seguro médico, o combustível, os almoços nem as despesas pessoais.",
+              en: "International flights, visas and fees, medical insurance, fuel, lunches and personal expenses are not included."
+            }
+          }
+        ]
+      },
+      {
+        t: {
+          es: "Cómo se contrata",
+          pt: "Como se contrata",
+          en: "How to book"
+        },
+        p: [
+          {
+            x: {
+              es: "La reserva se hace desde este sitio: elegís el viaje, la fecha de salida y el paquete, cargás los datos de cada participante y abonás la seña. También podés iniciarla por WhatsApp y la completamos con vos.",
+              pt: "A reserva é feita neste site: você escolhe a viagem, a data de saída e o pacote, cadastra os dados de cada participante e paga o sinal. Também pode iniciá-la pelo WhatsApp e nós completamos com você.",
+              en: "You book on this site: pick the trip, the departure date and the package, enter each rider's details and pay the deposit. You can also start it on WhatsApp and we complete it with you."
+            }
+          },
+          {
+            x: {
+              es: "Al registrar la reserva recibís un código y la confirmación por correo electrónico y WhatsApp. La reserva queda a nombre del titular y puede incluir varios participantes.",
+              pt: "Ao registrar a reserva você recebe um código e a confirmação por e-mail e WhatsApp. A reserva fica em nome do titular e pode incluir vários participantes.",
+              en: "When the booking is registered you get a reference code and confirmation by email and WhatsApp. The booking is in the lead rider's name and may include several riders."
+            }
+          },
+          {
+            x: {
+              es: "Cada salida tiene un cupo limitado. Los lugares se asignan por orden de reserva con la seña abonada.",
+              pt: "Cada saída tem vagas limitadas. Os lugares são atribuídos por ordem de reserva com o sinal pago.",
+              en: "Each departure has limited places. Spots are allocated in order of booking once the deposit is paid."
+            }
+          }
+        ]
+      },
+      {
+        t: {
+          es: "Precios, monedas y pagos",
+          pt: "Preços, moedas e pagamentos",
+          en: "Prices, currencies and payments"
+        },
+        p: [
+          {
+            x: {
+              es: "Los precios se expresan en dólares estadounidenses (USD), que es la moneda base del servicio. Podés abonar en dólares, reales o guaraníes: el sitio muestra el equivalente con una cotización de referencia que se confirma al momento del pago.",
+              pt: "Os preços são expressos em dólares americanos (USD), a moeda base do serviço. Você pode pagar em dólares, reais ou guaranis: o site mostra o equivalente com uma cotação de referência confirmada no momento do pagamento.",
+              en: "Prices are shown in US dollars (USD), the base currency of the service. You can pay in dollars, Brazilian reais or Paraguayan guaraníes: the site shows the equivalent at a reference rate that is confirmed at the time of payment."
+            }
+          },
+          {
+            x: {
+              es: "De cada pago se registra la moneda y el importe original, el tipo de cambio aplicado y el equivalente con el que se cancela el saldo.",
+              pt: "De cada pagamento registramos a moeda e o valor original, a taxa de câmbio aplicada e o equivalente com que se abate o saldo.",
+              en: "For every payment we record the original currency and amount, the exchange rate applied and the equivalent used against the balance."
+            }
+          },
+          {
+            x: {
+              es: "Para reservar se abona una seña de USD 1.500 por reserva. El saldo se puede abonar en pagos parciales o en cuotas, y debe quedar cancelado 45 días antes de la fecha de salida.",
+              pt: "Para reservar paga-se um sinal de USD 1.500 por reserva. O saldo pode ser pago em pagamentos parciais ou parcelado, e deve estar quitado 45 dias antes da data de saída.",
+              en: "A deposit of USD 1,500 per booking is required. The balance can be paid in partial payments or instalments and must be settled 45 days before departure."
+            }
+          },
+          {
+            x: {
+              es: "Medios habilitados: tarjeta a través de pasarela de pagos, Pix para clientes de Brasil y transferencia bancaria. Los datos de la tarjeta los procesa la pasarela; Amigos de Ruta no los almacena.",
+              pt: "Meios aceitos: cartão por gateway de pagamento, Pix para clientes do Brasil e transferência bancária. Os dados do cartão são processados pelo gateway; a Amigos de Ruta não os armazena.",
+              en: "Accepted methods: card through a payment gateway, Pix for customers in Brazil, and bank transfer. Card details are handled by the gateway; Amigos de Ruta does not store them."
+            }
+          }
+        ]
+      },
+      {
+        t: {
+          es: "Requisitos del participante",
+          pt: "Requisitos do participante",
+          en: "Rider requirements"
+        },
+        p: [
+          {
+            x: {
+              es: "Para conducir se exige licencia de motocicleta vigente y permiso internacional de conducir. Para viajar, pasaporte vigente, visa cuando el destino lo requiera y seguro médico con cobertura en el país de destino.",
+              pt: "Para conduzir exige-se carteira de motocicleta válida e permissão internacional de dirigir. Para viajar, passaporte válido, visto quando o destino exigir e seguro médico com cobertura no país de destino.",
+              en: "To ride you need a valid motorcycle licence and an international driving permit. To travel you need a valid passport, a visa where the destination requires one, and medical insurance covering the destination country."
+            }
+          },
+          {
+            x: {
+              es: "La documentación se verifica antes de confirmar el lugar. Si un participante no reúne los requisitos en la fecha de salida, no puede participar del viaje.",
+              pt: "A documentação é verificada antes de confirmar o lugar. Se um participante não cumprir os requisitos na data de saída, não poderá participar da viagem.",
+              en: "Documents are checked before a place is confirmed. A rider who does not meet the requirements on the departure date cannot join the trip."
+            }
+          },
+          {
+            x: {
+              es: "El acompañante no conduce y no necesita licencia, pero sí la documentación de viaje.",
+              pt: "O garupa não conduz e não precisa de carteira, mas precisa da documentação de viagem.",
+              en: "A passenger does not ride and needs no licence, but does need the travel documents."
+            }
+          }
+        ]
+      },
+      {
+        t: {
+          es: "Cancelaciones y reembolsos",
+          pt: "Cancelamentos e reembolsos",
+          en: "Cancellations and refunds"
+        },
+        p: [
+          {
+            x: {
+              es: "La solicitud de cancelación se hace por los canales de contacto de esta página y queda registrada con su fecha. Las penalidades se calculan según la antelación con la que se solicite.",
+              pt: "O pedido de cancelamento é feito pelos canais de contato desta página e fica registrado com a data. As penalidades são calculadas conforme a antecedência do pedido.",
+              en: "Cancellation requests are made through the contact channels on this page and are logged with their date. Charges depend on how far in advance the request is made."
+            }
+          },
+          {
+            pend: true,
+            x: {
+              es: "A completar por Amigos de Ruta: escala de penalidades por antelación, si la seña es reembolsable y en qué casos, y plazo de devolución del dinero.",
+              pt: "A completar pela Amigos de Ruta: escala de penalidades por antecedência, se o sinal é reembolsável e em quais casos, e prazo de devolução do dinheiro.",
+              en: "To be completed by Amigos de Ruta: the penalty scale by notice period, whether the deposit is refundable and in which cases, and the refund processing time."
+            }
+          },
+          {
+            x: {
+              es: "Si Amigos de Ruta cancela o reprograma una salida por causas ajenas al participante, se ofrece el cambio a otra fecha o la devolución de lo abonado.",
+              pt: "Se a Amigos de Ruta cancelar ou remarcar uma saída por causas alheias ao participante, oferecemos a troca para outra data ou a devolução do valor pago.",
+              en: "If Amigos de Ruta cancels or reschedules a departure for reasons outside the rider's control, we offer a change of date or a refund of what was paid."
+            }
+          }
+        ]
+      },
+      {
+        t: {
+          es: "Kit del viaje",
+          pt: "Kit da viagem",
+          en: "Trip kit"
+        },
+        p: [
+          {
+            x: {
+              es: "Los materiales incluidos en la inscripción se entregan en el check-in del viaje, contra la credencial del participante. Los talles se toman de los datos cargados en la reserva, por eso se piden al inscribirse.",
+              pt: "Os materiais incluídos na inscrição são entregues no check-in da viagem, mediante a credencial do participante. Os tamanhos são tirados dos dados da reserva, por isso são pedidos na inscrição.",
+              en: "The materials included in your booking are handed over at trip check-in against your rider credential. Sizes come from the details entered when booking, which is why we ask for them."
+            }
+          }
+        ]
+      },
+      {
+        t: {
+          es: "Viajes a medida",
+          pt: "Viagens sob medida",
+          en: "Custom trips"
+        },
+        p: [
+          {
+            x: {
+              es: "Diseñamos itinerarios privados para grupos, clubes y empresas. El proceso es: nos contás destino, fechas y cantidad de motos; preparamos una cotización sin cargo; si la aceptás, las condiciones particulares del viaje —precio, qué incluye, cupos y forma de pago— se acuerdan por escrito antes de cobrar la seña.",
+              pt: "Desenhamos itinerários privados para grupos, clubes e empresas. O processo é: você nos conta destino, datas e quantidade de motos; preparamos um orçamento sem custo; se aceitar, as condições particulares da viagem —preço, o que inclui, vagas e forma de pagamento— são acordadas por escrito antes de cobrar o sinal.",
+              en: "We design private itineraries for groups, clubs and companies. The process: you tell us the destination, dates and number of bikes; we put together a free quote; if you accept it, the specific terms of the trip —price, inclusions, places and payment schedule— are agreed in writing before any deposit is charged."
+            }
+          }
+        ]
+      },
+      {
+        t: {
+          es: "Responsabilidad",
+          pt: "Responsabilidade",
+          en: "Liability"
+        },
+        p: [
+          {
+            x: {
+              es: "Conducir una motocicleta en ruta implica riesgos. El participante conduce bajo su responsabilidad, respetando las normas de tránsito del país por el que circula y las indicaciones del guía. Amigos de Ruta no responde por multas, infracciones ni por daños derivados del incumplimiento de esas normas.",
+              pt: "Conduzir uma motocicleta na estrada envolve riscos. O participante conduz sob sua responsabilidade, respeitando as normas de trânsito do país em que circula e as orientações do guia. A Amigos de Ruta não responde por multas, infrações nem por danos decorrentes do descumprimento dessas normas.",
+              en: "Riding a motorcycle on the road carries risk. Riders ride under their own responsibility, following the traffic rules of the country they are in and the guide's instructions. Amigos de Ruta is not liable for fines, traffic offences or damage arising from failure to follow those rules."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  envios: {
+    titulo: {
+      es: "Política de envíos y devoluciones",
+      pt: "Política de envios e devoluções",
+      en: "Shipping and returns policy"
+    },
+    bajada: {
+      es: "Cómo se preparan, se envían y se cambian los productos de la tienda oficial de Amigos de Ruta.",
+      pt: "Como são preparados, enviados e trocados os produtos da loja oficial da Amigos de Ruta.",
+      en: "How products from the official Amigos de Ruta shop are prepared, shipped and exchanged."
+    },
+    secciones: [
+      {
+        t: {
+          es: "Qué vendemos",
+          pt: "O que vendemos",
+          en: "What we sell"
+        },
+        p: [
+          {
+            x: {
+              es: "Merchandising oficial del Encuentro Internacional Amigos de Ruta: remeras, gorras, mochilas, bolsos y accesorios. Cada producto publica su precio, sus variantes de talle y su tiempo de producción.",
+              pt: "Merchandising oficial do Encontro Internacional Amigos de Ruta: camisetas, bonés, mochilas, bolsas e acessórios. Cada produto publica seu preço, suas variantes de tamanho e seu prazo de produção.",
+              en: "Official merchandise from the Amigos de Ruta International Rally: t-shirts, caps, backpacks, bags and accessories. Each product lists its price, size options and production time."
+            }
+          }
+        ]
+      },
+      {
+        t: {
+          es: "Preparación del pedido",
+          pt: "Preparação do pedido",
+          en: "Order preparation"
+        },
+        p: [
+          {
+            x: {
+              es: "Los productos se producen por pedido. El plazo de producción es de 3 a 10 días hábiles según el artículo y está indicado en la ficha de cada producto, antes de comprar.",
+              pt: "Os produtos são produzidos sob encomenda. O prazo de produção é de 3 a 10 dias úteis conforme o artigo e está indicado na ficha de cada produto, antes da compra.",
+              en: "Products are made to order. Production takes 3 to 10 working days depending on the item and is stated on each product page before you buy."
+            }
+          },
+          {
+            x: {
+              es: "El plazo de producción se cuenta desde que el pago está acreditado. El plazo de envío se suma al de producción.",
+              pt: "O prazo de produção conta a partir da confirmação do pagamento. O prazo de envio soma-se ao de produção.",
+              en: "Production time starts once payment clears. Shipping time is added on top of production time."
+            }
+          }
+        ]
+      },
+      {
+        t: {
+          es: "Zonas de envío",
+          pt: "Zonas de envio",
+          en: "Shipping areas"
+        },
+        p: [
+          {
+            x: {
+              es: "Enviamos a Paraguay, Brasil y Argentina.",
+              pt: "Enviamos para Paraguai, Brasil e Argentina.",
+              en: "We ship to Paraguay, Brazil and Argentina."
+            }
+          },
+          {
+            pend: true,
+            x: {
+              es: "A completar por Amigos de Ruta: empresa de transporte, costo del envío por país o zona, y plazo estimado de entrega una vez despachado.",
+              pt: "A completar pela Amigos de Ruta: transportadora, custo do frete por país ou região, e prazo estimado de entrega após o despacho.",
+              en: "To be completed by Amigos de Ruta: carrier, shipping cost per country or zone, and estimated delivery time once dispatched."
+            }
+          }
+        ]
+      },
+      {
+        t: {
+          es: "Retiro en el viaje",
+          pt: "Retirada na viagem",
+          en: "Collection at the trip"
+        },
+        p: [
+          {
+            x: {
+              es: "Si vas a participar de un viaje, podés retirar tu pedido sin costo en el check-in, junto con el kit. Lo elegís al hacer la compra y te lo reservamos hasta esa fecha.",
+              pt: "Se você vai participar de uma viagem, pode retirar seu pedido sem custo no check-in, junto com o kit. Você escolhe isso na compra e reservamos até essa data.",
+              en: "If you are joining a trip, you can collect your order free of charge at check-in along with your kit. You choose this at checkout and we hold it until then."
+            }
+          }
+        ]
+      },
+      {
+        t: {
+          es: "Cambios por talle",
+          pt: "Trocas por tamanho",
+          en: "Size exchanges"
+        },
+        p: [
+          {
+            x: {
+              es: "Si el talle no te queda, lo cambiamos por otro del mismo producto, sujeto a disponibilidad. La prenda tiene que estar sin usar, sin lavar y con su etiqueta.",
+              pt: "Se o tamanho não servir, trocamos por outro do mesmo produto, sujeito à disponibilidade. A peça precisa estar sem uso, sem lavar e com a etiqueta.",
+              en: "If the size does not fit we will exchange it for another size of the same product, subject to availability. The item must be unused, unwashed and with its tag on."
+            }
+          },
+          {
+            pend: true,
+            x: {
+              es: "A completar por Amigos de Ruta: plazo para pedir el cambio desde que se recibe el producto, y quién paga el envío del cambio.",
+              pt: "A completar pela Amigos de Ruta: prazo para solicitar a troca a partir do recebimento, e quem paga o frete da troca.",
+              en: "To be completed by Amigos de Ruta: how long after delivery an exchange can be requested, and who pays the return shipping."
+            }
+          }
+        ]
+      },
+      {
+        t: {
+          es: "Productos con falla",
+          pt: "Produtos com defeito",
+          en: "Faulty products"
+        },
+        p: [
+          {
+            x: {
+              es: "Si el producto llega con una falla de fabricación o distinto al que compraste, lo reponemos o devolvemos el importe, a tu elección, sin costo de envío para vos. Pedimos fotos de la falla para gestionarlo.",
+              pt: "Se o produto chegar com defeito de fabricação ou diferente do que você comprou, repomos ou devolvemos o valor, à sua escolha, sem custo de frete para você. Pedimos fotos do defeito para dar andamento.",
+              en: "If an item arrives with a manufacturing fault or is not what you ordered, we will replace it or refund it, your choice, at no shipping cost to you. We ask for photos of the fault to process it."
+            }
+          },
+          {
+            pend: true,
+            x: {
+              es: "A completar por Amigos de Ruta: plazo para reportar una falla desde la entrega, y plazo de acreditación del reembolso.",
+              pt: "A completar pela Amigos de Ruta: prazo para reportar um defeito a partir da entrega, e prazo de crédito do reembolso.",
+              en: "To be completed by Amigos de Ruta: how long after delivery a fault can be reported, and how long a refund takes to clear."
+            }
+          }
+        ]
+      },
+      {
+        t: {
+          es: "Cómo iniciar un cambio o devolución",
+          pt: "Como iniciar uma troca ou devolução",
+          en: "How to start an exchange or return"
+        },
+        p: [
+          {
+            x: {
+              es: "Escribinos por WhatsApp o por correo con el número de pedido y, si corresponde, las fotos. Te confirmamos los pasos y la dirección de envío antes de que mandes nada.",
+              pt: "Fale conosco pelo WhatsApp ou e-mail com o número do pedido e, se for o caso, as fotos. Confirmamos os passos e o endereço de envio antes de você enviar qualquer coisa.",
+              en: "Message us on WhatsApp or email with your order number and, where relevant, the photos. We confirm the steps and the return address before you send anything."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  privacidad: {
+    titulo: {
+      es: "Política de privacidad",
+      pt: "Política de privacidade",
+      en: "Privacy policy"
+    },
+    bajada: {
+      es: "Qué datos pedimos, para qué los usamos y con quién se comparten.",
+      pt: "Quais dados pedimos, para que os usamos e com quem são compartilhados.",
+      en: "What data we collect, what we use it for and who it is shared with."
+    },
+    secciones: [
+      {
+        t: {
+          es: "Qué datos pedimos",
+          pt: "Quais dados pedimos",
+          en: "What we collect"
+        },
+        p: [
+          {
+            x: {
+              es: "Para una reserva: nombre y apellido, documento o pasaporte, nacionalidad, fecha de nacimiento, país y ciudad, teléfono, correo electrónico, datos de la licencia de conducir y talles para el kit. Si corresponde, documentación adjunta del viaje.",
+              pt: "Para uma reserva: nome e sobrenome, documento ou passaporte, nacionalidade, data de nascimento, país e cidade, telefone, e-mail, dados da carteira de motorista e tamanhos para o kit. Se for o caso, documentação anexa da viagem.",
+              en: "For a booking: full name, ID or passport, nationality, date of birth, country and city, phone, email, driving licence details and sizes for the kit. Where applicable, the travel documents you upload."
+            }
+          },
+          {
+            x: {
+              es: "Para una compra en la tienda: nombre, teléfono, correo y, si elegís envío, la dirección de entrega. Para facturar: los datos fiscales que nos indiques.",
+              pt: "Para uma compra na loja: nome, telefone, e-mail e, se escolher envio, o endereço de entrega. Para faturar: os dados fiscais que você informar.",
+              en: "For a shop purchase: name, phone, email and, if you choose delivery, the shipping address. For invoicing: the tax details you give us."
+            }
+          }
+        ]
+      },
+      {
+        t: {
+          es: "Para qué los usamos",
+          pt: "Para que os usamos",
+          en: "What we use it for"
+        },
+        p: [
+          {
+            x: {
+              es: "Para gestionar tu reserva o pedido, emitir la factura, producir y entregar el kit, verificar los requisitos de documentación del viaje y contactarte por cuestiones operativas de tu viaje o compra.",
+              pt: "Para gerenciar sua reserva ou pedido, emitir a nota fiscal, produzir e entregar o kit, verificar os requisitos de documentação da viagem e contatar você por questões operacionais da sua viagem ou compra.",
+              en: "To manage your booking or order, issue the invoice, produce and hand over the kit, check the trip's document requirements, and contact you about operational matters relating to your trip or purchase."
+            }
+          }
+        ]
+      },
+      {
+        t: {
+          es: "Con quién se comparten",
+          pt: "Com quem são compartilhados",
+          en: "Who we share it with"
+        },
+        p: [
+          {
+            x: {
+              es: "Sólo con quienes hacen falta para prestar el servicio: hoteles, operadores locales y empresas de alquiler de motocicletas del viaje que contrataste, la pasarela de pagos y la empresa de transporte cuando elegís envío. No vendemos ni cedemos datos con fines publicitarios.",
+              pt: "Apenas com quem é necessário para prestar o serviço: hotéis, operadores locais e locadoras de motocicletas da viagem contratada, o gateway de pagamento e a transportadora quando você escolhe envio. Não vendemos nem cedemos dados para fins publicitários.",
+              en: "Only with those needed to deliver the service: the hotels, local operators and motorcycle rental companies for the trip you booked, the payment gateway, and the carrier when you choose delivery. We do not sell or hand over data for advertising."
+            }
+          },
+          {
+            x: {
+              es: "Los datos de tu tarjeta los procesa directamente la pasarela de pagos. Amigos de Ruta no los recibe ni los almacena.",
+              pt: "Os dados do seu cartão são processados diretamente pelo gateway de pagamento. A Amigos de Ruta não os recebe nem armazena.",
+              en: "Your card details are handled directly by the payment gateway. Amigos de Ruta neither receives nor stores them."
+            }
+          }
+        ]
+      },
+      {
+        t: {
+          es: "Cuánto tiempo los guardamos",
+          pt: "Por quanto tempo guardamos",
+          en: "How long we keep it"
+        },
+        p: [
+          {
+            x: {
+              es: "Mientras dure la relación comercial y después durante el plazo que exigen las obligaciones contables y tributarias.",
+              pt: "Enquanto durar a relação comercial e depois pelo prazo exigido pelas obrigações contábeis e tributárias.",
+              en: "For as long as the commercial relationship lasts, and afterwards for the period required by accounting and tax obligations."
+            }
+          }
+        ]
+      },
+      {
+        t: {
+          es: "Tus derechos",
+          pt: "Seus direitos",
+          en: "Your rights"
+        },
+        p: [
+          {
+            x: {
+              es: "Podés pedirnos acceso a tus datos, su corrección o su eliminación cuando no haya una obligación legal de conservarlos. Escribinos por los canales de contacto de esta página y te respondemos.",
+              pt: "Você pode solicitar acesso aos seus dados, sua correção ou sua exclusão quando não houver obrigação legal de conservá-los. Fale conosco pelos canais de contato desta página e respondemos.",
+              en: "You can ask us for access to your data, to correct it, or to delete it where there is no legal obligation to keep it. Contact us through the channels on this page and we will respond."
+            }
+          }
+        ]
+      },
+      {
+        t: {
+          es: "Medición del sitio",
+          pt: "Medição do site",
+          en: "Site analytics"
+        },
+        p: [
+          {
+            x: {
+              es: "El sitio puede usar herramientas de medición de audiencia (Google Analytics y Meta Pixel) para entender cómo se usa y mejorarlo. Se usan de forma agregada, no para identificar personas.",
+              pt: "O site pode usar ferramentas de medição de audiência (Google Analytics e Meta Pixel) para entender como é usado e melhorá-lo. São usadas de forma agregada, não para identificar pessoas.",
+              en: "The site may use audience measurement tools (Google Analytics and Meta Pixel) to understand how it is used and improve it. They are used in aggregate, not to identify individuals."
+            }
+          }
+        ]
+      }
+    ]
+  }
+};
 
 const IDIOMAS = ["es", "pt", "en"];
 
@@ -2185,7 +2779,7 @@ async function erpPost(ruta, cuerpo) {
 
 class Component extends DCLogic {
   state = {
-    lang: null, view: "home", nav: 0, evento: null,
+    lang: null, view: "home", nav: 0, evento: null, legalDoc: "terminos",
     slide: 0, progress: 0, shop: 0, tourTab: 0,
     size: "L", pay: 0,
     trip: 0, departure: 0, pkg: 1, bRole: 0, openSel: null, moneda: "USD",
@@ -2430,6 +3024,11 @@ class Component extends DCLogic {
     return EVENTS[0];
   }
 
+  irLegal(doc) {
+    this.setState({ view: "legal", legalDoc: doc, nav: this.state.nav + 1, open: null });
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   abrirEvento(slug) {
     const reservables = this.bookingTrips();
     const i = reservables.findIndex((e) => e.slug === slug);
@@ -2452,6 +3051,7 @@ class Component extends DCLogic {
     if (view === "nosotros") return "#/nosotros";
     if (view === "galeria") return "#/galeria";
     if (view === "motos") return "#/motos";
+    if (view === "legal") return "#/" + (this.state.legalDoc || "terminos");
     return "#/";
   }
 
@@ -2469,6 +3069,8 @@ class Component extends DCLogic {
       return { view: "tienda" };
     }
     if (["faq", "nosotros", "galeria", "motos"].indexOf(a) >= 0) return { view: a };
+    // Los tres documentos legales comparten vista y se distinguen por `legalDoc`.
+    if (["terminos", "envios", "privacidad"].indexOf(a) >= 0) return { view: "legal", legalDoc: a };
     return { view: "home" };
   }
 
@@ -2499,6 +3101,7 @@ class Component extends DCLogic {
         view: r.view,
         evento: r.evento || null,
         open: r.open || null,
+        legalDoc: r.legalDoc || this.state.legalDoc,
         nav: this.state.nav + 1
       });
     };
@@ -2507,7 +3110,10 @@ class Component extends DCLogic {
     // Primera carga: si entraron por un enlace profundo, se respeta.
     const inicial = this.rutaDesdeUrl();
     if (inicial && inicial.view !== "home") {
-      this.setState({ view: inicial.view, evento: inicial.evento || null, open: inicial.open || null });
+      this.setState({
+        view: inicial.view, evento: inicial.evento || null, open: inicial.open || null,
+        legalDoc: inicial.legalDoc || this.state.legalDoc
+      });
     }
   }
 
@@ -2553,6 +3159,7 @@ class Component extends DCLogic {
     if (prod) return t.waProducto.replace("{x}", this.pick(prod.name) + " (" + prod.sku + ")");
     const v = this.state.view;
     if (v === "viaje") return t.waViaje.replace("{x}", this.eventoDetalle().name);
+    if (v === "legal") return t.waGeneral;
     if (v === "motos") return t.waMotos;
     if (v === "tienda") return t.waTienda;
     if (v === "viajes") return t.waViajes;
@@ -2779,6 +3386,48 @@ class Component extends DCLogic {
       hayReserva,
       sinReserva: !hayReserva,
       isNosotros: view === "nosotros", isGaleria: view === "galeria", isMotos: view === "motos",
+      isLegal: view === "legal",
+      // Un solo markup sirve a los tres documentos: cambia el contenido, no la página.
+      legal: (() => {
+        const doc = DOCS_LEGALES[this.state.legalDoc] || DOCS_LEGALES.terminos;
+        return {
+          titulo: p(doc.titulo),
+          bajada: p(doc.bajada),
+          secciones: doc.secciones.map((sec, i) => ({
+            n: String(i + 1).padStart(2, "0"),
+            t: p(sec.t),
+            parrafos: sec.p.map((x) => ({
+              texto: p(x.x),
+              pend: !!x.pend,
+              // Lo que falta definir se ve distinto a propósito: en un recuadro
+              // punteado, no mezclado con lo que ya está en firme.
+              borde: x.pend ? "1px dashed #9F9410" : "0",
+              fondo: x.pend ? "rgba(215,200,11,0.06)" : "transparent",
+              padding: x.pend ? "14px 16px" : "0",
+              color: x.pend ? "#D7C80B" : "#A6A7A7"
+            }))
+          }))
+        };
+      })(),
+      legalDocs: [
+        { key: "terminos", label: p(DOCS_LEGALES.terminos.titulo) },
+        { key: "envios", label: p(DOCS_LEGALES.envios.titulo) },
+        { key: "privacidad", label: p(DOCS_LEGALES.privacidad.titulo) }
+      ].map((d) => ({
+        label: d.label,
+        go: () => this.irLegal(d.key),
+        bg: this.state.legalDoc === d.key ? accent : "transparent",
+        fg: this.state.legalDoc === d.key ? "#0B0A0A" : "#C2C3C4",
+        borde: this.state.legalDoc === d.key ? accent : "#201C1C"
+      })),
+      // Datos legales para el pie. dLocal los exige visibles.
+      legalNombre: LEGAL.razonSocial || t.legalPendiente,
+      legalId: LEGAL.ruc ? (LEGAL.tipoPersona === "PF" ? t.legalDoc : t.legalRuc) + " " + LEGAL.ruc : "",
+      legalDireccion: LEGAL.direccion || "",
+      legalCompleto: !!(LEGAL.razonSocial && LEGAL.ruc),
+      irTerminos: () => this.irLegal("terminos"),
+      irEnvios: () => this.irLegal("envios"),
+      irPrivacidad: () => this.irLegal("privacidad"),
       motos: MOTOS.map((m) => ({ img: m.img, estilo: p(m.estilo), modelos: m.modelos, detalle: p(m.detalle) })),
       // El hotel es por evento: un viaje sin hotel cargado no muestra la sección.
       tieneHotel: !!det.hotel,

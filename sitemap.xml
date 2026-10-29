@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generado a partir de los slugs de EVENTS y los SKU de PRODUCTS en index.html.
-     Las rutas van en el hash porque el sitio es un único index.html servido
-     estático; los buscadores modernos las siguen. Cuando el catálogo salga del
-     ERP y cada evento tenga su propia página, esto pasa a paths reales. -->
+<!-- Generado a partir de los slugs de EVENTS y los SKU de PRODUCTS en index.html,
+     mas las paginas fijas. Las rutas van en el hash porque el sitio es un unico
+     index.html servido estatico. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://amigos-de-la-ruta-web.vercel.app/</loc>
@@ -36,6 +35,21 @@
   </url>
   <url>
     <loc>https://amigos-de-la-ruta-web.vercel.app/#/faq</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://amigos-de-la-ruta-web.vercel.app/#/terminos</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://amigos-de-la-ruta-web.vercel.app/#/envios</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://amigos-de-la-ruta-web.vercel.app/#/privacidad</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

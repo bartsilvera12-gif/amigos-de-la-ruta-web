@@ -115,6 +115,28 @@ Van siempre como `background-image:url({{ ... }})` sobre un `div`, nunca como
 resuelva y pide la plantilla literal como si fuera una ruta: un 404 por carga. El export
 original ya hacía esto por la misma razón.
 
+## Documentos legales (dLocal Go)
+
+La pasarela exige, visibles y accesibles: términos y condiciones (porque se venden
+servicios), política de envíos y devoluciones (porque se venden productos), datos legales
+de la empresa y datos de contacto reales. Están en `#/terminos`, `#/envios` y
+`#/privacidad`, enlazados desde el pie en las tres vistas.
+
+Los tres salen de `DOCS_LEGALES` y comparten un mismo markup: cambia el contenido, no la
+página. El contenido **no es genérico**: describe cómo opera ADR de verdad —seña,
+cuotas hasta 45 días antes, medios de pago y monedas, qué incluye y qué no, requisitos de
+licencia y documentación, entrega del kit en el check-in, envíos a los tres países y
+retiro en el viaje.
+
+**Lo que falta definir va marcado con `pend: true`** y se ve en pantalla dentro de un
+recuadro punteado amarillo, no escondido. Son compromisos con el cliente final —escala de
+penalidades por cancelación, costos y plazos de envío, plazos de cambio y devolución— y
+los define ADR, no el sitio. Mientras queden recuadros, dLocal los va a observar.
+
+`LEGAL` (razón social, RUC, dirección) está vacío a propósito. Mientras lo esté, el pie
+dice "Razón social a completar" en vez de inventar una. Tiene que coincidir con lo
+registrado en la cuenta de dLocal Go.
+
 ## Qué hay que completar antes de salir a producción
 
 Todo junto, arriba del `<script>` de la lógica en `index.html`, salvo los ids de medición:

@@ -2664,6 +2664,26 @@ function erpViajes(viajes) {
   });
 }
 
+/* Un producto nuevo del ERP puede llegar sólo con el nombre: sin descripción,
+   variantes ni specs, y sin respaldo en el sitio. La vista lee `x[idioma]` sin
+   preguntar, así que un texto faltante tiraba el render entero. Se completa
+   cada idioma con el castellano y lo vacío queda vacío. */
+function erpCompletarTextos(prod) {
+  const L3 = ["es", "pt", "en"];
+  const completar = (v, vacio) => {
+    const o = v && typeof v === "object" && !Array.isArray(v) ? Object.assign({}, v) : { es: v == null ? vacio : v };
+    if (o.es == null) o.es = vacio;
+    L3.forEach((l) => { if (o[l] == null) o[l] = o.es; });
+    return o;
+  };
+  return Object.assign({}, prod, {
+    name: completar(prod.name, ""),
+    desc: completar(prod.desc, ""),
+    variants: completar(prod.variants, ""),
+    specs: completar(prod.specs, [])
+  });
+}
+
 function erpTienda(tienda) {
   return tienda.map((w) => {
     const base = ERP_FALLBACK.productos.find((p) => p.sku === w.sku) || {};
@@ -2686,7 +2706,8 @@ function erpTienda(tienda) {
          para un producto nuevo, queda talle único. */
       sizes: base.sizes || ["U"]
     });
-  }).filter((p) => p.name);          // sin nombre cargado no se publica
+  }).filter((p) => p.name)           // sin nombre cargado no se publica
+    .map(erpCompletarTextos);
 
 }
 
